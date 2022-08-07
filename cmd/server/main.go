@@ -18,7 +18,7 @@ func main() {
 	r.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.tmpl", nil)
 	})
-	r.GET("/recipes", v2.SearchRecipes)
+	r.GET("/recipe", v2.SearchRecipes)
 	r.GET("/recipes/:recipe", v2.GetRecipe)
 	log.Fatal(r.Run()) // listen and serve on 0.0.0.0:8080
 }
