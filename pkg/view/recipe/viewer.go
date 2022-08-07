@@ -1,7 +1,7 @@
 package recipe
 
 import (
-	"chefcook/pkg/api"
+	"github.com/NoUmlautsAllowed/gocook/pkg/api"
 	"github.com/gin-gonic/gin"
 )
 

@@ -1,4 +1,4 @@
-module chefcook
+module github.com/NoUmlautsAllowed/gocook
 
 go 1.18
 

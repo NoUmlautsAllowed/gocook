@@ -1,10 +1,10 @@
 package main
 
 import (
-	"chefcook/pkg/api"
-	v2 "chefcook/pkg/api/v2"
-	"chefcook/pkg/utils/tmpl"
-	"chefcook/pkg/view/recipe"
+	"github.com/NoUmlautsAllowed/gocook/pkg/api"
+	v2 "github.com/NoUmlautsAllowed/gocook/pkg/api/v2"
+	"github.com/NoUmlautsAllowed/gocook/pkg/utils/tmpl"
+	"github.com/NoUmlautsAllowed/gocook/pkg/view/recipe"
 	"github.com/gin-gonic/gin"
 	"html/template"
 	"log"

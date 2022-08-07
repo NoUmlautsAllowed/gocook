@@ -1,9 +1,9 @@
 package recipe
 
 import (
-	"chefcook/pkg/api"
-	"chefcook/pkg/utils/tmpl"
 	"errors"
+	"github.com/NoUmlautsAllowed/gocook/pkg/api"
+	"github.com/NoUmlautsAllowed/gocook/pkg/utils/tmpl"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
 	"html/template"

@@ -1,8 +1,8 @@
 package v2
 
 import (
-	"chefcook/pkg/api"
 	"encoding/json"
+	"github.com/NoUmlautsAllowed/gocook/pkg/api"
 	"github.com/golang/mock/gomock"
 	"net/http"
 	"net/http/httptest"
