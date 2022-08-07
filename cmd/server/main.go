@@ -2,13 +2,18 @@ package main
 
 import (
 	v2 "chefcook/pkg/api/v2"
+	"chefcook/pkg/utils/tmpl"
 	"github.com/gin-gonic/gin"
+	"html/template"
 	"log"
 	"net/http"
 )
 
 func main() {
 	r := gin.Default()
+	r.SetFuncMap(template.FuncMap{
+		"iterateRange": tmpl.IterateRange[v2.RecipeSearchResult],
+	})
 	r.LoadHTMLGlob("templates/*")
 	r.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.tmpl", nil)
