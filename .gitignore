@@ -1,1 +1,3 @@
 cmd/server/server
+
+mock_*.go
