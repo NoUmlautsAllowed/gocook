@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Search Results</title>
+    {{ template "head.tmpl"}}
+</head>
+<body>
+<section class="hero is-primary">
+    <div class="hero-body">
+        {{ template "search.tmpl" . }}
+    </div>
+</section>
+<div class="container is-max-widescreen">
+    <div class="tile is-ancestor"></div>
+    {{ range iterateRange .Results 3 }}
+        <div class="tile is-parent p-3 m-3">
+            {{ range . }}
+                <div class="tile is-child p-3">
+                    <a class="box" style="height: 100%" href="/recipes/{{ .Recipe.ID }}">
+                        <figure class="image is-4by5">
+                            <img src="{{ .Recipe.PreviewImageURLTemplate }}" alt="Preview">
+                        </figure>
+                        <div class="content">
+                        <h3>
+                            {{ .Recipe.Title }}
+                        </h3>
+                            <p>{{ .Recipe.Subtitle }}</p>
+                            <br>
+                            {{ template "recipeinfo.tmpl" .Recipe }}
+                        </div>
+                    </a>
+                </div>
+            {{ end }}
+        </div>
+    {{ end }}
+</div>
+</body>
+</html>

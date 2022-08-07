@@ -1,18 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-    <title>{{ .Title }}</title>
+    <title>GoCook</title>
+    {{ template "head.tmpl" }}
 </head>
 <body>
-<div class="container is-max-widescreen">
-    <div class="content">
-        <form action="/recipes" method="get">
-            <input name="query" class="input" type="text" placeholder="Rezept...">
-        </form>
+
+
+<section class="hero is-success is-fullheight" style="background-color: rgb(59, 128, 71)">
+    <div class="hero-head">
+            <div class="container has-text-centered pt-6">
+                    <h1 class="is-size-1">
+                        <span class="icon">
+                        <i class="mdi mdi-chef-hat"></i>
+                        </span>
+                        <span class="px-2"></span>
+                        GoCook
+                    </h1>
+            </div>
     </div>
-</div>
+
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            {{ template "search.tmpl" }}
+        </div>
+    </div>
+
+    <div class="hero-foot"></div>
+</section>
+
 </body>
 </html>
