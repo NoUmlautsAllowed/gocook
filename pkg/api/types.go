@@ -1,6 +1,12 @@
-package v2
+package api
 
 import "time"
+
+// API Type definitions
+// These are the main API type definitions needed to query and search recipes.
+// As for now, only API v2 is implemented, these types represent the API v2 types.
+// This can change any time, so the real API types may need implementation in the API vX package.
+// For easy type definitions, the JSON given by the API may be pasted into https://transform.tools/json-to-go
 
 type Owner struct {
 	ID        string `json:"id"`
@@ -114,4 +120,8 @@ type RecipeSearch struct {
 	Count   int                  `json:"count"`
 	QueryId string               `json:"queryId"`
 	Results []RecipeSearchResult `json:"results"`
+}
+
+type Search struct {
+	Query string `form:"query"`
 }
