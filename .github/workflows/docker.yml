@@ -1,0 +1,23 @@
+name: Docker
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+    
+      - name: Build Docker
+        run: docker build -f Dockerfile -t gocook:latest .
+        
+      - name: Push Docker
+        if: github.ref == 'refs/heads/master'
+        run: |
+          docker login --password ${{ secrets.DOCKER_ACCESS_TOKEN }} --username ${{ secrets.DOCKER_LOGIN_NAME }}
+          docker tag gocook:latest {{ secrets.DOCKER_LOGIN_NAME }}/gocook:latest
+          docker push noumlautsallowed/gocook:latest
