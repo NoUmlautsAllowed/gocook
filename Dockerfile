@@ -24,5 +24,6 @@ WORKDIR /
 COPY --from=golangbuilder /go/bin .
 COPY --from=golangbuilder /go/src/gocook/templates templates/
 
+ENV GIN_MODE=release
 EXPOSE 8080
 CMD ["./server"]
