@@ -18,7 +18,7 @@ type TemplateViewer struct {
 
 func NewTemplateViewer(api api.RecipeApi) *TemplateViewer {
 	return &TemplateViewer{
-		searchResultsTemplate: "search.tmpl",
+		searchResultsTemplate: "results.tmpl",
 		recipeTemplate:        "recipe.tmpl",
 		api:                   api,
 	}
