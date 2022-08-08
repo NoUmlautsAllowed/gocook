@@ -1,0 +1,25 @@
+{
+  "name": "gocook",
+  "version": "1.0.0",
+  "description": "Alternative frontend to Chefkoch",
+  "main": "index.js",
+  "scripts": {
+    "css-build": "node-sass --omit-source-map-url --output-style compressed sass/bulma.scss static/bulma.min.css",
+    "css-watch": "npm run css-build -- --watch",
+    "start": "npm run css-watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NoUmlautsAllowed/gocook.git"
+  },
+  "author": "NoUmlautsAllowed",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NoUmlautsAllowed/gocook/issues"
+  },
+  "homepage": "https://github.com/NoUmlautsAllowed/gocook#readme",
+  "devDependencies": {
+    "bulma": "^0.9.4",
+    "node-sass": "^7.0.1"
+  }
+}

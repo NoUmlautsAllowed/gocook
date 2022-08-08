@@ -21,6 +21,8 @@ func main() {
 		c.HTML(http.StatusOK, "index.tmpl", nil)
 	})
 
+	r.Static("static/", "static/")
+
 	v := recipe.NewTemplateViewer(v2.NewV2Api())
 	recipe.RegisterViewerRoutes(v, r)
 

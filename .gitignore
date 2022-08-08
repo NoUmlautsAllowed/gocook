@@ -1,3 +1,15 @@
+# server binary
 cmd/server/server
 
+# generated mock files
 mock_*.go
+
+# node modules
+node_modules
+
+# generated static files
+static/
+
+# JetBrains IDE configuration
+# special configuration files may be added if needed or reasonable
+.idea/
