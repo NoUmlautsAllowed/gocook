@@ -24,7 +24,14 @@ jobs:
     - name: Test
       run: |
         go generate ./...
-        go test -v ./...
+        go test -race -coverprofile=coverage.txt -covermode=atomic ./...
+
+    - uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CODECOV }} #required
+        file: coverage.txt #optional
+        flags: unittests #optional
+        fail_ci_if_error: true #optional (default = false)
     
     - name: Upload Artifacts
       uses: actions/upload-artifact@v3.1.0
