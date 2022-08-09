@@ -6,6 +6,13 @@ RUN apt-get update
 RUN apt-get install ca-certificates -y
 RUN update-ca-certificates
 
+# Build node modules
+FROM node as nodebuilder
+COPY . /home/node/app
+WORKDIR /home/node/app
+RUN npm i
+RUN npm run build
+
 # Start from the latest golang base image
 FROM golang:latest as golangbuilder
 
@@ -20,7 +27,13 @@ FROM scratch
 WORKDIR /etc/ssl/certs
 COPY --from=ubuntu /etc/ssl/certs .
 
-WORKDIR /
+# target gocook directory in image
+WORKDIR /gocook
+
+# copy static files
+COPY --from=nodebuilder /home/node/app/static static/
+
+# copy go binary and templates
 COPY --from=golangbuilder /go/bin .
 COPY --from=golangbuilder /go/src/gocook/templates templates/
 
