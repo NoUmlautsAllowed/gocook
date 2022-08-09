@@ -1,0 +1,27 @@
+name: Node
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v3.4.1
+    - run: npm i
+    - run: npm run build
+    
+    - name: Upload a static assets
+      uses: actions/upload-artifact@v3.1.0
+      with:
+        name: Static Assets
+        path: static/
+    
+  
