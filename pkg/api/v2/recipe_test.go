@@ -43,6 +43,38 @@ func TestV2Api_Get(t *testing.T) {
 	s.Close()
 }
 
+func TestV2Api_Get2(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	m := NewMockHandler(ctrl)
+
+	s := httptest.NewServer(m)
+
+	//go s.Start()
+
+	a := V2Api{
+		baseRecipeUrl: s.URL + "/r",
+		baseSearchUrl: s.URL + "/s",
+	}
+
+	m.EXPECT().ServeHTTP(gomock.Any(), gomock.Any()).Do(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(500)
+		if r.URL.Path != "/r/123456" {
+			t.Error("expected 123456")
+		}
+	})
+
+	r, err := a.Get("123456")
+	if err == nil {
+		t.Error("expected error")
+	}
+
+	if r != nil {
+		t.Error("no recipe expected")
+	}
+
+	s.Close()
+}
+
 func TestV2Api_Search(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	m := NewMockHandler(ctrl)
@@ -59,7 +91,13 @@ func TestV2Api_Search(t *testing.T) {
 	m.EXPECT().ServeHTTP(gomock.Any(), gomock.Any()).Do(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(200)
 		e := json.NewEncoder(w)
-		e.Encode(api.RecipeSearch{})
+		e.Encode(api.RecipeSearch{
+			Results: []api.RecipeSearchResult{
+				{},
+				{},
+				{},
+			},
+		})
 		if r.URL.Path != "/s/recipe" {
 			t.Error("expected recipe search")
 		}
