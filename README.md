@@ -1,3 +1,4 @@
+[![Go](https://github.com/NoUmlautsAllowed/gocook/actions/workflows/go.yml/badge.svg)](https://github.com/NoUmlautsAllowed/gocook/actions/workflows/go.yml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/NoUmlautsAllowed/gocook)](https://goreportcard.com/report/github.com/NoUmlautsAllowed/gocook)
 [![codecov](https://codecov.io/gh/NoUmlautsAllowed/gocook/branch/main/graph/badge.svg?token=OO2AKXBRKU)](https://codecov.io/gh/NoUmlautsAllowed/gocook)
 
