@@ -8,7 +8,8 @@ mock_*.go
 node_modules
 
 # generated static files
-static/
+static/css
+static/fonts
 
 # JetBrains IDE configuration
 # special configuration files may be added if needed or reasonable

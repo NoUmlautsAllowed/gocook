@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Search Results</title>
+    <title>GoCook | Search {{ .Query }}</title>
     {{ template "head.tmpl"}}
 </head>
 <body>
-<section class="hero is-primary">
+<section class="hero is-chef">
     <div class="hero-body">
         {{ template "search.tmpl" . }}
     </div>
