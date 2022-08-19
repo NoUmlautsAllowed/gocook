@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+	"time"
 )
 
 func TestV2Api_Get(t *testing.T) {
@@ -75,6 +76,36 @@ func TestV2Api_Get2(t *testing.T) {
 	s.Close()
 }
 
+func TestV2Api_Get3(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	m := NewMockHandler(ctrl)
+
+	s := httptest.NewServer(m)
+
+	a := V2Api{
+		baseRecipeUrl: s.URL + "/r",
+		baseSearchUrl: s.URL + "/s",
+		defaultClient: http.Client{
+			Timeout: 50 * time.Millisecond,
+		},
+	}
+
+	m.EXPECT().ServeHTTP(gomock.Any(), gomock.Any()).Do(func(w http.ResponseWriter, r *http.Request) {
+		time.Sleep(100 * time.Millisecond)
+	})
+
+	r, err := a.Get("123456")
+	if err == nil {
+		t.Error("expected error")
+	}
+
+	if r != nil {
+		t.Error("no recipe expected")
+	}
+
+	s.Close()
+}
+
 func TestV2Api_Search(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	m := NewMockHandler(ctrl)
@@ -113,6 +144,36 @@ func TestV2Api_Search(t *testing.T) {
 	}
 	if r == nil {
 		t.Error("result expected")
+	}
+
+	s.Close()
+}
+
+func TestV2Api_Search2(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	m := NewMockHandler(ctrl)
+
+	s := httptest.NewServer(m)
+
+	a := V2Api{
+		baseRecipeUrl: s.URL + "/r",
+		baseSearchUrl: s.URL + "/s",
+		defaultClient: http.Client{
+			Timeout: 50 * time.Millisecond,
+		},
+	}
+
+	m.EXPECT().ServeHTTP(gomock.Any(), gomock.Any()).Do(func(w http.ResponseWriter, r *http.Request) {
+		time.Sleep(100 * time.Millisecond)
+	})
+
+	r, err := a.Search(api.Search{Query: "q"})
+
+	if err == nil {
+		t.Error("expected error")
+	}
+	if r != nil {
+		t.Error("no result expected")
 	}
 
 	s.Close()

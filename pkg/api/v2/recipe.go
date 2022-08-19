@@ -5,7 +5,6 @@ import (
 	"github.com/NoUmlautsAllowed/gocook/pkg/api"
 	"io"
 	"log"
-	"net/http"
 	"net/url"
 	"path"
 	"strings"
@@ -18,11 +17,11 @@ func setPreviewImageFormat(in string) string {
 func (a *V2Api) Get(id string) (*api.Recipe, error) {
 	u, _ := url.Parse(a.baseRecipeUrl)
 	u.Path = path.Join(u.Path, id)
-	resp, err := http.Get(u.String())
-	log.Println(resp.StatusCode, u)
+	resp, err := a.defaultClient.Get(u.String())
 	if err != nil {
 		return nil, err
 	} else {
+		log.Println(resp.StatusCode, u)
 		data, _ := io.ReadAll(resp.Body)
 
 		var recipe api.Recipe
@@ -49,11 +48,11 @@ func (a *V2Api) Search(s api.Search) (*api.RecipeSearch, error) {
 	query.Set("query", s.Query)
 	u.RawQuery = query.Encode()
 
-	resp, err := http.Get(u.String())
-	log.Println(resp.StatusCode, u)
+	resp, err := a.defaultClient.Get(u.String())
 	if err != nil {
 		return nil, err
 	} else {
+		log.Println(resp.StatusCode, u)
 		data, _ := io.ReadAll(resp.Body)
 		var recipeSearch api.RecipeSearch
 		err = json.Unmarshal(data, &recipeSearch)
