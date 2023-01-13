@@ -10,6 +10,7 @@ import (
 	"net/http/httptest"
 	"net/url"
 	"testing"
+	"time"
 )
 
 var testData = []byte{
@@ -369,4 +370,63 @@ func TestImageCdn_PostImage(t *testing.T) {
 	if resp.StatusCode != http.StatusMethodNotAllowed {
 		t.Error("expected", http.StatusMethodNotAllowed)
 	}
+}
+
+func TestImageCdn_GetRawImage3(t *testing.T) {
+	// mal crafted url
+
+	ctrl := gomock.NewController(t)
+	m := utils.NewMockHandler(ctrl)
+
+	s := httptest.NewServer(m)
+	defer s.Close()
+
+	// only way to produce url join error is to put some weird control character into the base url
+	a := ImageCdn{
+		cdnUrl:        s.URL + "\x01/cdn",
+		defaultClient: http.Client{},
+	}
+
+	r, err := a.GetRawImage(http.MethodGet, "abcdefg/\x01")
+	if err == nil {
+		t.Error("did expect error")
+	}
+
+	if r != nil {
+		t.Error("no image expected with error")
+	}
+
+	s.Close()
+}
+
+func TestImageCdn_GetRawImage4(t *testing.T) {
+	// produce cdn timeout request
+
+	ctrl := gomock.NewController(t)
+	m := utils.NewMockHandler(ctrl)
+
+	s := httptest.NewServer(m)
+	defer s.Close()
+
+	m.EXPECT().ServeHTTP(gomock.Any(), gomock.Any()).Do(func(w http.ResponseWriter, r *http.Request) {
+		time.Sleep(time.Millisecond * 20)
+	})
+
+	a := ImageCdn{
+		cdnUrl: s.URL + "/cdn",
+		defaultClient: http.Client{
+			Timeout: time.Millisecond * 10,
+		},
+	}
+
+	r, err := a.GetRawImage(http.MethodGet, "123456")
+	if err == nil {
+		t.Error("did expect error")
+	}
+
+	if r != nil {
+		t.Error("no image expected with request error")
+	}
+
+	s.Close()
 }
