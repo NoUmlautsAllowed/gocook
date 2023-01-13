@@ -24,5 +24,8 @@
     "@mdi/font": "^7.0.96",
     "bulma": "^0.9.4",
     "node-sass": "^7.0.1"
+  },
+  "dependencies": {
+    "upgrade": "^1.1.0"
   }
 }
