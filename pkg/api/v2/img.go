@@ -14,7 +14,7 @@ func (a *V2Api) replaceImageCdnUrl(in string) string {
 
 	u, err := url.Parse(out)
 	if err != nil {
-		// should not happen as teh input comes directly out of the API
+		// should not happen as the input comes directly out of the API
 		// anyway, return the CDN with set preview image format by default
 		return out
 	}
