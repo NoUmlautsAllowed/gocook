@@ -1,6 +1,8 @@
 package cdn
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+)
 
 type Image interface {
 	GetRawImage(method, path string) ([]byte, error)

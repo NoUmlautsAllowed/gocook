@@ -3,6 +3,7 @@ package v2
 import (
 	"encoding/json"
 	"github.com/NoUmlautsAllowed/gocook/pkg/api"
+	"github.com/NoUmlautsAllowed/gocook/pkg/utils"
 	"github.com/golang/mock/gomock"
 	"net/http"
 	"net/http/httptest"
@@ -12,7 +13,7 @@ import (
 
 func TestV2Api_Get(t *testing.T) {
 	ctrl := gomock.NewController(t)
-	m := NewMockHandler(ctrl)
+	m := utils.NewMockHandler(ctrl)
 
 	s := httptest.NewServer(m)
 
@@ -46,7 +47,7 @@ func TestV2Api_Get(t *testing.T) {
 
 func TestV2Api_Get2(t *testing.T) {
 	ctrl := gomock.NewController(t)
-	m := NewMockHandler(ctrl)
+	m := utils.NewMockHandler(ctrl)
 
 	s := httptest.NewServer(m)
 
@@ -78,7 +79,7 @@ func TestV2Api_Get2(t *testing.T) {
 
 func TestV2Api_Get3(t *testing.T) {
 	ctrl := gomock.NewController(t)
-	m := NewMockHandler(ctrl)
+	m := utils.NewMockHandler(ctrl)
 
 	s := httptest.NewServer(m)
 
@@ -108,7 +109,7 @@ func TestV2Api_Get3(t *testing.T) {
 
 func TestV2Api_Search(t *testing.T) {
 	ctrl := gomock.NewController(t)
-	m := NewMockHandler(ctrl)
+	m := utils.NewMockHandler(ctrl)
 
 	s := httptest.NewServer(m)
 
@@ -151,7 +152,7 @@ func TestV2Api_Search(t *testing.T) {
 
 func TestV2Api_Search2(t *testing.T) {
 	ctrl := gomock.NewController(t)
-	m := NewMockHandler(ctrl)
+	m := utils.NewMockHandler(ctrl)
 
 	s := httptest.NewServer(m)
 

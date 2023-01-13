@@ -7,12 +7,7 @@ import (
 	"log"
 	"net/url"
 	"path"
-	"strings"
 )
-
-func setPreviewImageFormat(in string) string {
-	return strings.ReplaceAll(in, "<format>", previewImageFormat)
-}
 
 func (a *V2Api) Get(id string) (*api.Recipe, error) {
 	u, _ := url.Parse(a.baseRecipeUrl)
@@ -22,6 +17,7 @@ func (a *V2Api) Get(id string) (*api.Recipe, error) {
 		return nil, err
 	} else {
 		log.Println(resp.StatusCode, u)
+		defer resp.Body.Close()
 		data, _ := io.ReadAll(resp.Body)
 
 		var recipe api.Recipe
@@ -29,7 +25,7 @@ func (a *V2Api) Get(id string) (*api.Recipe, error) {
 			return nil, err
 		}
 
-		recipe.PreviewImageURLTemplate = setPreviewImageFormat(recipe.PreviewImageURLTemplate)
+		recipe.PreviewImageURLTemplate = a.replaceImageCdnUrl(recipe.PreviewImageURLTemplate)
 		return &recipe, nil
 	}
 }
@@ -53,6 +49,7 @@ func (a *V2Api) Search(s api.Search) (*api.RecipeSearch, error) {
 		return nil, err
 	} else {
 		log.Println(resp.StatusCode, u)
+		defer resp.Body.Close()
 		data, _ := io.ReadAll(resp.Body)
 		var recipeSearch api.RecipeSearch
 		err = json.Unmarshal(data, &recipeSearch)
@@ -63,7 +60,7 @@ func (a *V2Api) Search(s api.Search) (*api.RecipeSearch, error) {
 
 		for i := range recipeSearch.Results {
 			r := &recipeSearch.Results[i]
-			r.Recipe.PreviewImageURLTemplate = setPreviewImageFormat(r.Recipe.PreviewImageURLTemplate)
+			r.Recipe.PreviewImageURLTemplate = a.replaceImageCdnUrl(r.Recipe.PreviewImageURLTemplate)
 		}
 
 		return &recipeSearch, nil
