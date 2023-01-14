@@ -2,6 +2,7 @@ package img
 
 import (
 	"encoding/json"
+	"errors"
 	"github.com/NoUmlautsAllowed/gocook/pkg/api"
 	"github.com/NoUmlautsAllowed/gocook/pkg/utils"
 	"github.com/gin-gonic/gin"
@@ -209,6 +210,65 @@ func TestImageCdn_GetRawImage2(t *testing.T) {
 	s.Close()
 }
 
+func TestImageCdn_GetRawImage3(t *testing.T) {
+	// mal crafted url
+
+	ctrl := gomock.NewController(t)
+	m := utils.NewMockHandler(ctrl)
+
+	s := httptest.NewServer(m)
+	defer s.Close()
+
+	// only way to produce url join error is to put some weird control character into the base url
+	a := ImageCdn{
+		cdnUrl:        s.URL + "\x01/cdn",
+		defaultClient: http.Client{},
+	}
+
+	r, err := a.GetRawImage(http.MethodGet, "abcdefg/\x01")
+	if err == nil {
+		t.Error("did expect error")
+	}
+
+	if r != nil {
+		t.Error("no image expected with error")
+	}
+
+	s.Close()
+}
+
+func TestImageCdn_GetRawImage4(t *testing.T) {
+	// produce cdn timeout request
+
+	ctrl := gomock.NewController(t)
+	m := utils.NewMockHandler(ctrl)
+
+	s := httptest.NewServer(m)
+	defer s.Close()
+
+	m.EXPECT().ServeHTTP(gomock.Any(), gomock.Any()).Do(func(w http.ResponseWriter, r *http.Request) {
+		time.Sleep(time.Millisecond * 20)
+	})
+
+	a := ImageCdn{
+		cdnUrl: s.URL + "/cdn",
+		defaultClient: http.Client{
+			Timeout: time.Millisecond * 10,
+		},
+	}
+
+	r, err := a.GetRawImage(http.MethodGet, "123456")
+	if err == nil {
+		t.Error("did expect error")
+	}
+
+	if r != nil {
+		t.Error("no image expected with request error")
+	}
+
+	s.Close()
+}
+
 func TestImageCdn_GetImage(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	m := utils.NewMockHandler(ctrl)
@@ -339,6 +399,49 @@ func TestImageCdn_GetImage3(t *testing.T) {
 	}
 }
 
+func TestImageCdn_GetImage4(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	m := utils.NewMockHandler(ctrl)
+
+	s := httptest.NewServer(m)
+	defer s.Close()
+
+	a := ImageCdn{
+		cdnUrl:        s.URL + "/cdn",
+		defaultClient: http.Client{},
+	}
+
+	u, _ := url.Parse(s.URL + "/cdn/123456")
+
+	m.EXPECT().ServeHTTP(gomock.Any(), gomock.Any()).Do(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		if r.URL.Path != "/cdn/123456" {
+			t.Error("expected 123456")
+		}
+		if r.Method != http.MethodHead {
+			t.Error("expected HEAD method")
+		}
+	})
+
+	responseWriter := utils.NewMockResponseWriter(ctrl)
+	ctx, _ := gin.CreateTestContext(responseWriter)
+	ctx.Request = &http.Request{
+		Method: http.MethodHead,
+		URL:    u,
+	}
+	ctx.Params = gin.Params{
+		{"path", "123456"},
+	}
+
+	responseWriter.EXPECT().WriteHeader(http.StatusOK)
+	responseWriter.EXPECT().Write(nil).Return(0, errors.New("writer error"))
+	responseWriter.EXPECT().Header().Return(http.Header{})
+	responseWriter.EXPECT().Write([]byte{123, 34, 101, 114, 114, 111, 114, 34, 58, 34, 119, 114, 105, 116, 101, 114, 32, 101, 114, 114, 111, 114, 34, 125})
+
+	a.GetImage(ctx)
+
+}
+
 func TestImageCdn_PostImage(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	m := utils.NewMockHandler(ctrl)
@@ -370,63 +473,4 @@ func TestImageCdn_PostImage(t *testing.T) {
 	if resp.StatusCode != http.StatusMethodNotAllowed {
 		t.Error("expected", http.StatusMethodNotAllowed)
 	}
-}
-
-func TestImageCdn_GetRawImage3(t *testing.T) {
-	// mal crafted url
-
-	ctrl := gomock.NewController(t)
-	m := utils.NewMockHandler(ctrl)
-
-	s := httptest.NewServer(m)
-	defer s.Close()
-
-	// only way to produce url join error is to put some weird control character into the base url
-	a := ImageCdn{
-		cdnUrl:        s.URL + "\x01/cdn",
-		defaultClient: http.Client{},
-	}
-
-	r, err := a.GetRawImage(http.MethodGet, "abcdefg/\x01")
-	if err == nil {
-		t.Error("did expect error")
-	}
-
-	if r != nil {
-		t.Error("no image expected with error")
-	}
-
-	s.Close()
-}
-
-func TestImageCdn_GetRawImage4(t *testing.T) {
-	// produce cdn timeout request
-
-	ctrl := gomock.NewController(t)
-	m := utils.NewMockHandler(ctrl)
-
-	s := httptest.NewServer(m)
-	defer s.Close()
-
-	m.EXPECT().ServeHTTP(gomock.Any(), gomock.Any()).Do(func(w http.ResponseWriter, r *http.Request) {
-		time.Sleep(time.Millisecond * 20)
-	})
-
-	a := ImageCdn{
-		cdnUrl: s.URL + "/cdn",
-		defaultClient: http.Client{
-			Timeout: time.Millisecond * 10,
-		},
-	}
-
-	r, err := a.GetRawImage(http.MethodGet, "123456")
-	if err == nil {
-		t.Error("did expect error")
-	}
-
-	if r != nil {
-		t.Error("no image expected with request error")
-	}
-
-	s.Close()
 }
