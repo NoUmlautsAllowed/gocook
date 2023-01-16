@@ -47,8 +47,8 @@ func NewEnv() *Env {
 }
 
 func (e Env) String() string {
-	return bindAddress + "=" + e.bindAddress + ";" +
-		cdnBaseUrl + "=" + e.cdnBaseUrl + ";" +
+	return bindAddress + "=" + e.bindAddress + "; " +
+		cdnBaseUrl + "=" + e.cdnBaseUrl + "; " +
 		apiBaseUrl + "=" + e.apiBaseUrl
 }
 

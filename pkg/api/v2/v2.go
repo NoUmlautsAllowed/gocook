@@ -1,12 +1,13 @@
 package v2
 
 import (
+	"github.com/NoUmlautsAllowed/gocook/pkg/env"
 	"net/http"
 	"time"
 )
 
-const apiBaseRecipeUrl = "https://api.chefkoch.de/v2/recipes"
-const apiBaseSearchUrl = "https://api.chefkoch.de/v2/search"
+const apiBaseRecipePath = "/v2/recipes"
+const apiBaseSearchPath = "/v2/search"
 
 const previewImageFormat = "crop-480x600"
 
@@ -17,11 +18,11 @@ type V2Api struct {
 	defaultClient   http.Client
 }
 
-func NewV2Api(cdnBaseImageUrl string) *V2Api {
+func NewV2Api(e *env.Env, redirectImageCdnBasePath string) *V2Api {
 	return &V2Api{
-		baseRecipeUrl:   apiBaseRecipeUrl,
-		baseSearchUrl:   apiBaseSearchUrl,
-		cdnBaseImageUrl: cdnBaseImageUrl,
+		baseRecipeUrl:   e.ApiBaseUrl() + apiBaseRecipePath,
+		baseSearchUrl:   e.ApiBaseUrl() + apiBaseSearchPath,
+		cdnBaseImageUrl: redirectImageCdnBasePath,
 		defaultClient: http.Client{
 			Timeout: 30 * time.Second,
 		},

@@ -42,6 +42,7 @@ func (a *V2Api) Search(s api.Search) (*api.RecipeSearch, error) {
 	u.Path = path.Join(u.Path, "recipe")
 	query := make(url.Values)
 	query.Set("query", s.Query)
+	query.Set("limit", s.Limit)
 	u.RawQuery = query.Encode()
 
 	resp, err := a.defaultClient.Get(u.String())

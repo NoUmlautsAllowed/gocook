@@ -2,6 +2,7 @@ package img
 
 import (
 	"errors"
+	"github.com/NoUmlautsAllowed/gocook/pkg/env"
 	"github.com/gin-gonic/gin"
 	"io"
 	"net/http"
@@ -9,16 +10,14 @@ import (
 	"time"
 )
 
-const cdnBaseImageUrl = "https://img.chefkoch-cdn.de/"
-
 type ImageCdn struct {
 	cdnUrl        string
 	defaultClient http.Client
 }
 
-func NewImageCdn() *ImageCdn {
+func NewImageCdn(e *env.Env) *ImageCdn {
 	return &ImageCdn{
-		cdnUrl: cdnBaseImageUrl,
+		cdnUrl: e.CdnBaseUrl(),
 		defaultClient: http.Client{
 			Timeout: 60 * time.Second,
 		},

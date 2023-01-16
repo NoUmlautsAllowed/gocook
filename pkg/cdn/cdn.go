@@ -9,9 +9,9 @@ type Image interface {
 	GetImage(c *gin.Context)
 }
 
-const ImageCdnBaseUrl string = "/img"
+const RedirectImageCdnBasePath string = "/img"
 
 func RegisterRoutes(i Image, r gin.IRouter) {
-	r.GET(ImageCdnBaseUrl+"/*path", i.GetImage)
-	r.HEAD(ImageCdnBaseUrl+"/*path", i.GetImage)
+	r.GET(RedirectImageCdnBasePath+"/*path", i.GetImage)
+	r.HEAD(RedirectImageCdnBasePath+"/*path", i.GetImage)
 }

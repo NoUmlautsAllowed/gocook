@@ -1,13 +1,14 @@
 package v2
 
 import (
+	"github.com/NoUmlautsAllowed/gocook/pkg/env"
 	"testing"
 )
 
 func TestReplaceImageCdnUrl(t *testing.T) {
 	// format tag as this is replaced for the CDN request
 	// produce an error when replacing the cdn url
-	api := NewV2Api("some raällly weird URL $$§ßßß???? \x01")
+	api := NewV2Api(env.NewEnv(), "some raällly weird URL $$§ßßß???? \x01")
 	input := "/cdn/<format>/xyz-img"
 
 	result := api.replaceImageCdnUrl(input)
@@ -25,7 +26,7 @@ func TestReplaceImageCdnUrl(t *testing.T) {
 func TestReplaceImageCdnUrl2(t *testing.T) {
 	// format tag as this is replaced for the CDN request
 	// produce an error when replacing the cdn url
-	api := NewV2Api("some raällly weird URL $$§ßßß???? \x01")
+	api := NewV2Api(env.NewEnv(), "some raällly weird URL $$§ßßß???? \x01")
 
 	// a mal crafted input url
 	input := "\x01"
