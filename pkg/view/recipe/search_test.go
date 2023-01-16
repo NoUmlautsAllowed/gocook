@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"strconv"
 	"testing"
 )
 
@@ -17,7 +18,7 @@ func TestTemplateViewer_ShowSearchResults(t *testing.T) {
 
 	ctrl := gomock.NewController(t)
 	m := api.NewMockRecipeApi(ctrl)
-	m.EXPECT().Search(api.Search{Query: "schnitzel"}).Return(&api.RecipeSearch{}, nil)
+	m.EXPECT().Search(api.Search{Query: "schnitzel", Limit: strconv.Itoa(defaultResultsPerPage)}).Return(&api.RecipeSearch{}, nil)
 
 	v := TemplateViewer{
 		searchResultsTemplate: "search.tmpl",
@@ -52,7 +53,7 @@ func TestTemplateViewer_ShowSearchResults_InternalError(t *testing.T) {
 
 	ctrl := gomock.NewController(t)
 	m := api.NewMockRecipeApi(ctrl)
-	m.EXPECT().Search(api.Search{Query: "pizza"}).Return(nil, errors.New("sample error"))
+	m.EXPECT().Search(api.Search{Query: "pizza", Limit: strconv.Itoa(defaultResultsPerPage)}).Return(nil, errors.New("sample error"))
 
 	v := TemplateViewer{
 		searchResultsTemplate: "search.tmpl",

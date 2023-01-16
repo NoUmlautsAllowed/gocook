@@ -4,12 +4,18 @@ import (
 	"github.com/NoUmlautsAllowed/gocook/pkg/api"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 type tmplSearch struct {
 	api.Search
 	api.RecipeSearch
+	ResultsPerPage int
+	ResultsPerRow  int
 }
+
+const defaultResultsPerPage int = 12
+const defaultResultsPerRow int = 3
 
 func (t *TemplateViewer) ShowSearchResults(c *gin.Context) {
 	var search api.Search
@@ -22,6 +28,13 @@ func (t *TemplateViewer) ShowSearchResults(c *gin.Context) {
 		// this would be a query for pagination
 		// https://api.chefkoch.de/v2/search-frontend/recipes?query=Lasagne+Vegan&limit=41&offset=41&analyticsTags=user,user_logged_out&enableClickAnalytics=true
 
+		// use a multiple of 3 here
+		// see search.tmpl and iterateRange template function
+		// this is used to have a reasonable amount of recipes to show per page
+		// the user is not allowed to set another value here
+		// this value is handed over directly to the api
+		search.Limit = strconv.Itoa(defaultResultsPerPage)
+
 		recipeSearch, err := t.api.Search(search)
 
 		if err != nil {
@@ -33,8 +46,10 @@ func (t *TemplateViewer) ShowSearchResults(c *gin.Context) {
 		} else {
 
 			tmplData := tmplSearch{
-				Search:       search,
-				RecipeSearch: *recipeSearch,
+				Search:         search,
+				RecipeSearch:   *recipeSearch,
+				ResultsPerPage: defaultResultsPerPage,
+				ResultsPerRow:  defaultResultsPerRow,
 			}
 			c.HTML(http.StatusOK, t.searchResultsTemplate, tmplData)
 		}

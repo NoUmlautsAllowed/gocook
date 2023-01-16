@@ -12,7 +12,7 @@
 </section>
 <div class="container is-max-widescreen">
     <div class="tile is-ancestor"></div>
-    {{ range iterateRange .Results 3 }}
+    {{ range iterateRange .Results .ResultsPerRow }}
         <div class="tile is-parent p-3 m-3">
             {{ range . }}
                 <div class="tile is-child p-3">
@@ -33,6 +33,11 @@
             {{ end }}
         </div>
     {{ end }}
+</div>
+<div class="container is-max-widescreen">
+    <div class="p-3">
+        {{ template "pagination.tmpl" . }}
+    </div>
 </div>
 </body>
 </html>
