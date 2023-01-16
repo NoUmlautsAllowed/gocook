@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"github.com/NoUmlautsAllowed/gocook/pkg/api"
 	"github.com/gin-gonic/gin"
 	"github.com/splode/fname"
@@ -12,7 +13,7 @@ import (
 
 func generateRecipe(id string) (*api.Recipe, error) {
 
-	rng := fname.NewGenerator(fname.WithDelimiter(" "))
+	rng := fname.NewGenerator(fname.WithDelimiter(" "), fname.WithCasing("title"))
 	name, err := rng.Generate()
 
 	if err != nil {
@@ -34,14 +35,14 @@ func generateRecipe(id string) (*api.Recipe, error) {
 		PreparationTime:         0,
 		IsSubmitted:             false,
 		IsRejected:              false,
-		CreatedAt:               time.Time{},
+		CreatedAt:               time.Now(),
 		ImageCount:              0,
 		Editor:                  api.Editor{},
-		SubmissionDate:          time.Time{},
+		SubmissionDate:          time.Now(),
 		IsPremium:               false,
 		Status:                  0,
 		Slug:                    "",
-		PreviewImageURLTemplate: "",
+		PreviewImageURLTemplate: id,
 		IsPlus:                  false,
 		Servings:                0,
 		KCalories:               0,
@@ -73,12 +74,14 @@ func main() {
 
 	v2api := r.Group("/v2")
 
-	recipe, err := generateRecipe(strconv.Itoa(0))
-	if err != nil {
-		log.Fatal(err)
-	}
-	recipeDb := []*api.Recipe{
-		recipe,
+	recipeDb := []*api.Recipe{}
+
+	for i := 0; i < 32; i++ {
+		recipe, err := generateRecipe(strconv.Itoa(i))
+		if err != nil {
+			log.Fatal(err)
+		}
+		recipeDb = append(recipeDb, recipe)
 	}
 
 	v2api.GET("/recipes/:recipe", func(c *gin.Context) {
@@ -112,11 +115,24 @@ func main() {
 				Results: []api.RecipeSearchResult{},
 			}
 
-			for _, r := range recipeDb {
+			max, err := strconv.ParseInt(search.Limit, 10, 64)
+			if err != nil {
+				c.JSON(http.StatusBadRequest, gin.Error{
+					Err:  err,
+					Type: 0,
+					Meta: errors.New("malformed limit value"),
+				})
+				return
+			}
+
+			for i, r := range recipeDb {
 				recipeSearch.Results = append(recipeSearch.Results, api.RecipeSearchResult{
 					Recipe: *r,
 					Score:  0,
 				})
+				if i >= int(max) {
+					break
+				}
 			}
 
 			c.JSON(http.StatusOK, recipeSearch)
