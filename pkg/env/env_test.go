@@ -65,7 +65,7 @@ func TestEnv_String(t *testing.T) {
 	env := NewEnv()
 
 	out := env.String()
-	expected := bindAddress + "=" + customBindAddress + ";" + cdnBaseUrl + "=" + customCdnBaseUrl + ";" + apiBaseUrl + "=" + customApiBaseUrl
+	expected := bindAddress + "=" + customBindAddress + "; " + cdnBaseUrl + "=" + customCdnBaseUrl + "; " + apiBaseUrl + "=" + customApiBaseUrl
 
 	if out != expected {
 		t.Error(out, "!=", expected)

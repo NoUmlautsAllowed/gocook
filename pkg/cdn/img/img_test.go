@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/NoUmlautsAllowed/gocook/pkg/api"
+	"github.com/NoUmlautsAllowed/gocook/pkg/env"
 	"github.com/NoUmlautsAllowed/gocook/pkg/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
@@ -136,7 +137,7 @@ var testData = []byte{
 }
 
 func TestNewImageCdn(t *testing.T) {
-	c := NewImageCdn()
+	c := NewImageCdn(env.NewEnv())
 
 	if c.defaultClient.Timeout == 0 {
 		t.Error("no timeout set for default client; Timeout should be set, see documentation")

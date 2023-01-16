@@ -124,4 +124,5 @@ type RecipeSearch struct {
 
 type Search struct {
 	Query string `form:"query"`
+	Limit string `form:"limit"`
 }

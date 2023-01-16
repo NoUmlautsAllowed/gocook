@@ -5,6 +5,7 @@ import (
 	v2 "github.com/NoUmlautsAllowed/gocook/pkg/api/v2"
 	"github.com/NoUmlautsAllowed/gocook/pkg/cdn"
 	"github.com/NoUmlautsAllowed/gocook/pkg/cdn/img"
+	"github.com/NoUmlautsAllowed/gocook/pkg/env"
 	"github.com/NoUmlautsAllowed/gocook/pkg/utils/tmpl"
 	"github.com/NoUmlautsAllowed/gocook/pkg/view/recipe"
 	"github.com/gin-gonic/gin"
@@ -14,6 +15,10 @@ import (
 )
 
 func main() {
+
+	runEnv := env.NewEnv()
+	log.Println("Using given environment configuration", runEnv)
+
 	r := gin.Default()
 	r.SetFuncMap(template.FuncMap{
 		"iterateRange": tmpl.IterateRange[api.RecipeSearchResult],
@@ -25,10 +30,10 @@ func main() {
 
 	r.Static("static/", "static/")
 
-	v := recipe.NewTemplateViewer(v2.NewV2Api(cdn.ImageCdnBaseUrl))
+	v := recipe.NewTemplateViewer(v2.NewV2Api(runEnv, cdn.RedirectImageCdnBasePath))
 	recipe.RegisterViewerRoutes(v, r)
 
-	imgCdn := img.NewImageCdn()
+	imgCdn := img.NewImageCdn(runEnv)
 	cdn.RegisterRoutes(imgCdn, r)
 
 	log.Fatal(r.Run()) // listen and serve on 0.0.0.0:8080

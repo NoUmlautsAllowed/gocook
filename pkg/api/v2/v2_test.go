@@ -2,15 +2,17 @@ package v2
 
 import (
 	"github.com/NoUmlautsAllowed/gocook/pkg/cdn"
+	"github.com/NoUmlautsAllowed/gocook/pkg/env"
 	"testing"
 )
 
 func TestNewV2Api(t *testing.T) {
-	api := NewV2Api(cdn.ImageCdnBaseUrl)
+	runEnv := env.NewEnv()
+	api := NewV2Api(runEnv, cdn.RedirectImageCdnBasePath)
 
-	if api.baseSearchUrl != apiBaseSearchUrl ||
-		api.baseRecipeUrl != apiBaseRecipeUrl ||
-		api.cdnBaseImageUrl != cdn.ImageCdnBaseUrl {
+	if api.baseSearchUrl != runEnv.ApiBaseUrl()+apiBaseSearchPath ||
+		api.baseRecipeUrl != runEnv.ApiBaseUrl()+apiBaseRecipePath ||
+		api.cdnBaseImageUrl != cdn.RedirectImageCdnBasePath {
 		t.Error("NewV2Api not populated with default api urls")
 	}
 }

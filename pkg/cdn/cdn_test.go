@@ -22,8 +22,8 @@ func TestRegisterRoutes(t *testing.T) {
 	}
 
 	for _, route := range routes {
-		if !strings.Contains(route.Path, ImageCdnBaseUrl) {
-			t.Error("expected " + ImageCdnBaseUrl + " in route path")
+		if !strings.Contains(route.Path, RedirectImageCdnBasePath) {
+			t.Error("expected " + RedirectImageCdnBasePath + " in route path")
 		}
 	}
 }
