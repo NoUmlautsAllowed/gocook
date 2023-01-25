@@ -76,7 +76,7 @@ func main() {
 
 	recipeDb := []*api.Recipe{}
 
-	for i := 0; i < 32; i++ {
+	for i := 0; i < 127; i++ {
 		recipe, err := generateRecipe(strconv.Itoa(i))
 		if err != nil {
 			log.Fatal(err)
@@ -115,7 +115,7 @@ func main() {
 				Results: []api.RecipeSearchResult{},
 			}
 
-			max, err := strconv.ParseInt(search.Limit, 10, 64)
+			limit, err := strconv.ParseInt(search.Limit, 10, 64)
 			if err != nil {
 				c.JSON(http.StatusBadRequest, gin.Error{
 					Err:  err,
@@ -124,15 +124,19 @@ func main() {
 				})
 				return
 			}
+			offset, err := strconv.ParseInt(search.Offset, 10, 64)
+			if err != nil {
+				offset = 0
+			}
 
-			for i, r := range recipeDb {
-				recipeSearch.Results = append(recipeSearch.Results, api.RecipeSearchResult{
-					Recipe: *r,
-					Score:  0,
-				})
-				if i >= int(max) {
+			for i, _ := range recipeDb {
+				if i >= int(limit) || int64(i)+offset >= int64(len(recipeDb)) {
 					break
 				}
+				recipeSearch.Results = append(recipeSearch.Results, api.RecipeSearchResult{
+					Recipe: *recipeDb[int64(i)+offset],
+					Score:  0,
+				})
 			}
 
 			c.JSON(http.StatusOK, recipeSearch)
