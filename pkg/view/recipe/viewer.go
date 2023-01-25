@@ -16,6 +16,9 @@ type TemplateViewer struct {
 	api                   api.RecipeApi
 }
 
+const searchResultsPath = "/recipe"
+const recipePath = "recipes/:recipe"
+
 func NewTemplateViewer(api api.RecipeApi) *TemplateViewer {
 	return &TemplateViewer{
 		searchResultsTemplate: "results.tmpl",
@@ -25,6 +28,6 @@ func NewTemplateViewer(api api.RecipeApi) *TemplateViewer {
 }
 
 func RegisterViewerRoutes(v Viewer, r gin.IRouter) {
-	r.GET("/recipe", v.ShowSearchResults)
-	r.GET("/recipes/:recipe", v.ShowRecipe)
+	r.GET(searchResultsPath, v.ShowSearchResults)
+	r.GET(recipePath, v.ShowRecipe)
 }

@@ -123,6 +123,7 @@ type RecipeSearch struct {
 }
 
 type Search struct {
-	Query string `form:"query"`
-	Limit string `form:"limit"`
+	Query  string `form:"query"`
+	Limit  string `form:"limit"`
+	Offset string `form:"offset"`
 }

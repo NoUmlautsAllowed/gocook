@@ -1,6 +1,9 @@
 package tmpl
 
-import "testing"
+import (
+	"math"
+	"testing"
+)
 
 func Test_IterateRange(t *testing.T) {
 	data := []int{
@@ -18,10 +21,13 @@ func Test_IterateRange(t *testing.T) {
 		12,
 	}
 
-	out := IterateRange(data, 4)
+	steps := 4
+	out := IterateRange(data, steps)
 
-	if len(out) != len(data)/4 {
-		t.Error("expected other length")
+	expected := int(math.Ceil(float64(len(data)) / float64(steps)))
+
+	if len(out) != expected {
+		t.Error("expected other length, got", len(out), "!=", expected)
 	}
 
 	for c, i := range out {
