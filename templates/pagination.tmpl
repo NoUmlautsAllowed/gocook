@@ -1,13 +1,37 @@
+{{/*
+Pagination Style Examples
+     (1) 2  3 ... 9
+      1 (2) 3 ... 9
+   1  2 (3) 4 ... 9
+1  2  3 (4) 5 ... 9
+X ... X  X  X ... X
+1 ... 4 (5) 6 ... 9
+X ... X  X  X ... X
+1 ... 5 (6) 7  8  9
+1 ... 6 (7) 8  9
+1 ... 7 (8) 9
+1 ... 7  8 (9)
+
+*/}}
 <nav class="pagination is-centered" role="navigation" aria-label="pagination">
-    <a class="pagination-previous">Previous</a>
-    <a class="pagination-next">Next page</a>
+    <a class="pagination-previous {{ if eq .Current.Page 1 }}is-disabled{{ end }}" {{ if ne .Current.Page 1}}href="/recipe?query={{ .Query }}&offset={{ .Previous.Offset }}"{{ end }}>Previous</a>
+    <a class="pagination-next {{ if eq .Current.Page .Last.Page}}is-disabled{{ end }}" {{if ne .Current.Page .Last.Page}}href="/recipe?query={{ .Query }}&offset={{ .Next.Offset }}"{{ end }}>Next page</a>
     <ul class="pagination-list">
-        <li><a class="pagination-link" aria-label="Goto page 1">1</a></li>
-        <li><span class="pagination-ellipsis">&hellip;</span></li>
-        <li><a class="pagination-link" aria-label="Goto page 45">45</a></li>
-        <li><a class="pagination-link is-current" aria-label="Page 46" aria-current="page">46</a></li>
-        <li><a class="pagination-link" aria-label="Goto page 47">47</a></li>
-        <li><span class="pagination-ellipsis">&hellip;</span></li>
-        <li><a class="pagination-link" aria-label="Goto page {{ .Count }}">{{ .Count }}</a></li>
+        {{/* first page link and ... */}}
+        <li><a class="pagination-link {{if le .Current.Page 2}}is-hidden{{ else if le .Last.Page 3 }}is-hidden{{ end }}" aria-label="Goto page 1" href="/recipe?query={{ .Query }}">1</a></li>
+        {{ if eq .Current.Page 4}}
+        <li><a class="pagination-link" aria-label="Goto page {{ .PreviousButOne.Page }}" href="/recipe?query={{ .Query }}&offset={{ .PreviousButOne.Page }}">{{ .PreviousButOne.Page }}</a></li>
+        {{ else }}
+        <li><span class="pagination-ellipsis {{if le .Current.Page 3}}is-hidden{{ else if le .Last.Page 3 }}is-hidden{{ end }}">&hellip;</span></li>
+        {{ end }}
+        {{/* current pages */}}
+        {{ if eq .Current.Page .Last.Page }}<li><a class="pagination-link" aria-label="Goto page {{ .PreviousButOne.Page }}" href="/recipe?query={{ .Query }}&offset={{ .PreviousButOne.Offset }}">{{.PreviousButOne.Page }}</a></li>{{ end }}
+        <li><a class="pagination-link {{if eq .Current.Page 1}}is-hidden{{ end }}" aria-label="Goto page {{ .Previous.Page }}" href="/recipe?query={{ .Query }}&offset={{ .Previous.Offset }}">{{ .Previous.Page }}</a></li>
+        <li><a class="pagination-link is-current" aria-label="Page {{ .Current.Page }}" aria-current="page">{{ .Current.Page }}</a></li>
+        <li><a class="pagination-link {{if eq .Current.Page .Last.Page}}is-hidden{{ end }}" aria-label="Goto page {{ .Next.Page }}" href="/recipe?query={{ .Query }}&offset={{ .Next.Offset }}">{{.Next.Page }}</a></li>
+        {{ if eq .Current.Page 1}}<li><a class="pagination-link" aria-label="Goto page {{ .NextButOne.Page }}" href="/recipe?query={{ .Query }}&offset={{ .NextButOne.Offset }}">{{.NextButOne.Page }}</a></li>{{ end }}
+        {{/* ... last page link */}}
+        <li><span class="pagination-ellipsis {{if ge .Next.Page .LastButOne.Page}}is-hidden{{ else if le .Last.Page 3 }}is-hidden{{ end }}">&hellip;</span></li>
+        <li><a class="pagination-link {{if ge .Current.Page .LastButOne.Page}}is-hidden{{ else if le .Last.Page 3 }}is-hidden{{ end }}" aria-label="Goto page {{ .Last.Page }}" href="/recipe?query={{ .Query }}&offset={{ .Last.Offset }}">{{ .Last.Page }}</a></li>
     </ul>
 </nav>

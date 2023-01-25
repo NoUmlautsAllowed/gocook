@@ -3,15 +3,44 @@ package recipe
 import (
 	"github.com/NoUmlautsAllowed/gocook/pkg/api"
 	"github.com/gin-gonic/gin"
+	"math"
 	"net/http"
 	"strconv"
 )
+
+type tmplPageData struct {
+	Offset int
+	Page   int
+}
 
 type tmplSearch struct {
 	api.Search
 	api.RecipeSearch
 	ResultsPerPage int
 	ResultsPerRow  int
+	// previous, current and next offsets
+	//PreviousOffset   int
+	//CurrentOffset    int
+	//NextOffset       int
+	//NextButOneOffset int
+	//MaxOffset        int
+	//// previous, current and next pages
+	//PreviousPage   int
+	//CurrentPage    int
+	//NextPage       int
+	//NextButOnePage int
+	//// special variables for total page counts
+	//NextToLastPage int
+
+	//PageCount int
+
+	PreviousButOne tmplPageData
+	Previous       tmplPageData
+	Current        tmplPageData
+	Next           tmplPageData
+	NextButOne     tmplPageData
+	LastButOne     tmplPageData
+	Last           tmplPageData
 }
 
 const defaultResultsPerPage int = 12
@@ -37,6 +66,34 @@ func (t *TemplateViewer) ShowSearchResults(c *gin.Context) {
 
 		recipeSearch, err := t.api.Search(search)
 
+		offset := 0
+		if search.Offset != "" {
+			var err error
+			offset, err = strconv.Atoi(search.Offset)
+			if err != nil {
+				c.JSON(http.StatusInternalServerError, gin.Error{
+					Err:  err,
+					Type: 0,
+					Meta: nil,
+				})
+				return
+			}
+		}
+
+		previousOffset := 0
+		if offset == 0 {
+			previousOffset = 0
+		} else {
+			previousOffset = offset - defaultResultsPerPage
+		}
+
+		nextOffset := offset + defaultResultsPerPage
+		pageCount := int(math.Ceil(float64(recipeSearch.Count) / float64(defaultResultsPerPage)))
+		if recipeSearch.Count < defaultResultsPerPage {
+			nextOffset = 0
+			pageCount = 1
+		}
+
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.Error{
 				Err:  err,
@@ -50,6 +107,46 @@ func (t *TemplateViewer) ShowSearchResults(c *gin.Context) {
 				RecipeSearch:   *recipeSearch,
 				ResultsPerPage: defaultResultsPerPage,
 				ResultsPerRow:  defaultResultsPerRow,
+				PreviousButOne: tmplPageData{
+					Offset: previousOffset - defaultResultsPerPage,
+					Page:   (previousOffset-defaultResultsPerPage)/defaultResultsPerPage + 1,
+				},
+				Previous: tmplPageData{
+					Offset: previousOffset,
+					Page:   previousOffset/defaultResultsPerPage + 1,
+				},
+				Current: tmplPageData{
+					Offset: offset,
+					Page:   offset/defaultResultsPerPage + 1,
+				},
+				Next: tmplPageData{
+					Offset: nextOffset,
+					Page:   nextOffset/defaultResultsPerPage + 1,
+				},
+				NextButOne: tmplPageData{
+					Offset: nextOffset + defaultResultsPerPage,
+					Page:   nextOffset/defaultResultsPerPage + 2,
+				},
+				LastButOne: tmplPageData{
+					Offset: (pageCount - 1) * defaultResultsPerPage,
+					Page:   pageCount - 1,
+				},
+				Last: tmplPageData{
+					Offset: recipeSearch.Count - recipeSearch.Count%defaultResultsPerPage,
+					Page:   pageCount,
+				},
+				//PreviousButOneOffset: previousOffset - defaultResultsPerPage,
+				//PreviousOffset:       previousOffset,
+				//CurrentOffset:        offset,
+				//NextOffset:           nextOffset,
+				//NextButOneOffset:     nextOffset + defaultResultsPerPage,
+				//MaxOffset:            recipeSearch.Count - recipeSearch.Count%defaultResultsPerPage,
+				//PreviousPage:         previousOffset/defaultResultsPerPage + 1,
+				//CurrentPage:          offset/defaultResultsPerPage + 1,
+				//NextPage:             nextOffset/defaultResultsPerPage + 1,
+				//NextButOnePage:       nextOffset/defaultResultsPerPage + 2,
+				//NextToLastPage:       recipeSearch.Count / defaultResultsPerPage,
+				//PageCount: pageCount,
 			}
 			c.HTML(http.StatusOK, t.searchResultsTemplate, tmplData)
 		}

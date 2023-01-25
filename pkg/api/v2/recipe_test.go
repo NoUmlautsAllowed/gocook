@@ -133,7 +133,7 @@ func TestV2Api_Search(t *testing.T) {
 		if r.URL.Path != "/s/recipe" {
 			t.Error("expected recipe search")
 		}
-		if r.URL.RawQuery != "limit=1&query=q" {
+		if r.URL.RawQuery != "limit=1&offset=&query=q" {
 			t.Error("expected query q")
 		}
 	})
