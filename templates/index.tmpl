@@ -9,24 +9,20 @@
 
 <section class="hero is-chef is-fullheight">
     <div class="hero-head">
-            <div class="container has-text-centered pt-6">
-                    <h1 class="is-size-1">
-                        <span class="icon">
-                        <i class="mdi mdi-chef-hat"></i>
-                        </span>
-                        <span class="px-2"></span>
-                        GoCook
-                    </h1>
-            </div>
+        <div class="mt-6">{{ template  "header.tmpl" }}</div>
     </div>
 
     <div class="hero-body">
-        <div class="container has-text-centered">
+        <div class="container has-text-centered mb-6">
             {{ template "search.tmpl" }}
         </div>
     </div>
 
-    <div class="hero-foot"></div>
+    <div class="hero-foot">
+        <div class="container is-fluid mb-6">
+            {{ template "footer.tmpl" }}
+        </div>
+    </div>
 </section>
 
 </body>

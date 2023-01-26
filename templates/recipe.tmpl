@@ -5,44 +5,54 @@
     {{ template "head.tmpl" }}
 </head>
 <body>
-<section class="hero is-chef">
-    <div class="hero-body">
+<section class="section p-0 hero is-chef">
+    <div class="hero-head pb-3 pt-5">
+        {{ template "header.tmpl" }}
+    </div>
+    <div class="hero-body pt-3">
         {{ template "search.tmpl" . }}
     </div>
 </section>
-<div class="container is-max-widescreen">
-    <div class="content">
-        <div class="tile is-ancestor">
-            <div class="tile is-parent m-3">
-                <div class="tile is-child box">
-                    <h1>{{ .Title }}</h1>
-                    {{ template "recipeinfo.tmpl" . }}
-                    <figure class="image is-4by5">
-                        <img src="{{ .PreviewImageURLTemplate }}" alt="Preview">
-                    </figure>
+<section class="section">
+    <div class="container is-max-widescreen">
+        <div class="content">
+            <div class="tile is-ancestor">
+                <div class="tile is-parent m-3">
+                    <div class="tile is-child box">
+                        <h1>{{ .Title }}</h1>
+                        {{ template "recipeinfo.tmpl" . }}
+                        <figure class="image is-4by5">
+                            <img src="{{ .PreviewImageURLTemplate }}" alt="Preview">
+                        </figure>
+                    </div>
+                </div>
+                <div class="tile is-parent m-3 is-vertical">
+                    {{ range .IngredientGroups }}
+                        <div class="tile is-child box">
+                            <p>{{ .Header }}</p>
+                            <ul>
+                                {{ range .Ingredients }}
+                                    <li>{{ if .Amount }}{{ .Amount }}{{ .Unit }}{{ end }} {{ .Name }}</li>
+                                {{ end}}
+                            </ul>
+                        </div>
+                    {{ end }}
                 </div>
             </div>
-            <div class="tile is-parent m-3 is-vertical">
-                {{ range .IngredientGroups }}
+            <div class="tile is-ancestor">
+                <div class="tile is-parent m-3">
                     <div class="tile is-child box">
-                        <p>{{ .Header }}</p>
-                        <ul>
-                            {{ range .Ingredients }}
-                                <li>{{ if .Amount }}{{ .Amount }}{{ .Unit }}{{ end }} {{ .Name }}</li>
-                            {{ end}}
-                        </ul>
+                        {{ range .Instructions }}<p>{{ . }}</p>{{ end }}
                     </div>
-                {{ end }}
-            </div>
-        </div>
-        <div class="tile is-ancestor">
-            <div class="tile is-parent m-3">
-                <div class="tile is-child box">
-                    {{ range .Instructions }}<p>{{ . }}</p>{{ end }}
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
+<section class="section hero is-chef">
+    <div class="hero-foot">
+        {{ template "footer.tmpl" }}
+    </div>
+</section>
 </body>
 </html>
