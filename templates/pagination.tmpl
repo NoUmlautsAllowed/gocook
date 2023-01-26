@@ -27,7 +27,7 @@ X ... X  X  X ... X
         {{/* current pages */}}
         {{ if eq .Current.Page .Last.Page }}<li><a class="pagination-link" aria-label="Goto page {{ .PreviousButOne.Page }}" href="/recipe?query={{ .Query }}&offset={{ .PreviousButOne.Offset }}">{{.PreviousButOne.Page }}</a></li>{{ end }}
         <li><a class="pagination-link {{if eq .Current.Page 1}}is-hidden{{ end }}" aria-label="Goto page {{ .Previous.Page }}" href="/recipe?query={{ .Query }}&offset={{ .Previous.Offset }}">{{ .Previous.Page }}</a></li>
-        <li><a class="pagination-link is-current" aria-label="Page {{ .Current.Page }}" aria-current="page">{{ .Current.Page }}</a></li>
+        <li><a class="pagination-link is-chef" aria-label="Page {{ .Current.Page }}" aria-current="page"><span class="is-chef">{{ .Current.Page }}</span></a></li>
         <li><a class="pagination-link {{if eq .Current.Page .Last.Page}}is-hidden{{ end }}" aria-label="Goto page {{ .Next.Page }}" href="/recipe?query={{ .Query }}&offset={{ .Next.Offset }}">{{.Next.Page }}</a></li>
         {{ if eq .Current.Page 1}}<li><a class="pagination-link" aria-label="Goto page {{ .NextButOne.Page }}" href="/recipe?query={{ .Query }}&offset={{ .NextButOne.Offset }}">{{.NextButOne.Page }}</a></li>{{ end }}
         {{/* ... last page link */}}
