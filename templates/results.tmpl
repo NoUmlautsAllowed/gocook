@@ -5,11 +5,15 @@
     {{ template "head.tmpl"}}
 </head>
 <body>
-<section class="hero is-chef">
-    <div class="hero-body">
+<section class="section p-0 hero is-chef">
+    <div class="hero-head pb-3 pt-5">
+        {{ template "header.tmpl" }}
+    </div>
+    <div class="hero-body pt-3">
         {{ template "search.tmpl" . }}
     </div>
 </section>
+<section class="section">
 <div class="container is-max-widescreen">
     <div class="tile is-ancestor"></div>
     {{ range iterateRange .Results .ResultsPerRow }}
@@ -39,5 +43,11 @@
         {{ template "pagination.tmpl" . }}
     </div>
 </div>
+</section>
+<section class="section hero is-chef">
+    <div class="hero-foot">
+        {{ template "footer.tmpl" }}
+    </div>
+</section>
 </body>
 </html>
