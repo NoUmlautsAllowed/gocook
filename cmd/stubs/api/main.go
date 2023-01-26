@@ -129,7 +129,7 @@ func main() {
 				offset = 0
 			}
 
-			for i, _ := range recipeDb {
+			for i := range recipeDb {
 				if i >= int(limit) || int64(i)+offset >= int64(len(recipeDb)) {
 					break
 				}
