@@ -13,15 +13,16 @@ and [Bulma](https://bulma.io/).
 This is an alternative frontend to Chefkoch. The generated sites are static, 
 i.e. containing no JavaScript that runs on the client side.
 
-Currently, only the API traffic is proxied through the server. All CDN 
-requests needed to get images are made locally by the browser.
-The CDN requests to display images will be proxied through the server in 
-the future to ensure a maximum of privacy.
+All API and CDN traffic is proxied through GoCook, there is no communication
+with any other hosts than GoCook istself.
 
 ## Build and Deployment
 
 The easiest way to deploy this service is the standalone docker image. 
 Alternatively, building the application from source is possible too.
+
+API and CDN requests are not cached for now. This may be a feature to be
+added in the future.
 
 ### Docker
 
