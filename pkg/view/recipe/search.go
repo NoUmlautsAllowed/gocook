@@ -18,21 +18,6 @@ type tmplSearch struct {
 	api.RecipeSearch
 	ResultsPerPage int
 	ResultsPerRow  int
-	// previous, current and next offsets
-	//PreviousOffset   int
-	//CurrentOffset    int
-	//NextOffset       int
-	//NextButOneOffset int
-	//MaxOffset        int
-	//// previous, current and next pages
-	//PreviousPage   int
-	//CurrentPage    int
-	//NextPage       int
-	//NextButOnePage int
-	//// special variables for total page counts
-	//NextToLastPage int
-
-	//PageCount int
 
 	PreviousButOne tmplPageData
 	Previous       tmplPageData
@@ -65,6 +50,14 @@ func (t *TemplateViewer) ShowSearchResults(c *gin.Context) {
 		search.Limit = strconv.Itoa(defaultResultsPerPage)
 
 		recipeSearch, err := t.api.Search(search)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.Error{
+				Err:  err,
+				Type: 0,
+				Meta: nil,
+			})
+			return
+		}
 
 		offset := 0
 		if search.Offset != "" {
@@ -94,62 +87,42 @@ func (t *TemplateViewer) ShowSearchResults(c *gin.Context) {
 			pageCount = 1
 		}
 
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.Error{
-				Err:  err,
-				Type: 0,
-				Meta: nil,
-			})
-		} else {
-
-			tmplData := tmplSearch{
-				Search:         search,
-				RecipeSearch:   *recipeSearch,
-				ResultsPerPage: defaultResultsPerPage,
-				ResultsPerRow:  defaultResultsPerRow,
-				PreviousButOne: tmplPageData{
-					Offset: previousOffset - defaultResultsPerPage,
-					Page:   (previousOffset-defaultResultsPerPage)/defaultResultsPerPage + 1,
-				},
-				Previous: tmplPageData{
-					Offset: previousOffset,
-					Page:   previousOffset/defaultResultsPerPage + 1,
-				},
-				Current: tmplPageData{
-					Offset: offset,
-					Page:   offset/defaultResultsPerPage + 1,
-				},
-				Next: tmplPageData{
-					Offset: nextOffset,
-					Page:   nextOffset/defaultResultsPerPage + 1,
-				},
-				NextButOne: tmplPageData{
-					Offset: nextOffset + defaultResultsPerPage,
-					Page:   nextOffset/defaultResultsPerPage + 2,
-				},
-				LastButOne: tmplPageData{
-					Offset: (pageCount - 1) * defaultResultsPerPage,
-					Page:   pageCount - 1,
-				},
-				Last: tmplPageData{
-					Offset: recipeSearch.Count - recipeSearch.Count%defaultResultsPerPage,
-					Page:   pageCount,
-				},
-				//PreviousButOneOffset: previousOffset - defaultResultsPerPage,
-				//PreviousOffset:       previousOffset,
-				//CurrentOffset:        offset,
-				//NextOffset:           nextOffset,
-				//NextButOneOffset:     nextOffset + defaultResultsPerPage,
-				//MaxOffset:            recipeSearch.Count - recipeSearch.Count%defaultResultsPerPage,
-				//PreviousPage:         previousOffset/defaultResultsPerPage + 1,
-				//CurrentPage:          offset/defaultResultsPerPage + 1,
-				//NextPage:             nextOffset/defaultResultsPerPage + 1,
-				//NextButOnePage:       nextOffset/defaultResultsPerPage + 2,
-				//NextToLastPage:       recipeSearch.Count / defaultResultsPerPage,
-				//PageCount: pageCount,
-			}
-			c.HTML(http.StatusOK, t.searchResultsTemplate, tmplData)
+		tmplData := tmplSearch{
+			Search:         search,
+			RecipeSearch:   *recipeSearch,
+			ResultsPerPage: defaultResultsPerPage,
+			ResultsPerRow:  defaultResultsPerRow,
+			PreviousButOne: tmplPageData{
+				Offset: previousOffset - defaultResultsPerPage,
+				Page:   (previousOffset-defaultResultsPerPage)/defaultResultsPerPage + 1,
+			},
+			Previous: tmplPageData{
+				Offset: previousOffset,
+				Page:   previousOffset/defaultResultsPerPage + 1,
+			},
+			Current: tmplPageData{
+				Offset: offset,
+				Page:   offset/defaultResultsPerPage + 1,
+			},
+			Next: tmplPageData{
+				Offset: nextOffset,
+				Page:   nextOffset/defaultResultsPerPage + 1,
+			},
+			NextButOne: tmplPageData{
+				Offset: nextOffset + defaultResultsPerPage,
+				Page:   nextOffset/defaultResultsPerPage + 2,
+			},
+			LastButOne: tmplPageData{
+				Offset: (pageCount - 1) * defaultResultsPerPage,
+				Page:   pageCount - 1,
+			},
+			Last: tmplPageData{
+				Offset: recipeSearch.Count - recipeSearch.Count%defaultResultsPerPage,
+				Page:   pageCount,
+			},
 		}
+		c.HTML(http.StatusOK, t.searchResultsTemplate, tmplData)
+
 	} else {
 		c.JSON(http.StatusBadRequest, gin.Error{
 			Err:  err,
