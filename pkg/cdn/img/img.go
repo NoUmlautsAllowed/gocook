@@ -13,6 +13,7 @@ import (
 type ImageCdn struct {
 	cdnUrl        string
 	defaultClient http.Client
+	userAgent     string
 }
 
 func NewImageCdn(e *env.Env) *ImageCdn {
@@ -21,6 +22,7 @@ func NewImageCdn(e *env.Env) *ImageCdn {
 		defaultClient: http.Client{
 			Timeout: 60 * time.Second,
 		},
+		userAgent: e.UserAgent(),
 	}
 }
 
@@ -31,17 +33,21 @@ func (c *ImageCdn) GetRawImage(method, imgPath string) ([]byte, error) {
 		return nil, err
 	}
 
-	var resp *http.Response
-	if method == http.MethodGet {
-		resp, err = c.defaultClient.Get(urlPath)
-	} else if method == http.MethodHead {
-		// head method is possible with the CDN
-		// however, a proper cache control must be implemented
-		// it seems like the response header Cache-Control itself does not produce
-		// the expected browser behavior
-		resp, err = c.defaultClient.Head(urlPath)
+	// head method is possible with the CDN
+	// however, a proper cache control must be implemented
+	// it seems like the response header Cache-Control itself does not produce
+	// the expected browser behavior
+	if method != http.MethodGet && method != http.MethodHead {
+		return nil, errors.New("only GET or HEAD method allowed")
+	}
+
+	req, err := http.NewRequest(method, urlPath, nil)
+	if err != nil {
 		return nil, err
 	}
+
+	req.Header.Set("User-Agent", c.userAgent)
+	resp, err := c.defaultClient.Do(req)
 
 	if err != nil {
 		return nil, err

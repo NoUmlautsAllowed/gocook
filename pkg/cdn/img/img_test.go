@@ -204,7 +204,7 @@ func TestImageCdn_GetRawImage2(t *testing.T) {
 		t.Error("did not expect error")
 	}
 
-	if r != nil {
+	if r != nil && len(r) > 0 {
 		t.Error("no image expected with head method")
 	}
 
@@ -435,7 +435,7 @@ func TestImageCdn_GetImage4(t *testing.T) {
 	}
 
 	responseWriter.EXPECT().WriteHeader(http.StatusOK)
-	responseWriter.EXPECT().Write(nil).Return(0, errors.New("writer error"))
+	responseWriter.EXPECT().Write([]uint8{}).Return(0, errors.New("writer error"))
 	responseWriter.EXPECT().Header().Return(http.Header{})
 	responseWriter.EXPECT().Write([]byte{123, 34, 101, 114, 114, 111, 114, 34, 58, 34, 119, 114, 105, 116, 101, 114, 32, 101, 114, 114, 111, 114, 34, 125})
 
@@ -473,5 +473,53 @@ func TestImageCdn_PostImage(t *testing.T) {
 
 	if resp.StatusCode != http.StatusMethodNotAllowed {
 		t.Error("expected", http.StatusMethodNotAllowed)
+	}
+}
+
+func TestImageCdn_UserAgent(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	m := utils.NewMockHandler(ctrl)
+
+	s := httptest.NewServer(m)
+	defer s.Close()
+
+	a := NewImageCdn(env.NewEnv())
+	a.cdnUrl = s.URL + "/cdn"
+	a.defaultClient = http.Client{}
+
+	u, _ := url.Parse(s.URL + "/cdn/123456")
+
+	m.EXPECT().ServeHTTP(gomock.Any(), gomock.Any()).Do(func(w http.ResponseWriter, r *http.Request) {
+		expectedUserAgent := "Mozilla/5.0 (X11; Linux x86_64; rv:108.0) Gecko/20100101 Firefox/108.0"
+		if r.UserAgent() != expectedUserAgent {
+			t.Error("expected user agent '" + expectedUserAgent + "', got '" + r.UserAgent() + "'")
+		}
+
+		w.WriteHeader(http.StatusOK)
+		_, _ = w.Write(testData)
+		if r.URL.Path != "/cdn/123456" {
+			t.Error("expected 123456")
+		}
+		if r.Method != http.MethodGet {
+			t.Error("expected GET method")
+		}
+	})
+
+	recorder := httptest.NewRecorder()
+	ctx, _ := gin.CreateTestContext(recorder)
+	ctx.Request = &http.Request{
+		Method: http.MethodGet,
+		URL:    u,
+	}
+	ctx.Params = gin.Params{
+		{"path", "123456"},
+	}
+
+	a.GetImage(ctx)
+
+	resp := recorder.Result()
+
+	if resp.StatusCode != http.StatusOK {
+		t.Error("expected", http.StatusOK)
 	}
 }
