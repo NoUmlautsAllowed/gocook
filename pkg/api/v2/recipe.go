@@ -5,6 +5,7 @@ import (
 	"github.com/NoUmlautsAllowed/gocook/pkg/api"
 	"io"
 	"log"
+	"net/http"
 	"net/url"
 	"path"
 )
@@ -12,7 +13,15 @@ import (
 func (a *V2Api) Get(id string) (*api.Recipe, error) {
 	u, _ := url.Parse(a.baseRecipeUrl)
 	u.Path = path.Join(u.Path, id)
-	resp, err := a.defaultClient.Get(u.String())
+
+	req, err := http.NewRequest(http.MethodGet, u.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Set("User-Agent", a.userAgent)
+
+	resp, err := a.defaultClient.Do(req)
 	if err != nil {
 		return nil, err
 	} else {
@@ -46,7 +55,14 @@ func (a *V2Api) Search(s api.Search) (*api.RecipeSearch, error) {
 	query.Set("offset", s.Offset)
 	u.RawQuery = query.Encode()
 
-	resp, err := a.defaultClient.Get(u.String())
+	req, err := http.NewRequest(http.MethodGet, u.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Set("User-Agent", a.userAgent)
+
+	resp, err := a.defaultClient.Do(req)
 	if err != nil {
 		return nil, err
 	} else {

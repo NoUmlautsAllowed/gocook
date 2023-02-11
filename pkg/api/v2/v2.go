@@ -16,6 +16,7 @@ type V2Api struct {
 	baseSearchUrl   string
 	cdnBaseImageUrl string
 	defaultClient   http.Client
+	userAgent       string
 }
 
 func NewV2Api(e *env.Env, redirectImageCdnBasePath string) *V2Api {
@@ -26,5 +27,6 @@ func NewV2Api(e *env.Env, redirectImageCdnBasePath string) *V2Api {
 		defaultClient: http.Client{
 			Timeout: 30 * time.Second,
 		},
+		userAgent: e.UserAgent(),
 	}
 }

@@ -10,15 +10,18 @@ type Env struct {
 	bindAddress string
 	cdnBaseUrl  string
 	apiBaseUrl  string
+	userAgent   string
 }
 
 const defaultBindAddress string = ":8080"
 const defaultCdnBaseUrl string = "https://img.chefkoch-cdn.de/"
 const defaultApiBaseUrl string = "https://api.chefkoch.de/"
+const defaultUserAgent string = "Mozilla/5.0 (X11; Linux x86_64; rv:108.0) Gecko/20100101 Firefox/108.0"
 
 const bindAddress string = "BIND_ADDRESS"
 const cdnBaseUrl string = "CDN_BASE_URL"
 const apiBaseUrl string = "API_BASE_URL"
+const userAgent string = "USER_AGENT"
 
 func NewEnv() *Env {
 
@@ -26,6 +29,7 @@ func NewEnv() *Env {
 		bindAddress: os.Getenv(bindAddress),
 		cdnBaseUrl:  os.Getenv(cdnBaseUrl),
 		apiBaseUrl:  os.Getenv(apiBaseUrl),
+		userAgent:   os.Getenv(userAgent),
 	}
 
 	if len(env.bindAddress) == 0 {
@@ -43,13 +47,18 @@ func NewEnv() *Env {
 		env.apiBaseUrl = defaultApiBaseUrl
 	}
 
+	if len(env.userAgent) == 0 {
+		env.userAgent = defaultUserAgent
+	}
+
 	return env
 }
 
 func (e Env) String() string {
 	return bindAddress + "=" + e.bindAddress + "; " +
 		cdnBaseUrl + "=" + e.cdnBaseUrl + "; " +
-		apiBaseUrl + "=" + e.apiBaseUrl
+		apiBaseUrl + "=" + e.apiBaseUrl + "; " +
+		userAgent + "=" + e.userAgent
 }
 
 func (e Env) BindAddress() string {
@@ -62,4 +71,8 @@ func (e Env) CdnBaseUrl() string {
 
 func (e Env) ApiBaseUrl() string {
 	return e.apiBaseUrl
+}
+
+func (e Env) UserAgent() string {
+	return e.userAgent
 }
