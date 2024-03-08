@@ -13,7 +13,7 @@ import (
 
 func generateRecipe(id string) (*api.Recipe, error) {
 
-	rng := fname.NewGenerator(fname.WithDelimiter(" "), fname.WithCasing("title"))
+	rng := fname.NewGenerator(fname.WithDelimiter(" "), fname.WithCasing(fname.Lower))
 	name, err := rng.Generate()
 
 	if err != nil {
