@@ -14,7 +14,7 @@ This is an alternative frontend to Chefkoch. The generated sites are static,
 i.e. containing no JavaScript that runs on the client side.
 
 All API and CDN traffic is proxied through GoCook, there is no communication
-with any other hosts than GoCook istself.
+with any other hosts than GoCook itself.
 
 ## Build and Deployment
 
