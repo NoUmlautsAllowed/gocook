@@ -5,7 +5,7 @@ import (
 	"github.com/NoUmlautsAllowed/gocook/pkg/api"
 	"github.com/NoUmlautsAllowed/gocook/pkg/utils/tmpl"
 	"github.com/gin-gonic/gin"
-	"github.com/golang/mock/gomock"
+	"go.uber.org/mock/gomock"
 	"html/template"
 	"net/http"
 	"net/http/httptest"

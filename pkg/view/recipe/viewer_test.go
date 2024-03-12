@@ -2,7 +2,7 @@ package recipe
 
 import (
 	"github.com/NoUmlautsAllowed/gocook/pkg/api"
-	"github.com/golang/mock/gomock"
+	"go.uber.org/mock/gomock"
 	"testing"
 )
 
