@@ -1,5 +1,6 @@
 # server binary
 cmd/server/server
+server
 
 # generated mock files
 mock_*.go
