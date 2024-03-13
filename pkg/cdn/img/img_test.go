@@ -303,7 +303,7 @@ func TestImageCdn_GetImage(t *testing.T) {
 		URL:    u,
 	}
 	ctx.Params = gin.Params{
-		{"path", "123456"},
+		{Key: "path", Value: "123456"},
 	}
 
 	a.GetImage(ctx)
@@ -347,7 +347,7 @@ func TestImageCdn_GetImage2(t *testing.T) {
 		URL:    u,
 	}
 	ctx.Params = gin.Params{
-		{"path", "123456"},
+		{Key: "path", Value: "123456"},
 	}
 
 	a.GetImage(ctx)
@@ -391,7 +391,7 @@ func TestImageCdn_GetImage3(t *testing.T) {
 		URL:    u,
 	}
 	ctx.Params = gin.Params{
-		{"path", "123456"},
+		{Key: "path", Value: "123456"},
 	}
 
 	a.GetImage(ctx)
@@ -435,7 +435,7 @@ func TestImageCdn_GetImage4(t *testing.T) {
 		URL:    u,
 	}
 	ctx.Params = gin.Params{
-		{"path", "123456"},
+		{Key: "path", Value: "123456"},
 	}
 
 	responseWriter.EXPECT().WriteHeader(http.StatusOK)
@@ -467,7 +467,7 @@ func TestImageCdn_PostImage(t *testing.T) {
 		URL:    u,
 	}
 	ctx.Params = gin.Params{
-		{"path", "123456"},
+		{Key: "path", Value: "123456"},
 	}
 
 	a.GetImage(ctx)
@@ -516,7 +516,7 @@ func TestImageCdn_UserAgent(t *testing.T) {
 		URL:    u,
 	}
 	ctx.Params = gin.Params{
-		{"path", "123456"},
+		{Key: "path", Value: "123456"},
 	}
 
 	a.GetImage(ctx)
