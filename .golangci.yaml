@@ -15,7 +15,7 @@ linters-settings:
     sections:
       - standard
       - default
-      - prefix(go.woodpecker-ci.org/woodpecker)
+      - prefix(github.com/NoUmlautsAllowed/gocook)
   gomnd:
     ignored-numbers:
       - '0o600'
@@ -48,7 +48,7 @@ linters:
     - errorlint
     - zerologlint
     - asciicheck
-    #- bodyclose
+    - bodyclose
     - dogsled
     - durationcheck
     - errchkjson

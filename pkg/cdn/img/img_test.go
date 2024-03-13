@@ -309,6 +309,7 @@ func TestImageCdn_GetImage(t *testing.T) {
 	a.GetImage(ctx)
 
 	resp := recorder.Result()
+	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
 		t.Error("expected", http.StatusOK)
@@ -352,6 +353,7 @@ func TestImageCdn_GetImage2(t *testing.T) {
 	a.GetImage(ctx)
 
 	resp := recorder.Result()
+	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
 		t.Error("expected", http.StatusOK)
@@ -395,6 +397,7 @@ func TestImageCdn_GetImage3(t *testing.T) {
 	a.GetImage(ctx)
 
 	resp := recorder.Result()
+	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusInternalServerError {
 		t.Error("expected", http.StatusInternalServerError)
@@ -470,6 +473,7 @@ func TestImageCdn_PostImage(t *testing.T) {
 	a.GetImage(ctx)
 
 	resp := recorder.Result()
+	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusMethodNotAllowed {
 		t.Error("expected", http.StatusMethodNotAllowed)
@@ -518,6 +522,7 @@ func TestImageCdn_UserAgent(t *testing.T) {
 	a.GetImage(ctx)
 
 	resp := recorder.Result()
+	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
 		t.Error("expected", http.StatusOK)
