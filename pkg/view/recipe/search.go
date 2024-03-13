@@ -76,7 +76,7 @@ func (t *TemplateViewer) ShowSearchResults(c *gin.Context) {
 			}
 		}
 
-		previousOffset := 0
+		var previousOffset int
 		if offset == 0 {
 			previousOffset = 0
 		} else {

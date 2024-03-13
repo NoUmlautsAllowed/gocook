@@ -71,7 +71,7 @@ linters:
     - tenv
     - unconvert
     - unparam
-    #- wastedassign
+    - wastedassign
     #- whitespace
     #- gocritic
     - nolintlint
