@@ -24,7 +24,6 @@ func (t *TemplateViewer) ShowRecipe(c *gin.Context) {
 			Meta: nil,
 		})
 	} else {
-
 		tmplData := tmplRecipe{
 			Recipe:       *recipe,
 			Instructions: strings.Split(recipe.Instructions, "\n\n"),

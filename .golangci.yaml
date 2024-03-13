@@ -8,12 +8,6 @@ linters-settings:
     locale: US
   gofumpt:
     extra-rules: true
-  forbidigo:
-    forbid:
-      - context\.WithCancel$
-      - ^print.*$
-      - panic
-      - ^log.Fatal().*$
   errorlint:
     errorf-multi: true
   gci:
@@ -52,7 +46,6 @@ linters:
     - unused
     - gofumpt
     - errorlint
-    #- forbidigo
     - zerologlint
     - asciicheck
     #- bodyclose
@@ -72,7 +65,7 @@ linters:
     - unconvert
     - unparam
     - wastedassign
-    #- whitespace
+    - whitespace
     #- gocritic
     - nolintlint
     #- stylecheck

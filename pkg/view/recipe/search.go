@@ -125,7 +125,6 @@ func (t *TemplateViewer) ShowSearchResults(c *gin.Context) {
 			},
 		}
 		c.HTML(http.StatusOK, t.searchResultsTemplate, tmplData)
-
 	} else {
 		c.JSON(http.StatusBadRequest, gin.Error{
 			Err:  err,
