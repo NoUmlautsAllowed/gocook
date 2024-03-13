@@ -29,7 +29,10 @@ func TestV2Api_Get(t *testing.T) {
 	m.EXPECT().ServeHTTP(gomock.Any(), gomock.Any()).Do(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(200)
 		e := json.NewEncoder(w)
-		e.Encode(api.Recipe{})
+		err := e.Encode(api.Recipe{})
+		if err != nil {
+			t.Error("expected no error")
+		}
 		if r.URL.Path != "/r/123456" {
 			t.Error("expected 123456")
 		}
@@ -125,13 +128,16 @@ func TestV2Api_Search(t *testing.T) {
 	m.EXPECT().ServeHTTP(gomock.Any(), gomock.Any()).Do(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(200)
 		e := json.NewEncoder(w)
-		e.Encode(api.RecipeSearch{
+		err := e.Encode(api.RecipeSearch{
 			Results: []api.RecipeSearchResult{
 				{},
 				{},
 				{},
 			},
 		})
+		if err != nil {
+			t.Error("expected no error")
+		}
 		if r.URL.Path != "/s/recipe" {
 			t.Error("expected recipe search")
 		}
@@ -203,7 +209,10 @@ func TestV2Api_UserAgentGet(t *testing.T) {
 
 		w.WriteHeader(200)
 		e := json.NewEncoder(w)
-		e.Encode(api.Recipe{})
+		err := e.Encode(api.Recipe{})
+		if err != nil {
+			t.Error("expected no error")
+		}
 		if r.URL.Path != "/r/123456" {
 			t.Error("expected 123456")
 		}
@@ -245,13 +254,16 @@ func TestV2Api_UserAgentSearch(t *testing.T) {
 
 		w.WriteHeader(200)
 		e := json.NewEncoder(w)
-		e.Encode(api.RecipeSearch{
+		err := e.Encode(api.RecipeSearch{
 			Results: []api.RecipeSearchResult{
 				{},
 				{},
 				{},
 			},
 		})
+		if err != nil {
+			t.Error("expected no error")
+		}
 	})
 
 	r, err := a.Search(api.Search{Query: "q"})

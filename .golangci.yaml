@@ -34,7 +34,7 @@ linters:
   disable-all: true
   enable:
     - bidichk
-    #- errcheck
+    - errcheck
     - gofmt
     - gosimple
     - govet

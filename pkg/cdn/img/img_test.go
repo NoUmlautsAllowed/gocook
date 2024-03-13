@@ -160,7 +160,10 @@ func TestImageCdn_GetRawImage(t *testing.T) {
 	m.EXPECT().ServeHTTP(gomock.Any(), gomock.Any()).Do(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(200)
 		e := json.NewEncoder(w)
-		e.Encode(api.Recipe{})
+		err := e.Encode(api.Recipe{})
+		if err != nil {
+			t.Error("expected no error")
+		}
 		if r.URL.Path != "/cdn/123456" {
 			t.Error("expected 123456")
 		}
