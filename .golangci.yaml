@@ -1,0 +1,81 @@
+linters-settings:
+  gofmt:
+    simplify: true
+    rewrite-rules:
+      - pattern: interface{}
+        replacement: any
+  misspell:
+    locale: US
+  gofumpt:
+    extra-rules: true
+  forbidigo:
+    forbid:
+      - context\.WithCancel$
+      - ^print.*$
+      - panic
+      - ^log.Fatal().*$
+  errorlint:
+    errorf-multi: true
+  gci:
+    custom-order: true
+    sections:
+      - standard
+      - default
+      - prefix(go.woodpecker-ci.org/woodpecker)
+  gomnd:
+    ignored-numbers:
+      - '0o600'
+      - '0o660'
+      - '0o644'
+      - '0o755'
+      - '0o700'
+    ignored-functions:
+      - make
+      - time.*
+      - strings.Split
+      - callerName
+      - securecookie.GenerateRandomKey
+
+linters:
+  disable-all: true
+  enable:
+    - bidichk
+    #- errcheck
+    #- gofmt
+    #- gosimple
+    #- govet
+    - ineffassign
+    - misspell
+    #- revive
+    - staticcheck
+    - typecheck
+    - unused
+    #- gofumpt
+    - errorlint
+    #- forbidigo
+    - zerologlint
+    - asciicheck
+    #- bodyclose
+    - dogsled
+    - durationcheck
+    - errchkjson
+    - gochecknoinits
+    - goheader
+    - gomoddirectives
+    - gomodguard
+    - goprintffuncname
+    - importas
+    - makezero
+    - rowserrcheck
+    - sqlclosecheck
+    - tenv
+    - unconvert
+    - unparam
+    #- wastedassign
+    #- whitespace
+    #- gocritic
+    - nolintlint
+    #- stylecheck
+    - contextcheck
+    - forcetypeassert
+    #- gci

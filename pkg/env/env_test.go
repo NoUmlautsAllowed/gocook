@@ -1,7 +1,6 @@
 package env
 
 import (
-	"os"
 	"testing"
 )
 
@@ -11,10 +10,10 @@ func Test_NewEnv_1(t *testing.T) {
 	customApiBaseUrl := "http://localhost:8082/"
 	customUserAgent := "foobar"
 
-	_ = os.Setenv(bindAddress, customBindAddress)
-	_ = os.Setenv(cdnBaseUrl, customCdnBaseUrl)
-	_ = os.Setenv(apiBaseUrl, customApiBaseUrl)
-	_ = os.Setenv(userAgent, customUserAgent)
+	t.Setenv(bindAddress, customBindAddress)
+	t.Setenv(cdnBaseUrl, customCdnBaseUrl)
+	t.Setenv(apiBaseUrl, customApiBaseUrl)
+	t.Setenv(userAgent, customUserAgent)
 
 	env := NewEnv()
 
@@ -41,10 +40,10 @@ func Test_NewEnv_2(t *testing.T) {
 	customApiBaseUrl := ""
 	customUserAgent := ""
 
-	_ = os.Setenv(bindAddress, customBindAddress)
-	_ = os.Setenv(cdnBaseUrl, customCdnBaseUrl)
-	_ = os.Setenv(apiBaseUrl, customApiBaseUrl)
-	_ = os.Setenv(userAgent, customUserAgent)
+	t.Setenv(bindAddress, customBindAddress)
+	t.Setenv(cdnBaseUrl, customCdnBaseUrl)
+	t.Setenv(apiBaseUrl, customApiBaseUrl)
+	t.Setenv(userAgent, customUserAgent)
 
 	env := NewEnv()
 
@@ -71,10 +70,10 @@ func TestEnv_String(t *testing.T) {
 	customApiBaseUrl := "http://localhost:8082/"
 	customUserAgent := "foobar"
 
-	_ = os.Setenv(bindAddress, customBindAddress)
-	_ = os.Setenv(cdnBaseUrl, customCdnBaseUrl)
-	_ = os.Setenv(apiBaseUrl, customApiBaseUrl)
-	_ = os.Setenv(userAgent, customUserAgent)
+	t.Setenv(bindAddress, customBindAddress)
+	t.Setenv(cdnBaseUrl, customCdnBaseUrl)
+	t.Setenv(apiBaseUrl, customApiBaseUrl)
+	t.Setenv(userAgent, customUserAgent)
 
 	env := NewEnv()
 
