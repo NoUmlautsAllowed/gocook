@@ -42,7 +42,7 @@ linters:
     - bidichk
     #- errcheck
     - gofmt
-    #- gosimple
+    - gosimple
     #- govet
     - ineffassign
     - misspell

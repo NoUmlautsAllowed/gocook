@@ -205,7 +205,7 @@ func TestImageCdn_GetRawImage2(t *testing.T) {
 		t.Error("did not expect error")
 	}
 
-	if r != nil && len(r) > 0 {
+	if len(r) > 0 {
 		t.Error("no image expected with head method")
 	}
 
