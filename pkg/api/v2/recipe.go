@@ -2,12 +2,13 @@ package v2
 
 import (
 	"encoding/json"
-	"github.com/NoUmlautsAllowed/gocook/pkg/api"
 	"io"
 	"log"
 	"net/http"
 	"net/url"
 	"path"
+
+	"github.com/NoUmlautsAllowed/gocook/pkg/api"
 )
 
 func (a *V2Api) Get(id string) (*api.Recipe, error) {
@@ -71,7 +72,6 @@ func (a *V2Api) Search(s api.Search) (*api.RecipeSearch, error) {
 		data, _ := io.ReadAll(resp.Body)
 		var recipeSearch api.RecipeSearch
 		err = json.Unmarshal(data, &recipeSearch)
-
 		if err != nil {
 			return nil, err
 		}

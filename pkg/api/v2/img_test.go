@@ -1,8 +1,9 @@
 package v2
 
 import (
-	"github.com/NoUmlautsAllowed/gocook/pkg/env"
 	"testing"
+
+	"github.com/NoUmlautsAllowed/gocook/pkg/env"
 )
 
 func TestReplaceImageCdnUrl(t *testing.T) {

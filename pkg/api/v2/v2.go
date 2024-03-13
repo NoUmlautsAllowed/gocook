@@ -1,13 +1,16 @@
 package v2
 
 import (
-	"github.com/NoUmlautsAllowed/gocook/pkg/env"
 	"net/http"
 	"time"
+
+	"github.com/NoUmlautsAllowed/gocook/pkg/env"
 )
 
-const apiBaseRecipePath = "/v2/recipes"
-const apiBaseSearchPath = "/v2/search"
+const (
+	apiBaseRecipePath = "/v2/recipes"
+	apiBaseSearchPath = "/v2/search"
+)
 
 const previewImageFormat = "crop-480x600"
 

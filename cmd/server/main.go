@@ -1,6 +1,10 @@
 package main
 
 import (
+	"html/template"
+	"log"
+	"net/http"
+
 	"github.com/NoUmlautsAllowed/gocook/pkg/api"
 	v2 "github.com/NoUmlautsAllowed/gocook/pkg/api/v2"
 	"github.com/NoUmlautsAllowed/gocook/pkg/cdn"
@@ -9,13 +13,9 @@ import (
 	"github.com/NoUmlautsAllowed/gocook/pkg/utils/tmpl"
 	"github.com/NoUmlautsAllowed/gocook/pkg/view/recipe"
 	"github.com/gin-gonic/gin"
-	"html/template"
-	"log"
-	"net/http"
 )
 
 func main() {
-
 	runEnv := env.NewEnv()
 	log.Println("Using given environment configuration", runEnv)
 

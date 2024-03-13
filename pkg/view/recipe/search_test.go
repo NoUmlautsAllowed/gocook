@@ -2,20 +2,20 @@ package recipe
 
 import (
 	"errors"
-	"github.com/NoUmlautsAllowed/gocook/pkg/api"
-	"github.com/NoUmlautsAllowed/gocook/pkg/utils/tmpl"
-	"github.com/gin-gonic/gin"
-	"go.uber.org/mock/gomock"
 	"html/template"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
 	"strconv"
 	"testing"
+
+	"github.com/NoUmlautsAllowed/gocook/pkg/api"
+	"github.com/NoUmlautsAllowed/gocook/pkg/utils/tmpl"
+	"github.com/gin-gonic/gin"
+	"go.uber.org/mock/gomock"
 )
 
 func TestTemplateViewer_ShowSearchResults(t *testing.T) {
-
 	ctrl := gomock.NewController(t)
 	m := api.NewMockRecipeApi(ctrl)
 	m.EXPECT().Search(api.Search{Query: "schnitzel", Limit: strconv.Itoa(defaultResultsPerPage)}).Return(&api.RecipeSearch{}, nil)
@@ -46,11 +46,9 @@ func TestTemplateViewer_ShowSearchResults(t *testing.T) {
 	if w.Code != http.StatusOK {
 		t.Error("expected status 200")
 	}
-
 }
 
 func TestTemplateViewer_ShowSearchResults_InternalError(t *testing.T) {
-
 	ctrl := gomock.NewController(t)
 	m := api.NewMockRecipeApi(ctrl)
 	m.EXPECT().Search(api.Search{Query: "pizza", Limit: strconv.Itoa(defaultResultsPerPage)}).Return(nil, errors.New("sample error"))
@@ -84,7 +82,6 @@ func TestTemplateViewer_ShowSearchResults_InternalError(t *testing.T) {
 }
 
 func TestTemplateViewer_ShowSearchResults_BadRequest(t *testing.T) {
-
 	ctrl := gomock.NewController(t)
 	m := api.NewMockRecipeApi(ctrl)
 

@@ -1,11 +1,12 @@
 package recipe
 
 import (
-	"github.com/NoUmlautsAllowed/gocook/pkg/api"
-	"github.com/gin-gonic/gin"
 	"math"
 	"net/http"
 	"strconv"
+
+	"github.com/NoUmlautsAllowed/gocook/pkg/api"
+	"github.com/gin-gonic/gin"
 )
 
 type tmplPageData struct {
@@ -28,8 +29,10 @@ type tmplSearch struct {
 	Last           tmplPageData
 }
 
-const defaultResultsPerPage int = 12
-const defaultResultsPerRow int = 3
+const (
+	defaultResultsPerPage int = 12
+	defaultResultsPerRow  int = 3
+)
 
 func (t *TemplateViewer) ShowSearchResults(c *gin.Context) {
 	var search api.Search

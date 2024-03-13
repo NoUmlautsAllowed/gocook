@@ -3,16 +3,17 @@ package img
 import (
 	"encoding/json"
 	"errors"
-	"github.com/NoUmlautsAllowed/gocook/pkg/api"
-	"github.com/NoUmlautsAllowed/gocook/pkg/env"
-	"github.com/NoUmlautsAllowed/gocook/pkg/utils"
-	"github.com/gin-gonic/gin"
-	"go.uber.org/mock/gomock"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
 	"testing"
 	"time"
+
+	"github.com/NoUmlautsAllowed/gocook/pkg/api"
+	"github.com/NoUmlautsAllowed/gocook/pkg/env"
+	"github.com/NoUmlautsAllowed/gocook/pkg/utils"
+	"github.com/gin-gonic/gin"
+	"go.uber.org/mock/gomock"
 )
 
 var testData = []byte{
@@ -440,7 +441,6 @@ func TestImageCdn_GetImage4(t *testing.T) {
 	responseWriter.EXPECT().Write([]byte{123, 34, 101, 114, 114, 111, 114, 34, 58, 34, 119, 114, 105, 116, 101, 114, 32, 101, 114, 114, 111, 114, 34, 125})
 
 	a.GetImage(ctx)
-
 }
 
 func TestImageCdn_PostImage(t *testing.T) {

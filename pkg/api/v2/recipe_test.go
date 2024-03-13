@@ -2,14 +2,15 @@ package v2
 
 import (
 	"encoding/json"
-	"github.com/NoUmlautsAllowed/gocook/pkg/api"
-	"github.com/NoUmlautsAllowed/gocook/pkg/env"
-	"github.com/NoUmlautsAllowed/gocook/pkg/utils"
-	"go.uber.org/mock/gomock"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 	"time"
+
+	"github.com/NoUmlautsAllowed/gocook/pkg/api"
+	"github.com/NoUmlautsAllowed/gocook/pkg/env"
+	"github.com/NoUmlautsAllowed/gocook/pkg/utils"
+	"go.uber.org/mock/gomock"
 )
 
 func TestV2Api_Get(t *testing.T) {
@@ -18,7 +19,7 @@ func TestV2Api_Get(t *testing.T) {
 
 	s := httptest.NewServer(m)
 
-	//go s.Start()
+	// go s.Start()
 
 	a := V2Api{
 		baseRecipeUrl: s.URL + "/r",
@@ -52,7 +53,7 @@ func TestV2Api_Get2(t *testing.T) {
 
 	s := httptest.NewServer(m)
 
-	//go s.Start()
+	// go s.Start()
 
 	a := V2Api{
 		baseRecipeUrl: s.URL + "/r",
@@ -114,7 +115,7 @@ func TestV2Api_Search(t *testing.T) {
 
 	s := httptest.NewServer(m)
 
-	//go s.Start()
+	// go s.Start()
 
 	a := V2Api{
 		baseRecipeUrl: s.URL + "/r",
@@ -140,7 +141,6 @@ func TestV2Api_Search(t *testing.T) {
 	})
 
 	r, err := a.Search(api.Search{Query: "q", Limit: "1"})
-
 	if err != nil {
 		t.Error("did not expect error")
 	}
@@ -255,7 +255,6 @@ func TestV2Api_UserAgentSearch(t *testing.T) {
 	})
 
 	r, err := a.Search(api.Search{Query: "q"})
-
 	if err != nil {
 		t.Error("did not expect error")
 	}

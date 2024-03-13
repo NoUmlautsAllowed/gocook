@@ -41,7 +41,7 @@ linters:
   enable:
     - bidichk
     #- errcheck
-    #- gofmt
+    - gofmt
     #- gosimple
     #- govet
     - ineffassign
@@ -50,7 +50,7 @@ linters:
     - staticcheck
     - typecheck
     - unused
-    #- gofumpt
+    - gofumpt
     - errorlint
     #- forbidigo
     - zerologlint

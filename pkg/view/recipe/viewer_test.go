@@ -1,9 +1,10 @@
 package recipe
 
 import (
+	"testing"
+
 	"github.com/NoUmlautsAllowed/gocook/pkg/api"
 	"go.uber.org/mock/gomock"
-	"testing"
 )
 
 func TestNewTemplateViewer(t *testing.T) {
@@ -18,5 +19,4 @@ func TestNewTemplateViewer(t *testing.T) {
 	if v.recipeTemplate != "recipe.tmpl" {
 		t.Error("expected recipe.tmpl as template")
 	}
-
 }

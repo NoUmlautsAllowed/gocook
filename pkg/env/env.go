@@ -13,18 +13,21 @@ type Env struct {
 	userAgent   string
 }
 
-const defaultBindAddress string = ":8080"
-const defaultCdnBaseUrl string = "https://img.chefkoch-cdn.de/"
-const defaultApiBaseUrl string = "https://api.chefkoch.de/"
-const defaultUserAgent string = "Mozilla/5.0 (X11; Linux x86_64; rv:108.0) Gecko/20100101 Firefox/108.0"
+const (
+	defaultBindAddress string = ":8080"
+	defaultCdnBaseUrl  string = "https://img.chefkoch-cdn.de/"
+	defaultApiBaseUrl  string = "https://api.chefkoch.de/"
+	defaultUserAgent   string = "Mozilla/5.0 (X11; Linux x86_64; rv:108.0) Gecko/20100101 Firefox/108.0"
+)
 
-const bindAddress string = "BIND_ADDRESS"
-const cdnBaseUrl string = "CDN_BASE_URL"
-const apiBaseUrl string = "API_BASE_URL"
-const userAgent string = "USER_AGENT"
+const (
+	bindAddress string = "BIND_ADDRESS"
+	cdnBaseUrl  string = "CDN_BASE_URL"
+	apiBaseUrl  string = "API_BASE_URL"
+	userAgent   string = "USER_AGENT"
+)
 
 func NewEnv() *Env {
-
 	env := &Env{
 		bindAddress: os.Getenv(bindAddress),
 		cdnBaseUrl:  os.Getenv(cdnBaseUrl),

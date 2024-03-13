@@ -2,20 +2,19 @@ package main
 
 import (
 	"errors"
-	"github.com/NoUmlautsAllowed/gocook/pkg/api"
-	"github.com/gin-gonic/gin"
-	"github.com/splode/fname"
 	"log"
 	"net/http"
 	"strconv"
 	"time"
+
+	"github.com/NoUmlautsAllowed/gocook/pkg/api"
+	"github.com/gin-gonic/gin"
+	"github.com/splode/fname"
 )
 
 func generateRecipe(id string) (*api.Recipe, error) {
-
 	rng := fname.NewGenerator(fname.WithDelimiter(" "), fname.WithCasing(fname.Title))
 	name, err := rng.Generate()
-
 	if err != nil {
 		return nil, err
 	}

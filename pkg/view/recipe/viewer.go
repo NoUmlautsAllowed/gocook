@@ -16,8 +16,10 @@ type TemplateViewer struct {
 	api                   api.RecipeApi
 }
 
-const searchResultsPath = "/recipe"
-const recipePath = "recipes/:recipe"
+const (
+	searchResultsPath = "/recipe"
+	recipePath        = "recipes/:recipe"
+)
 
 func NewTemplateViewer(api api.RecipeApi) *TemplateViewer {
 	return &TemplateViewer{

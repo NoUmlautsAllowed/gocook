@@ -1,9 +1,10 @@
 package v2
 
 import (
+	"testing"
+
 	"github.com/NoUmlautsAllowed/gocook/pkg/cdn"
 	"github.com/NoUmlautsAllowed/gocook/pkg/env"
-	"testing"
 )
 
 func TestNewV2Api(t *testing.T) {
