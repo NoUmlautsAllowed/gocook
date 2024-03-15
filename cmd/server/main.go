@@ -12,6 +12,7 @@ import (
 	"github.com/NoUmlautsAllowed/gocook/pkg/env"
 	"github.com/NoUmlautsAllowed/gocook/pkg/utils/tmpl"
 	"github.com/NoUmlautsAllowed/gocook/pkg/view/recipe"
+
 	"github.com/gin-gonic/gin"
 )
 

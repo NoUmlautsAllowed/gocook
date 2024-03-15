@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/NoUmlautsAllowed/gocook/pkg/env"
+
 	"github.com/gin-gonic/gin"
 )
 

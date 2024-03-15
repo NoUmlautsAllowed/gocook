@@ -14,21 +14,8 @@ linters-settings:
     custom-order: true
     sections:
       - standard
-      - default
       - prefix(github.com/NoUmlautsAllowed/gocook)
-  gomnd:
-    ignored-numbers:
-      - '0o600'
-      - '0o660'
-      - '0o644'
-      - '0o755'
-      - '0o700'
-    ignored-functions:
-      - make
-      - time.*
-      - strings.Split
-      - callerName
-      - securecookie.GenerateRandomKey
+      - default
 
 linters:
   disable-all: true
@@ -71,4 +58,4 @@ linters:
     - stylecheck
     - contextcheck
     - forcetypeassert
-    #- gci
+    - gci

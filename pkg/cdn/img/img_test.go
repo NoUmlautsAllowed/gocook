@@ -12,6 +12,7 @@ import (
 	"github.com/NoUmlautsAllowed/gocook/pkg/api"
 	"github.com/NoUmlautsAllowed/gocook/pkg/env"
 	"github.com/NoUmlautsAllowed/gocook/pkg/utils"
+
 	"github.com/gin-gonic/gin"
 	"go.uber.org/mock/gomock"
 )
