@@ -66,9 +66,9 @@ linters:
     - unparam
     - wastedassign
     - whitespace
-    #- gocritic
+    - gocritic
     - nolintlint
-    #- stylecheck
+    - stylecheck
     - contextcheck
     - forcetypeassert
     #- gci

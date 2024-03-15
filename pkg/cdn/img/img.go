@@ -12,14 +12,14 @@ import (
 )
 
 type ImageCdn struct {
-	cdnUrl        string
+	cdnURL        string
 	defaultClient http.Client
 	userAgent     string
 }
 
 func NewImageCdn(e *env.Env) *ImageCdn {
 	return &ImageCdn{
-		cdnUrl: e.CdnBaseUrl(),
+		cdnURL: e.CdnBaseURL(),
 		defaultClient: http.Client{
 			Timeout: 60 * time.Second,
 		},
@@ -28,7 +28,7 @@ func NewImageCdn(e *env.Env) *ImageCdn {
 }
 
 func (c *ImageCdn) GetRawImage(method, imgPath string) ([]byte, error) {
-	urlPath, err := url.JoinPath(c.cdnUrl, imgPath)
+	urlPath, err := url.JoinPath(c.cdnURL, imgPath)
 	if err != nil {
 		return nil, err
 	}

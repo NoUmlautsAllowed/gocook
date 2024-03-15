@@ -6,13 +6,13 @@ import (
 
 func Test_NewEnv_1(t *testing.T) {
 	customBindAddress := ":8083"
-	customCdnBaseUrl := "http://localhost:8081/"
-	customApiBaseUrl := "http://localhost:8082/"
+	customCdnBaseURL := "http://localhost:8081/"
+	customAPIBaseURL := "http://localhost:8082/"
 	customUserAgent := "foobar"
 
 	t.Setenv(bindAddress, customBindAddress)
-	t.Setenv(cdnBaseUrl, customCdnBaseUrl)
-	t.Setenv(apiBaseUrl, customApiBaseUrl)
+	t.Setenv(cdnBaseURL, customCdnBaseURL)
+	t.Setenv(apiBaseURL, customAPIBaseURL)
 	t.Setenv(userAgent, customUserAgent)
 
 	env := NewEnv()
@@ -21,12 +21,12 @@ func Test_NewEnv_1(t *testing.T) {
 		t.Error("env.BindAddress()", customBindAddress)
 	}
 
-	if env.CdnBaseUrl() != customCdnBaseUrl {
-		t.Error("env.CdnBaseUrl()", customCdnBaseUrl)
+	if env.CdnBaseURL() != customCdnBaseURL {
+		t.Error("env.CdnBaseUrl()", customCdnBaseURL)
 	}
 
-	if env.ApiBaseUrl() != customApiBaseUrl {
-		t.Error("env.ApiBaseUrl()", customApiBaseUrl)
+	if env.APIBaseURL() != customAPIBaseURL {
+		t.Error("env.ApiBaseUrl()", customAPIBaseURL)
 	}
 
 	if env.UserAgent() != customUserAgent {
@@ -36,13 +36,13 @@ func Test_NewEnv_1(t *testing.T) {
 
 func Test_NewEnv_2(t *testing.T) {
 	customBindAddress := ""
-	customCdnBaseUrl := ""
-	customApiBaseUrl := ""
+	customCdnBaseURL := ""
+	customAPIBaseURL := ""
 	customUserAgent := ""
 
 	t.Setenv(bindAddress, customBindAddress)
-	t.Setenv(cdnBaseUrl, customCdnBaseUrl)
-	t.Setenv(apiBaseUrl, customApiBaseUrl)
+	t.Setenv(cdnBaseURL, customCdnBaseURL)
+	t.Setenv(apiBaseURL, customAPIBaseURL)
 	t.Setenv(userAgent, customUserAgent)
 
 	env := NewEnv()
@@ -51,12 +51,12 @@ func Test_NewEnv_2(t *testing.T) {
 		t.Error("env.BindAddress()", defaultBindAddress)
 	}
 
-	if env.CdnBaseUrl() != defaultCdnBaseUrl {
-		t.Error("env.CdnBaseUrl()", defaultCdnBaseUrl)
+	if env.CdnBaseURL() != defaultCdnBaseURL {
+		t.Error("env.CdnBaseUrl()", defaultCdnBaseURL)
 	}
 
-	if env.ApiBaseUrl() != defaultApiBaseUrl {
-		t.Error("env.ApiBaseUrl()", defaultApiBaseUrl)
+	if env.APIBaseURL() != defaultAPIBaseURL {
+		t.Error("env.ApiBaseUrl()", defaultAPIBaseURL)
 	}
 
 	if env.UserAgent() != defaultUserAgent {
@@ -66,19 +66,19 @@ func Test_NewEnv_2(t *testing.T) {
 
 func TestEnv_String(t *testing.T) {
 	customBindAddress := ":8083"
-	customCdnBaseUrl := "http://localhost:8081/"
-	customApiBaseUrl := "http://localhost:8082/"
+	customCdnBaseURL := "http://localhost:8081/"
+	customAPIBaseURL := "http://localhost:8082/"
 	customUserAgent := "foobar"
 
 	t.Setenv(bindAddress, customBindAddress)
-	t.Setenv(cdnBaseUrl, customCdnBaseUrl)
-	t.Setenv(apiBaseUrl, customApiBaseUrl)
+	t.Setenv(cdnBaseURL, customCdnBaseURL)
+	t.Setenv(apiBaseURL, customAPIBaseURL)
 	t.Setenv(userAgent, customUserAgent)
 
 	env := NewEnv()
 
 	out := env.String()
-	expected := bindAddress + "=" + customBindAddress + "; " + cdnBaseUrl + "=" + customCdnBaseUrl + "; " + apiBaseUrl + "=" + customApiBaseUrl + "; " + userAgent + "=" + customUserAgent
+	expected := bindAddress + "=" + customBindAddress + "; " + cdnBaseURL + "=" + customCdnBaseURL + "; " + apiBaseURL + "=" + customAPIBaseURL + "; " + userAgent + "=" + customUserAgent
 
 	if out != expected {
 		t.Error(out, "!=", expected)

@@ -15,18 +15,18 @@ const (
 const previewImageFormat = "crop-480x600"
 
 type V2Api struct {
-	baseRecipeUrl   string
-	baseSearchUrl   string
-	cdnBaseImageUrl string
+	baseRecipeURL   string
+	baseSearchURL   string
+	cdnBaseImageURL string
 	defaultClient   http.Client
 	userAgent       string
 }
 
 func NewV2Api(e *env.Env, redirectImageCdnBasePath string) *V2Api {
 	return &V2Api{
-		baseRecipeUrl:   e.ApiBaseUrl() + apiBaseRecipePath,
-		baseSearchUrl:   e.ApiBaseUrl() + apiBaseSearchPath,
-		cdnBaseImageUrl: redirectImageCdnBasePath,
+		baseRecipeURL:   e.APIBaseURL() + apiBaseRecipePath,
+		baseSearchURL:   e.APIBaseURL() + apiBaseSearchPath,
+		cdnBaseImageURL: redirectImageCdnBasePath,
 		defaultClient: http.Client{
 			Timeout: 30 * time.Second,
 		},

@@ -9,7 +9,7 @@ func setPreviewImageFormat(in string) string {
 	return strings.ReplaceAll(in, "<format>", previewImageFormat)
 }
 
-func (a *V2Api) replaceImageCdnUrl(in string) string {
+func (a *V2Api) replaceImageCdnURL(in string) string {
 	out := setPreviewImageFormat(in)
 
 	u, err := url.Parse(out)
@@ -19,7 +19,7 @@ func (a *V2Api) replaceImageCdnUrl(in string) string {
 		return out
 	}
 
-	p, err := url.JoinPath(a.cdnBaseImageUrl, u.Path)
+	p, err := url.JoinPath(a.cdnBaseImageURL, u.Path)
 	if err != nil {
 		// same as above
 		// fallback is default CDN

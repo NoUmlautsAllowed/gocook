@@ -22,8 +22,8 @@ func TestV2Api_Get(t *testing.T) {
 	// go s.Start()
 
 	a := V2Api{
-		baseRecipeUrl: s.URL + "/r",
-		baseSearchUrl: s.URL + "/s",
+		baseRecipeURL: s.URL + "/r",
+		baseSearchURL: s.URL + "/s",
 	}
 
 	m.EXPECT().ServeHTTP(gomock.Any(), gomock.Any()).Do(func(w http.ResponseWriter, r *http.Request) {
@@ -59,8 +59,8 @@ func TestV2Api_Get2(t *testing.T) {
 	// go s.Start()
 
 	a := V2Api{
-		baseRecipeUrl: s.URL + "/r",
-		baseSearchUrl: s.URL + "/s",
+		baseRecipeURL: s.URL + "/r",
+		baseSearchURL: s.URL + "/s",
 	}
 
 	m.EXPECT().ServeHTTP(gomock.Any(), gomock.Any()).Do(func(w http.ResponseWriter, r *http.Request) {
@@ -89,8 +89,8 @@ func TestV2Api_Get3(t *testing.T) {
 	s := httptest.NewServer(m)
 
 	a := V2Api{
-		baseRecipeUrl: s.URL + "/r",
-		baseSearchUrl: s.URL + "/s",
+		baseRecipeURL: s.URL + "/r",
+		baseSearchURL: s.URL + "/s",
 		defaultClient: http.Client{
 			Timeout: 50 * time.Millisecond,
 		},
@@ -121,8 +121,8 @@ func TestV2Api_Search(t *testing.T) {
 	// go s.Start()
 
 	a := V2Api{
-		baseRecipeUrl: s.URL + "/r",
-		baseSearchUrl: s.URL + "/s",
+		baseRecipeURL: s.URL + "/r",
+		baseSearchURL: s.URL + "/s",
 	}
 
 	m.EXPECT().ServeHTTP(gomock.Any(), gomock.Any()).Do(func(w http.ResponseWriter, r *http.Request) {
@@ -164,8 +164,8 @@ func TestV2Api_Search2(t *testing.T) {
 	s := httptest.NewServer(m)
 
 	a := V2Api{
-		baseRecipeUrl: s.URL + "/r",
-		baseSearchUrl: s.URL + "/s",
+		baseRecipeURL: s.URL + "/r",
+		baseSearchURL: s.URL + "/s",
 		defaultClient: http.Client{
 			Timeout: 50 * time.Millisecond,
 		},
@@ -196,8 +196,8 @@ func TestV2Api_UserAgentGet(t *testing.T) {
 	e := env.NewEnv()
 
 	a := V2Api{
-		baseRecipeUrl: s.URL + "/r",
-		baseSearchUrl: s.URL + "/s",
+		baseRecipeURL: s.URL + "/r",
+		baseSearchURL: s.URL + "/s",
 		userAgent:     e.UserAgent(),
 	}
 
@@ -238,8 +238,8 @@ func TestV2Api_UserAgentSearch(t *testing.T) {
 	e := env.NewEnv()
 
 	a := V2Api{
-		baseRecipeUrl: s.URL + "/r",
-		baseSearchUrl: s.URL + "/s",
+		baseRecipeURL: s.URL + "/r",
+		baseSearchURL: s.URL + "/s",
 		defaultClient: http.Client{
 			Timeout: 50 * time.Millisecond,
 		},

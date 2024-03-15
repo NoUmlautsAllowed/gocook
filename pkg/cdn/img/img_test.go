@@ -153,7 +153,7 @@ func TestImageCdn_GetRawImage(t *testing.T) {
 	defer s.Close()
 
 	a := ImageCdn{
-		cdnUrl:        s.URL + "/cdn",
+		cdnURL:        s.URL + "/cdn",
 		defaultClient: http.Client{},
 	}
 
@@ -189,7 +189,7 @@ func TestImageCdn_GetRawImage2(t *testing.T) {
 	defer s.Close()
 
 	a := ImageCdn{
-		cdnUrl:        s.URL + "/cdn",
+		cdnURL:        s.URL + "/cdn",
 		defaultClient: http.Client{},
 	}
 
@@ -226,7 +226,7 @@ func TestImageCdn_GetRawImage3(t *testing.T) {
 
 	// only way to produce url join error is to put some weird control character into the base url
 	a := ImageCdn{
-		cdnUrl:        s.URL + "\x01/cdn",
+		cdnURL:        s.URL + "\x01/cdn",
 		defaultClient: http.Client{},
 	}
 
@@ -256,7 +256,7 @@ func TestImageCdn_GetRawImage4(t *testing.T) {
 	})
 
 	a := ImageCdn{
-		cdnUrl: s.URL + "/cdn",
+		cdnURL: s.URL + "/cdn",
 		defaultClient: http.Client{
 			Timeout: time.Millisecond * 10,
 		},
@@ -282,7 +282,7 @@ func TestImageCdn_GetImage(t *testing.T) {
 	defer s.Close()
 
 	a := ImageCdn{
-		cdnUrl:        s.URL + "/cdn",
+		cdnURL:        s.URL + "/cdn",
 		defaultClient: http.Client{},
 	}
 
@@ -327,7 +327,7 @@ func TestImageCdn_GetImage2(t *testing.T) {
 	defer s.Close()
 
 	a := ImageCdn{
-		cdnUrl:        s.URL + "/cdn",
+		cdnURL:        s.URL + "/cdn",
 		defaultClient: http.Client{},
 	}
 
@@ -371,7 +371,7 @@ func TestImageCdn_GetImage3(t *testing.T) {
 	defer s.Close()
 
 	a := ImageCdn{
-		cdnUrl:        s.URL + "/cdn",
+		cdnURL:        s.URL + "/cdn",
 		defaultClient: http.Client{},
 	}
 
@@ -415,7 +415,7 @@ func TestImageCdn_GetImage4(t *testing.T) {
 	defer s.Close()
 
 	a := ImageCdn{
-		cdnUrl:        s.URL + "/cdn",
+		cdnURL:        s.URL + "/cdn",
 		defaultClient: http.Client{},
 	}
 
@@ -457,7 +457,7 @@ func TestImageCdn_PostImage(t *testing.T) {
 	defer s.Close()
 
 	a := ImageCdn{
-		cdnUrl:        s.URL + "/cdn",
+		cdnURL:        s.URL + "/cdn",
 		defaultClient: http.Client{},
 	}
 
@@ -491,7 +491,7 @@ func TestImageCdn_UserAgent(t *testing.T) {
 	defer s.Close()
 
 	a := NewImageCdn(env.NewEnv())
-	a.cdnUrl = s.URL + "/cdn"
+	a.cdnURL = s.URL + "/cdn"
 	a.defaultClient = http.Client{}
 
 	u, _ := url.Parse(s.URL + "/cdn/123456")

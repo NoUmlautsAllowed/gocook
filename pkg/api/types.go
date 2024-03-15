@@ -118,7 +118,7 @@ type RecipeSearchResult struct {
 
 type RecipeSearch struct {
 	Count   int                  `json:"count"`
-	QueryId string               `json:"queryId"`
+	QueryID string               `json:"queryId"`
 	Results []RecipeSearchResult `json:"results"`
 }
 

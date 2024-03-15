@@ -13,7 +13,7 @@ type Viewer interface {
 type TemplateViewer struct {
 	searchResultsTemplate string
 	recipeTemplate        string
-	api                   api.RecipeApi
+	api                   api.RecipeAPI
 }
 
 const (
@@ -21,7 +21,7 @@ const (
 	recipePath        = "recipes/:recipe"
 )
 
-func NewTemplateViewer(api api.RecipeApi) *TemplateViewer {
+func NewTemplateViewer(api api.RecipeAPI) *TemplateViewer {
 	return &TemplateViewer{
 		searchResultsTemplate: "results.tmpl",
 		recipeTemplate:        "recipe.tmpl",

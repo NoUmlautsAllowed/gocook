@@ -12,7 +12,7 @@ import (
 )
 
 func (a *V2Api) Get(id string) (*api.Recipe, error) {
-	u, _ := url.Parse(a.baseRecipeUrl)
+	u, _ := url.Parse(a.baseRecipeURL)
 	u.Path = path.Join(u.Path, id)
 
 	req, err := http.NewRequest(http.MethodGet, u.String(), nil)
@@ -35,7 +35,7 @@ func (a *V2Api) Get(id string) (*api.Recipe, error) {
 			return nil, err
 		}
 
-		recipe.PreviewImageURLTemplate = a.replaceImageCdnUrl(recipe.PreviewImageURLTemplate)
+		recipe.PreviewImageURLTemplate = a.replaceImageCdnURL(recipe.PreviewImageURLTemplate)
 		return &recipe, nil
 	}
 }
@@ -48,7 +48,7 @@ func (a *V2Api) Search(s api.Search) (*api.RecipeSearch, error) {
 	// https://img.chefkoch-cdn.de/rezepte/2812481433250378/bilder/1185849/crop-480x600/die-ultimative-vegane-lasagne.jpg
 	// this would be a query for pagination
 	// https://api.chefkoch.de/v2/search-frontend/recipes?query=Lasagne+Vegan&limit=41&offset=41&analyticsTags=user,user_logged_out&enableClickAnalytics=true
-	u, _ := url.Parse(a.baseSearchUrl)
+	u, _ := url.Parse(a.baseSearchURL)
 	u.Path = path.Join(u.Path, "recipe")
 	query := make(url.Values)
 	query.Set("query", s.Query)
@@ -78,7 +78,7 @@ func (a *V2Api) Search(s api.Search) (*api.RecipeSearch, error) {
 
 		for i := range recipeSearch.Results {
 			r := &recipeSearch.Results[i]
-			r.Recipe.PreviewImageURLTemplate = a.replaceImageCdnUrl(r.Recipe.PreviewImageURLTemplate)
+			r.Recipe.PreviewImageURLTemplate = a.replaceImageCdnURL(r.Recipe.PreviewImageURLTemplate)
 		}
 
 		return &recipeSearch, nil
