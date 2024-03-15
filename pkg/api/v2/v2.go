@@ -14,7 +14,7 @@ const (
 
 const previewImageFormat = "crop-480x600"
 
-type V2Api struct {
+type API struct {
 	baseRecipeURL   string
 	baseSearchURL   string
 	cdnBaseImageURL string
@@ -22,8 +22,8 @@ type V2Api struct {
 	userAgent       string
 }
 
-func NewV2Api(e *env.Env, redirectImageCdnBasePath string) *V2Api {
-	return &V2Api{
+func NewV2Api(e *env.Env, redirectImageCdnBasePath string) *API {
+	return &API{
 		baseRecipeURL:   e.APIBaseURL() + apiBaseRecipePath,
 		baseSearchURL:   e.APIBaseURL() + apiBaseSearchPath,
 		cdnBaseImageURL: redirectImageCdnBasePath,

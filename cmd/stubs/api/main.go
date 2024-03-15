@@ -56,7 +56,7 @@ func generateRecipe(id string) (*api.Recipe, error) {
 		RestingTime:             0,
 		TotalTime:               0,
 		IngredientGroups:        nil,
-		CategoryIds:             nil,
+		CategoryIDs:             nil,
 		RecipeVideoID:           nil,
 		IsIndexable:             false,
 		AffiliateContent:        "",

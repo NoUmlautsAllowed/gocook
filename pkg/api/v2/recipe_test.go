@@ -21,7 +21,7 @@ func TestV2Api_Get(t *testing.T) {
 
 	// go s.Start()
 
-	a := V2Api{
+	a := API{
 		baseRecipeURL: s.URL + "/r",
 		baseSearchURL: s.URL + "/s",
 	}
@@ -58,7 +58,7 @@ func TestV2Api_Get2(t *testing.T) {
 
 	// go s.Start()
 
-	a := V2Api{
+	a := API{
 		baseRecipeURL: s.URL + "/r",
 		baseSearchURL: s.URL + "/s",
 	}
@@ -88,7 +88,7 @@ func TestV2Api_Get3(t *testing.T) {
 
 	s := httptest.NewServer(m)
 
-	a := V2Api{
+	a := API{
 		baseRecipeURL: s.URL + "/r",
 		baseSearchURL: s.URL + "/s",
 		defaultClient: http.Client{
@@ -96,7 +96,7 @@ func TestV2Api_Get3(t *testing.T) {
 		},
 	}
 
-	m.EXPECT().ServeHTTP(gomock.Any(), gomock.Any()).Do(func(w http.ResponseWriter, r *http.Request) {
+	m.EXPECT().ServeHTTP(gomock.Any(), gomock.Any()).Do(func(_ http.ResponseWriter, _ *http.Request) {
 		time.Sleep(100 * time.Millisecond)
 	})
 
@@ -120,7 +120,7 @@ func TestV2Api_Search(t *testing.T) {
 
 	// go s.Start()
 
-	a := V2Api{
+	a := API{
 		baseRecipeURL: s.URL + "/r",
 		baseSearchURL: s.URL + "/s",
 	}
@@ -163,7 +163,7 @@ func TestV2Api_Search2(t *testing.T) {
 
 	s := httptest.NewServer(m)
 
-	a := V2Api{
+	a := API{
 		baseRecipeURL: s.URL + "/r",
 		baseSearchURL: s.URL + "/s",
 		defaultClient: http.Client{
@@ -171,7 +171,7 @@ func TestV2Api_Search2(t *testing.T) {
 		},
 	}
 
-	m.EXPECT().ServeHTTP(gomock.Any(), gomock.Any()).Do(func(w http.ResponseWriter, r *http.Request) {
+	m.EXPECT().ServeHTTP(gomock.Any(), gomock.Any()).Do(func(_ http.ResponseWriter, _ *http.Request) {
 		time.Sleep(100 * time.Millisecond)
 	})
 
@@ -195,7 +195,7 @@ func TestV2Api_UserAgentGet(t *testing.T) {
 
 	e := env.NewEnv()
 
-	a := V2Api{
+	a := API{
 		baseRecipeURL: s.URL + "/r",
 		baseSearchURL: s.URL + "/s",
 		userAgent:     e.UserAgent(),
@@ -237,7 +237,7 @@ func TestV2Api_UserAgentSearch(t *testing.T) {
 	s := httptest.NewServer(m)
 	e := env.NewEnv()
 
-	a := V2Api{
+	a := API{
 		baseRecipeURL: s.URL + "/r",
 		baseSearchURL: s.URL + "/s",
 		defaultClient: http.Client{

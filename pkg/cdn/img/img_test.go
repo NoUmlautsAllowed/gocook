@@ -251,7 +251,7 @@ func TestImageCdn_GetRawImage4(t *testing.T) {
 	s := httptest.NewServer(m)
 	defer s.Close()
 
-	m.EXPECT().ServeHTTP(gomock.Any(), gomock.Any()).Do(func(w http.ResponseWriter, r *http.Request) {
+	m.EXPECT().ServeHTTP(gomock.Any(), gomock.Any()).Do(func(_ http.ResponseWriter, _ *http.Request) {
 		time.Sleep(time.Millisecond * 20)
 	})
 

@@ -104,7 +104,7 @@ type Recipe struct {
 	RestingTime             int               `json:"restingTime"`
 	TotalTime               int               `json:"totalTime"`
 	IngredientGroups        []IngredientGroup `json:"ingredientGroups"`
-	CategoryIds             []string          `json:"categoryIds"`
+	CategoryIDs             []string          `json:"categoryIds"`
 	RecipeVideoID           any               `json:"recipeVideoId"`
 	IsIndexable             bool              `json:"isIndexable"`
 	AffiliateContent        string            `json:"affiliateContent"`

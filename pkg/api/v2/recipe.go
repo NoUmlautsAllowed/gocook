@@ -11,7 +11,7 @@ import (
 	"github.com/NoUmlautsAllowed/gocook/pkg/api"
 )
 
-func (a *V2Api) Get(id string) (*api.Recipe, error) {
+func (a *API) Get(id string) (*api.Recipe, error) {
 	u, _ := url.Parse(a.baseRecipeURL)
 	u.Path = path.Join(u.Path, id)
 
@@ -25,22 +25,22 @@ func (a *V2Api) Get(id string) (*api.Recipe, error) {
 	resp, err := a.defaultClient.Do(req)
 	if err != nil {
 		return nil, err
-	} else {
-		log.Println(resp.StatusCode, u)
-		defer resp.Body.Close()
-		data, _ := io.ReadAll(resp.Body)
-
-		var recipe api.Recipe
-		if err = json.Unmarshal(data, &recipe); err != nil {
-			return nil, err
-		}
-
-		recipe.PreviewImageURLTemplate = a.replaceImageCdnURL(recipe.PreviewImageURLTemplate)
-		return &recipe, nil
 	}
+
+	log.Println(resp.StatusCode, u)
+	defer resp.Body.Close()
+	data, _ := io.ReadAll(resp.Body)
+
+	var recipe api.Recipe
+	if err = json.Unmarshal(data, &recipe); err != nil {
+		return nil, err
+	}
+
+	recipe.PreviewImageURLTemplate = a.replaceImageCdnURL(recipe.PreviewImageURLTemplate)
+	return &recipe, nil
 }
 
-func (a *V2Api) Search(s api.Search) (*api.RecipeSearch, error) {
+func (a *API) Search(s api.Search) (*api.RecipeSearch, error) {
 	// this is how the api call looks like
 	// https://api.chefkoch.de/v2/search/recipe?query=lasagne%20vegan
 	// this is how the format should look like: crop-480x600, example
@@ -66,21 +66,21 @@ func (a *V2Api) Search(s api.Search) (*api.RecipeSearch, error) {
 	resp, err := a.defaultClient.Do(req)
 	if err != nil {
 		return nil, err
-	} else {
-		log.Println(resp.StatusCode, u)
-		defer resp.Body.Close()
-		data, _ := io.ReadAll(resp.Body)
-		var recipeSearch api.RecipeSearch
-		err = json.Unmarshal(data, &recipeSearch)
-		if err != nil {
-			return nil, err
-		}
-
-		for i := range recipeSearch.Results {
-			r := &recipeSearch.Results[i]
-			r.Recipe.PreviewImageURLTemplate = a.replaceImageCdnURL(r.Recipe.PreviewImageURLTemplate)
-		}
-
-		return &recipeSearch, nil
 	}
+
+	log.Println(resp.StatusCode, u)
+	defer resp.Body.Close()
+	data, _ := io.ReadAll(resp.Body)
+	var recipeSearch api.RecipeSearch
+	err = json.Unmarshal(data, &recipeSearch)
+	if err != nil {
+		return nil, err
+	}
+
+	for i := range recipeSearch.Results {
+		r := &recipeSearch.Results[i]
+		r.Recipe.PreviewImageURLTemplate = a.replaceImageCdnURL(r.Recipe.PreviewImageURLTemplate)
+	}
+
+	return &recipeSearch, nil
 }

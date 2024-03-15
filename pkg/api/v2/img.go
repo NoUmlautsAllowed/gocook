@@ -9,7 +9,7 @@ func setPreviewImageFormat(in string) string {
 	return strings.ReplaceAll(in, "<format>", previewImageFormat)
 }
 
-func (a *V2Api) replaceImageCdnURL(in string) string {
+func (a *API) replaceImageCdnURL(in string) string {
 	out := setPreviewImageFormat(in)
 
 	u, err := url.Parse(out)
