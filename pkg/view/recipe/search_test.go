@@ -18,7 +18,7 @@ import (
 
 func TestTemplateViewer_ShowSearchResults(t *testing.T) {
 	ctrl := gomock.NewController(t)
-	m := api.NewMockRecipeApi(ctrl)
+	m := api.NewMockRecipeAPI(ctrl)
 	m.EXPECT().Search(api.Search{Query: "schnitzel", Limit: strconv.Itoa(defaultResultsPerPage)}).Return(&api.RecipeSearch{}, nil)
 
 	v := TemplateViewer{
@@ -51,7 +51,7 @@ func TestTemplateViewer_ShowSearchResults(t *testing.T) {
 
 func TestTemplateViewer_ShowSearchResults_InternalError(t *testing.T) {
 	ctrl := gomock.NewController(t)
-	m := api.NewMockRecipeApi(ctrl)
+	m := api.NewMockRecipeAPI(ctrl)
 	m.EXPECT().Search(api.Search{Query: "pizza", Limit: strconv.Itoa(defaultResultsPerPage)}).Return(nil, errors.New("sample error"))
 
 	v := TemplateViewer{
@@ -84,7 +84,7 @@ func TestTemplateViewer_ShowSearchResults_InternalError(t *testing.T) {
 
 func TestTemplateViewer_ShowSearchResults_BadRequest(t *testing.T) {
 	ctrl := gomock.NewController(t)
-	m := api.NewMockRecipeApi(ctrl)
+	m := api.NewMockRecipeAPI(ctrl)
 
 	v := TemplateViewer{
 		searchResultsTemplate: "search.tmpl",
@@ -116,7 +116,7 @@ func TestTemplateViewer_ShowSearchResults_BadRequest(t *testing.T) {
 
 func TestTemplateViewer_ShowSearchResults_Offset(t *testing.T) {
 	ctrl := gomock.NewController(t)
-	m := api.NewMockRecipeApi(ctrl)
+	m := api.NewMockRecipeAPI(ctrl)
 	m.EXPECT().Search(api.Search{Query: "schnitzel", Limit: strconv.Itoa(defaultResultsPerPage), Offset: "4"}).Return(&api.RecipeSearch{}, nil)
 
 	v := TemplateViewer{
@@ -149,7 +149,7 @@ func TestTemplateViewer_ShowSearchResults_Offset(t *testing.T) {
 
 func TestTemplateViewer_ShowSearchResults_Offset2(t *testing.T) {
 	ctrl := gomock.NewController(t)
-	m := api.NewMockRecipeApi(ctrl)
+	m := api.NewMockRecipeAPI(ctrl)
 	m.EXPECT().Search(api.Search{Query: "schnitzel", Limit: strconv.Itoa(defaultResultsPerPage), Offset: "donotsetmeoff"}).Return(&api.RecipeSearch{}, nil)
 
 	v := TemplateViewer{

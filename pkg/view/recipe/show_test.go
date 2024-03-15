@@ -17,7 +17,7 @@ import (
 
 func TestTemplateViewer_ShowRecipe(t *testing.T) {
 	ctrl := gomock.NewController(t)
-	m := api.NewMockRecipeApi(ctrl)
+	m := api.NewMockRecipeAPI(ctrl)
 	m.EXPECT().Get("1234567890").Return(&api.Recipe{}, nil)
 
 	v := TemplateViewer{
@@ -50,7 +50,7 @@ func TestTemplateViewer_ShowRecipe(t *testing.T) {
 
 func TestTemplateViewer_ShowRecipe_InternalError(t *testing.T) {
 	ctrl := gomock.NewController(t)
-	m := api.NewMockRecipeApi(ctrl)
+	m := api.NewMockRecipeAPI(ctrl)
 	m.EXPECT().Get("1234567890").Return(nil, errors.New("sample error"))
 
 	v := TemplateViewer{

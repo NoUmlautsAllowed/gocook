@@ -10,7 +10,7 @@ import (
 
 func TestNewTemplateViewer(t *testing.T) {
 	ctrl := gomock.NewController(t)
-	m := api.NewMockRecipeApi(ctrl)
+	m := api.NewMockRecipeAPI(ctrl)
 	v := NewTemplateViewer(m)
 
 	if v.searchResultsTemplate != "results.tmpl" {
