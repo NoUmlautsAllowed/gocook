@@ -23,7 +23,7 @@
   "devDependencies": {
     "@mdi/font": "^7.4.47",
     "bulma": "^0.9.4",
-    "sass": "^1.71.1"
+    "sass": "^1.72.0"
   },
   "dependencies": {
     "upgrade": "^1.1.0"
