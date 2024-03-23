@@ -1,14 +1,12 @@
 @charset "utf-8";
-@import "../node_modules/bulma/sass/utilities/initial-variables.sass";
+@use "../node_modules/bulma/sass/utilities/initial-variables";
+@use "../node_modules/bulma/bulma";
+@use "../node_modules/@mdi/font/scss/materialdesignicons";
 
 $chef: rgb(59, 128, 71);
 
 .is-chef {
   background-color: $chef;
-  color: $white;
+  color: initial-variables.$white;
 }
 
-
-
-@import "../node_modules/bulma/bulma.sass";
-@import "../node_modules/@mdi/font/scss/materialdesignicons.scss";
