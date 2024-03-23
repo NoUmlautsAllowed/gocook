@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/NoUmlautsAllowed/gocook/pkg/api"
 	"github.com/gin-gonic/gin"
+	"github.com/go-loremipsum/loremipsum"
 	"github.com/splode/fname"
 	"log"
 	"net/http"
@@ -14,6 +15,7 @@ import (
 func generateRecipe(id string) (*api.Recipe, error) {
 
 	rng := fname.NewGenerator(fname.WithDelimiter(" "), fname.WithCasing(fname.Title))
+	lig := loremipsum.New()
 	name, err := rng.Generate()
 
 	if err != nil {
@@ -47,7 +49,7 @@ func generateRecipe(id string) (*api.Recipe, error) {
 		Servings:                0,
 		KCalories:               0,
 		Nutrition:               nil,
-		Instructions:            "",
+		Instructions:            lig.Paragraph(),
 		MiscellaneousText:       "",
 		IngredientsText:         "",
 		Tags:                    nil,
@@ -56,12 +58,29 @@ func generateRecipe(id string) (*api.Recipe, error) {
 		CookingTime:             0,
 		RestingTime:             0,
 		TotalTime:               0,
-		IngredientGroups:        nil,
-		CategoryIds:             nil,
-		RecipeVideoID:           nil,
-		IsIndexable:             false,
-		AffiliateContent:        "",
-		SiteURL:                 "",
+		IngredientGroups: []api.IngredientGroup{
+			{
+				Header: lig.Words(4),
+				Ingredients: []api.Ingredient{
+					{Name: lig.Words(2), Amount: 1},
+					{Name: lig.Words(2), Amount: 1},
+					{Name: lig.Words(2), Amount: 1},
+				},
+			},
+			{
+				Header: lig.Words(4),
+				Ingredients: []api.Ingredient{
+					{Name: lig.Words(2), Amount: 1},
+					{Name: lig.Words(2), Amount: 1},
+					{Name: lig.Words(2), Amount: 1},
+				},
+			},
+		},
+		CategoryIds:      nil,
+		RecipeVideoID:    nil,
+		IsIndexable:      false,
+		AffiliateContent: "",
+		SiteURL:          "",
 	}, nil
 }
 

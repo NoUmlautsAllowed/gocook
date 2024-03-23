@@ -43,7 +43,6 @@ func (t *TemplateViewer) ShowSearchResults(c *gin.Context) {
 		// https://api.chefkoch.de/v2/search-frontend/recipes?query=Lasagne+Vegan&limit=41&offset=41&analyticsTags=user,user_logged_out&enableClickAnalytics=true
 
 		// use a multiple of 3 here
-		// see search.tmpl and iterateRange template function
 		// this is used to have a reasonable amount of recipes to show per page
 		// the user is not allowed to set another value here
 		// this value is handed over directly to the api

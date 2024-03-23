@@ -3,10 +3,8 @@ package recipe
 import (
 	"errors"
 	"github.com/NoUmlautsAllowed/gocook/pkg/api"
-	"github.com/NoUmlautsAllowed/gocook/pkg/utils/tmpl"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/mock/gomock"
-	"html/template"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -26,9 +24,6 @@ func TestTemplateViewer_ShowRecipe(t *testing.T) {
 	}
 
 	r := gin.Default()
-	r.SetFuncMap(template.FuncMap{
-		"iterateRange": tmpl.IterateRange[api.RecipeSearchResult],
-	})
 	r.LoadHTMLGlob("../../../templates/*")
 	RegisterViewerRoutes(&v, r)
 
@@ -61,9 +56,6 @@ func TestTemplateViewer_ShowRecipe_InternalError(t *testing.T) {
 	}
 
 	r := gin.Default()
-	r.SetFuncMap(template.FuncMap{
-		"iterateRange": tmpl.IterateRange[api.RecipeSearchResult],
-	})
 	r.LoadHTMLGlob("../../../templates/*")
 	RegisterViewerRoutes(&v, r)
 
