@@ -1,12 +1,27 @@
 @charset "utf-8";
-@use "../node_modules/bulma/sass/utilities/initial-variables";
-@use "../node_modules/bulma/bulma";
-@use "../node_modules/@mdi/font/scss/materialdesignicons";
+@use "bulma/sass/utilities/initial-variables";
+@use "bulma/bulma";
+@use "@mdi/font/scss/materialdesignicons";
 
-$chef: rgb(59, 128, 71);
+$chef-light: rgb(59, 128, 71);
+$chef-dark: #243b27;
 
 .is-chef {
-  background-color: $chef;
+  background-color: $chef-light;
   color: initial-variables.$white;
 }
 
+.is-chef-text {
+  color: initial-variables.$white;
+}
+
+@media (prefers-color-scheme: dark) {
+  .is-chef {
+    background-color: $chef-dark;
+    color: initial-variables.$black;
+  }
+
+  .is-chef-text {
+    color: initial-variables.$black;
+  }
+}

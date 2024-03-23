@@ -14,38 +14,42 @@
     </div>
 </section>
 <section class="section">
-    <div class="container is-max-widescreen">
-        <div class="content">
-            <div class="tile is-ancestor">
-                <div class="tile is-parent m-3">
-                    <div class="tile is-child box">
-                        <h1>{{ .Title }}</h1>
-                        {{ template "recipeinfo.tmpl" . }}
-                        <figure class="image is-4by5">
-                            <img src="{{ .PreviewImageURLTemplate }}" alt="Preview">
-                        </figure>
+    <div class="fixed-grid">
+        <div class="grid">
+            <div class="cell is-col-span-2-mobile">
+                <div class="box">
+                    <div class="content">
+                    <h1>{{ .Title }}</h1>
+                    <figure class="image is-4by5">
+                        <img src="{{ .PreviewImageURLTemplate }}" alt="Preview">
+                    </figure>
                     </div>
                 </div>
-                <div class="tile is-parent m-3 is-vertical">
+            </div>
+            <div class="cell is-col-span-2-mobile">
+                <div class="box" style="height: 100%">
+                    <div class="container pb-3">
+                        {{ template "recipeinfo.tmpl" . }}
+                    </div>
                     {{ range .IngredientGroups }}
-                        <div class="tile is-child box">
-                            <p>{{ .Header }}</p>
-                            <ul>
-                                {{ range .Ingredients }}
-                                    <li>{{ if .Amount }}{{ .Amount }}{{ .Unit }}{{ end }} {{ .Name }}</li>
-                                {{ end}}
-                            </ul>
-                        </div>
+                    <div class="content pt-3">
+                        <p>{{ .Header }}</p>
+                        <ul>
+                            {{ range .Ingredients }}
+                            <li>{{ if .Amount }}{{ .Amount }}{{ .Unit }}{{ end }} {{ .Name }}</li>
+                            {{ end}}
+                        </ul>
+                    </div>
                     {{ end }}
                 </div>
             </div>
-            <div class="tile is-ancestor">
-                <div class="tile is-parent m-3">
-                    <div class="tile is-child box">
-                        {{ range .Instructions }}<p>{{ . }}</p>{{ end }}
-                    </div>
+            {{ range .Instructions }}
+            <div class="cell is-col-span-2">
+                <div class="box">
+                    <p>{{ . }}</p>
                 </div>
             </div>
+            {{ end }}
         </div>
     </div>
 </section>

@@ -14,35 +14,34 @@
     </div>
 </section>
 <section class="section">
-<div class="container is-max-widescreen">
-    <div class="tile is-ancestor"></div>
-    {{ range iterateRange .Results .ResultsPerRow }}
-        <div class="tile is-parent p-3 m-3">
-            {{ range . }}
-                <div class="tile is-child p-3">
-                    <a class="box" style="height: 100%" href="/recipes/{{ .Recipe.ID }}">
-                        <figure class="image is-4by5">
+<!--    <div class="fixed-grid has-auto-count">-->
+        <div class="grid">
+            {{ range .Results }}
+            <div class="cell is-col-span-2">
+                <div class="p-3 m-3">
+                    <a class="box" href="/recipes/{{ .Recipe.ID }}">
+                        <figure class="image" style="width: 100%">
                             <img src="{{ .Recipe.PreviewImageURLTemplate }}" alt="Preview">
                         </figure>
-                        <div class="content">
-                        <h3>
-                            {{ .Recipe.Title }}
-                        </h3>
+                        <div class="content pt-3">
+                            <h3>
+                                {{ .Recipe.Title }}
+                            </h3>
                             <p>{{ .Recipe.Subtitle }}</p>
                             <br>
                             {{ template "recipeinfo.tmpl" .Recipe }}
                         </div>
                     </a>
                 </div>
+            </div>
             {{ end }}
         </div>
-    {{ end }}
-</div>
-<div class="container is-max-widescreen">
-    <div class="p-3">
-        {{ template "pagination.tmpl" . }}
+<!--    </div>-->
+    <div class="container">
+        <div class="p-3">
+            {{ template "pagination.tmpl" . }}
+        </div>
     </div>
-</div>
 </section>
 <section class="section hero is-chef">
     <div class="hero-foot">
