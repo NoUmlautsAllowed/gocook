@@ -434,6 +434,7 @@ func TestImageCdn_GetImage4(t *testing.T) {
 		{"path", "123456"},
 	}
 
+	responseWriter.EXPECT().Header().Return(http.Header{})
 	responseWriter.EXPECT().WriteHeader(http.StatusOK)
 	responseWriter.EXPECT().Write([]uint8{}).Return(0, errors.New("writer error"))
 	responseWriter.EXPECT().Header().Return(http.Header{})
