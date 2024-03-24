@@ -8,13 +8,9 @@ import (
 	"time"
 
 	"github.com/NoUmlautsAllowed/gocook/pkg/api"
+
 	"github.com/gin-gonic/gin"
 	"github.com/go-loremipsum/loremipsum"
-	"github.com/splode/fname"
-
-	"github.com/NoUmlautsAllowed/gocook/pkg/api"
-
-	"github.com/gin-gonic/gin"
 	"github.com/splode/fname"
 )
 
@@ -80,7 +76,7 @@ func generateRecipe(id string) (*api.Recipe, error) {
 				},
 			},
 		},
-		CategoryIds:      nil,
+		CategoryIDs:      nil,
 		RecipeVideoID:    nil,
 		IsIndexable:      false,
 		AffiliateContent: "",
