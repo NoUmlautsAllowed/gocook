@@ -35,9 +35,8 @@ func (c *ImageCdn) GetRawImage(method, imgPath string) ([]byte, error) {
 	}
 
 	// head method is possible with the CDN
-	// however, a proper cache control must be implemented
-	// it seems like the response header Cache-Control itself does not produce
-	// the expected browser behavior
+	// however, a proper cache control must be implemented on the client side
+	// see GetImage function below where Cache-Control header is set
 	if method != http.MethodGet && method != http.MethodHead {
 		return nil, errors.New("only GET or HEAD method allowed")
 	}
@@ -84,10 +83,8 @@ func (c *ImageCdn) GetImage(ctx *gin.Context) {
 		return
 	}
 
-	// let gin itself handle the response headers
-	// there may be an option to tell the requesting client to
-	// use local caching for the image cdn
-	// see also GetRawImage function
+	// set Cache-Control header so images are cached on the client for 7d
+	ctx.Writer.Header().Set("Cache-Control", "max-age=604800")
 	_, err = ctx.Writer.Write(data)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{

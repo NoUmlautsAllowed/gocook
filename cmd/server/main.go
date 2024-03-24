@@ -1,16 +1,13 @@
 package main
 
 import (
-	"html/template"
 	"log"
 	"net/http"
 
-	"github.com/NoUmlautsAllowed/gocook/pkg/api"
 	v2 "github.com/NoUmlautsAllowed/gocook/pkg/api/v2"
 	"github.com/NoUmlautsAllowed/gocook/pkg/cdn"
 	"github.com/NoUmlautsAllowed/gocook/pkg/cdn/img"
 	"github.com/NoUmlautsAllowed/gocook/pkg/env"
-	"github.com/NoUmlautsAllowed/gocook/pkg/utils/tmpl"
 	"github.com/NoUmlautsAllowed/gocook/pkg/view/recipe"
 
 	"github.com/gin-gonic/gin"
@@ -21,9 +18,6 @@ func main() {
 	log.Println("Using given environment configuration", runEnv)
 
 	r := gin.Default()
-	r.SetFuncMap(template.FuncMap{
-		"iterateRange": tmpl.IterateRange[api.RecipeSearchResult],
-	})
 	r.LoadHTMLGlob("templates/*")
 	r.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.tmpl", nil)
