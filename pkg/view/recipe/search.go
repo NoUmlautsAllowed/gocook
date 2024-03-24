@@ -1,11 +1,12 @@
 package recipe
 
 import (
-	"github.com/NoUmlautsAllowed/gocook/pkg/api"
-	"github.com/gin-gonic/gin"
 	"math"
 	"net/http"
 	"strconv"
+
+	"github.com/NoUmlautsAllowed/gocook/pkg/api"
+	"github.com/gin-gonic/gin"
 )
 
 type tmplPageData struct {
@@ -122,11 +123,13 @@ func (t *TemplateViewer) ShowSearchResults(c *gin.Context) {
 		}
 		c.HTML(http.StatusOK, t.searchResultsTemplate, tmplData)
 
-	} else {
+	} else if err != nil {
 		c.JSON(http.StatusBadRequest, gin.Error{
 			Err:  err,
-			Type: 0,
+			Type: gin.ErrorTypeBind,
 			Meta: nil,
 		})
+	} else {
+		c.Redirect(http.StatusMovedPermanently, "/")
 	}
 }

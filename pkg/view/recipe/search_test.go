@@ -75,7 +75,7 @@ func TestTemplateViewer_ShowSearchResults_InternalError(t *testing.T) {
 	}
 }
 
-func TestTemplateViewer_ShowSearchResults_BadRequest(t *testing.T) {
+func TestTemplateViewer_ShowSearchResults_EmptyQuery(t *testing.T) {
 
 	ctrl := gomock.NewController(t)
 	m := api.NewMockRecipeApi(ctrl)
@@ -100,8 +100,8 @@ func TestTemplateViewer_ShowSearchResults_BadRequest(t *testing.T) {
 
 	r.ServeHTTP(&w, &req)
 
-	if w.Code != http.StatusBadRequest {
-		t.Error("expected status 400")
+	if w.Code != http.StatusMovedPermanently {
+		t.Error("expected status 301")
 	}
 }
 
