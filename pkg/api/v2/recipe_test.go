@@ -2,14 +2,16 @@ package v2
 
 import (
 	"encoding/json"
-	"github.com/NoUmlautsAllowed/gocook/pkg/api"
-	"github.com/NoUmlautsAllowed/gocook/pkg/env"
-	"github.com/NoUmlautsAllowed/gocook/pkg/utils"
-	"go.uber.org/mock/gomock"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 	"time"
+
+	"github.com/NoUmlautsAllowed/gocook/pkg/api"
+	"github.com/NoUmlautsAllowed/gocook/pkg/env"
+	"github.com/NoUmlautsAllowed/gocook/pkg/utils"
+
+	"go.uber.org/mock/gomock"
 )
 
 func TestV2Api_Get(t *testing.T) {
@@ -18,17 +20,20 @@ func TestV2Api_Get(t *testing.T) {
 
 	s := httptest.NewServer(m)
 
-	//go s.Start()
+	// go s.Start()
 
-	a := V2Api{
-		baseRecipeUrl: s.URL + "/r",
-		baseSearchUrl: s.URL + "/s",
+	a := API{
+		baseRecipeURL: s.URL + "/r",
+		baseSearchURL: s.URL + "/s",
 	}
 
 	m.EXPECT().ServeHTTP(gomock.Any(), gomock.Any()).Do(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(200)
 		e := json.NewEncoder(w)
-		e.Encode(api.Recipe{})
+		err := e.Encode(api.Recipe{})
+		if err != nil {
+			t.Error("expected no error")
+		}
 		if r.URL.Path != "/r/123456" {
 			t.Error("expected 123456")
 		}
@@ -52,11 +57,11 @@ func TestV2Api_Get2(t *testing.T) {
 
 	s := httptest.NewServer(m)
 
-	//go s.Start()
+	// go s.Start()
 
-	a := V2Api{
-		baseRecipeUrl: s.URL + "/r",
-		baseSearchUrl: s.URL + "/s",
+	a := API{
+		baseRecipeURL: s.URL + "/r",
+		baseSearchURL: s.URL + "/s",
 	}
 
 	m.EXPECT().ServeHTTP(gomock.Any(), gomock.Any()).Do(func(w http.ResponseWriter, r *http.Request) {
@@ -84,15 +89,15 @@ func TestV2Api_Get3(t *testing.T) {
 
 	s := httptest.NewServer(m)
 
-	a := V2Api{
-		baseRecipeUrl: s.URL + "/r",
-		baseSearchUrl: s.URL + "/s",
+	a := API{
+		baseRecipeURL: s.URL + "/r",
+		baseSearchURL: s.URL + "/s",
 		defaultClient: http.Client{
 			Timeout: 50 * time.Millisecond,
 		},
 	}
 
-	m.EXPECT().ServeHTTP(gomock.Any(), gomock.Any()).Do(func(w http.ResponseWriter, r *http.Request) {
+	m.EXPECT().ServeHTTP(gomock.Any(), gomock.Any()).Do(func(_ http.ResponseWriter, _ *http.Request) {
 		time.Sleep(100 * time.Millisecond)
 	})
 
@@ -114,23 +119,26 @@ func TestV2Api_Search(t *testing.T) {
 
 	s := httptest.NewServer(m)
 
-	//go s.Start()
+	// go s.Start()
 
-	a := V2Api{
-		baseRecipeUrl: s.URL + "/r",
-		baseSearchUrl: s.URL + "/s",
+	a := API{
+		baseRecipeURL: s.URL + "/r",
+		baseSearchURL: s.URL + "/s",
 	}
 
 	m.EXPECT().ServeHTTP(gomock.Any(), gomock.Any()).Do(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(200)
 		e := json.NewEncoder(w)
-		e.Encode(api.RecipeSearch{
+		err := e.Encode(api.RecipeSearch{
 			Results: []api.RecipeSearchResult{
 				{},
 				{},
 				{},
 			},
 		})
+		if err != nil {
+			t.Error("expected no error")
+		}
 		if r.URL.Path != "/s/recipe" {
 			t.Error("expected recipe search")
 		}
@@ -140,7 +148,6 @@ func TestV2Api_Search(t *testing.T) {
 	})
 
 	r, err := a.Search(api.Search{Query: "q", Limit: "1"})
-
 	if err != nil {
 		t.Error("did not expect error")
 	}
@@ -157,15 +164,15 @@ func TestV2Api_Search2(t *testing.T) {
 
 	s := httptest.NewServer(m)
 
-	a := V2Api{
-		baseRecipeUrl: s.URL + "/r",
-		baseSearchUrl: s.URL + "/s",
+	a := API{
+		baseRecipeURL: s.URL + "/r",
+		baseSearchURL: s.URL + "/s",
 		defaultClient: http.Client{
 			Timeout: 50 * time.Millisecond,
 		},
 	}
 
-	m.EXPECT().ServeHTTP(gomock.Any(), gomock.Any()).Do(func(w http.ResponseWriter, r *http.Request) {
+	m.EXPECT().ServeHTTP(gomock.Any(), gomock.Any()).Do(func(_ http.ResponseWriter, _ *http.Request) {
 		time.Sleep(100 * time.Millisecond)
 	})
 
@@ -189,9 +196,9 @@ func TestV2Api_UserAgentGet(t *testing.T) {
 
 	e := env.NewEnv()
 
-	a := V2Api{
-		baseRecipeUrl: s.URL + "/r",
-		baseSearchUrl: s.URL + "/s",
+	a := API{
+		baseRecipeURL: s.URL + "/r",
+		baseSearchURL: s.URL + "/s",
 		userAgent:     e.UserAgent(),
 	}
 
@@ -203,7 +210,10 @@ func TestV2Api_UserAgentGet(t *testing.T) {
 
 		w.WriteHeader(200)
 		e := json.NewEncoder(w)
-		e.Encode(api.Recipe{})
+		err := e.Encode(api.Recipe{})
+		if err != nil {
+			t.Error("expected no error")
+		}
 		if r.URL.Path != "/r/123456" {
 			t.Error("expected 123456")
 		}
@@ -228,9 +238,9 @@ func TestV2Api_UserAgentSearch(t *testing.T) {
 	s := httptest.NewServer(m)
 	e := env.NewEnv()
 
-	a := V2Api{
-		baseRecipeUrl: s.URL + "/r",
-		baseSearchUrl: s.URL + "/s",
+	a := API{
+		baseRecipeURL: s.URL + "/r",
+		baseSearchURL: s.URL + "/s",
 		defaultClient: http.Client{
 			Timeout: 50 * time.Millisecond,
 		},
@@ -245,17 +255,19 @@ func TestV2Api_UserAgentSearch(t *testing.T) {
 
 		w.WriteHeader(200)
 		e := json.NewEncoder(w)
-		e.Encode(api.RecipeSearch{
+		err := e.Encode(api.RecipeSearch{
 			Results: []api.RecipeSearchResult{
 				{},
 				{},
 				{},
 			},
 		})
+		if err != nil {
+			t.Error("expected no error")
+		}
 	})
 
 	r, err := a.Search(api.Search{Query: "q"})
-
 	if err != nil {
 		t.Error("did not expect error")
 	}

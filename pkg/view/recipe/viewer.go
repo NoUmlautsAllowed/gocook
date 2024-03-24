@@ -2,6 +2,7 @@ package recipe
 
 import (
 	"github.com/NoUmlautsAllowed/gocook/pkg/api"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -13,13 +14,15 @@ type Viewer interface {
 type TemplateViewer struct {
 	searchResultsTemplate string
 	recipeTemplate        string
-	api                   api.RecipeApi
+	api                   api.RecipeAPI
 }
 
-const searchResultsPath = "/recipe"
-const recipePath = "recipes/:recipe"
+const (
+	searchResultsPath = "/recipe"
+	recipePath        = "recipes/:recipe"
+)
 
-func NewTemplateViewer(api api.RecipeApi) *TemplateViewer {
+func NewTemplateViewer(api api.RecipeAPI) *TemplateViewer {
 	return &TemplateViewer{
 		searchResultsTemplate: "results.tmpl",
 		recipeTemplate:        "recipe.tmpl",

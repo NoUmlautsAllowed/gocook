@@ -3,16 +3,18 @@ package img
 import (
 	"encoding/json"
 	"errors"
-	"github.com/NoUmlautsAllowed/gocook/pkg/api"
-	"github.com/NoUmlautsAllowed/gocook/pkg/env"
-	"github.com/NoUmlautsAllowed/gocook/pkg/utils"
-	"github.com/gin-gonic/gin"
-	"go.uber.org/mock/gomock"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
 	"testing"
 	"time"
+
+	"github.com/NoUmlautsAllowed/gocook/pkg/api"
+	"github.com/NoUmlautsAllowed/gocook/pkg/env"
+	"github.com/NoUmlautsAllowed/gocook/pkg/utils"
+
+	"github.com/gin-gonic/gin"
+	"go.uber.org/mock/gomock"
 )
 
 var testData = []byte{
@@ -152,14 +154,17 @@ func TestImageCdn_GetRawImage(t *testing.T) {
 	defer s.Close()
 
 	a := ImageCdn{
-		cdnUrl:        s.URL + "/cdn",
+		cdnURL:        s.URL + "/cdn",
 		defaultClient: http.Client{},
 	}
 
 	m.EXPECT().ServeHTTP(gomock.Any(), gomock.Any()).Do(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(200)
 		e := json.NewEncoder(w)
-		e.Encode(api.Recipe{})
+		err := e.Encode(api.Recipe{})
+		if err != nil {
+			t.Error("expected no error")
+		}
 		if r.URL.Path != "/cdn/123456" {
 			t.Error("expected 123456")
 		}
@@ -185,7 +190,7 @@ func TestImageCdn_GetRawImage2(t *testing.T) {
 	defer s.Close()
 
 	a := ImageCdn{
-		cdnUrl:        s.URL + "/cdn",
+		cdnURL:        s.URL + "/cdn",
 		defaultClient: http.Client{},
 	}
 
@@ -204,7 +209,7 @@ func TestImageCdn_GetRawImage2(t *testing.T) {
 		t.Error("did not expect error")
 	}
 
-	if r != nil && len(r) > 0 {
+	if len(r) > 0 {
 		t.Error("no image expected with head method")
 	}
 
@@ -222,7 +227,7 @@ func TestImageCdn_GetRawImage3(t *testing.T) {
 
 	// only way to produce url join error is to put some weird control character into the base url
 	a := ImageCdn{
-		cdnUrl:        s.URL + "\x01/cdn",
+		cdnURL:        s.URL + "\x01/cdn",
 		defaultClient: http.Client{},
 	}
 
@@ -247,12 +252,12 @@ func TestImageCdn_GetRawImage4(t *testing.T) {
 	s := httptest.NewServer(m)
 	defer s.Close()
 
-	m.EXPECT().ServeHTTP(gomock.Any(), gomock.Any()).Do(func(w http.ResponseWriter, r *http.Request) {
+	m.EXPECT().ServeHTTP(gomock.Any(), gomock.Any()).Do(func(_ http.ResponseWriter, _ *http.Request) {
 		time.Sleep(time.Millisecond * 20)
 	})
 
 	a := ImageCdn{
-		cdnUrl: s.URL + "/cdn",
+		cdnURL: s.URL + "/cdn",
 		defaultClient: http.Client{
 			Timeout: time.Millisecond * 10,
 		},
@@ -278,7 +283,7 @@ func TestImageCdn_GetImage(t *testing.T) {
 	defer s.Close()
 
 	a := ImageCdn{
-		cdnUrl:        s.URL + "/cdn",
+		cdnURL:        s.URL + "/cdn",
 		defaultClient: http.Client{},
 	}
 
@@ -302,12 +307,13 @@ func TestImageCdn_GetImage(t *testing.T) {
 		URL:    u,
 	}
 	ctx.Params = gin.Params{
-		{"path", "123456"},
+		{Key: "path", Value: "123456"},
 	}
 
 	a.GetImage(ctx)
 
 	resp := recorder.Result()
+	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
 		t.Error("expected", http.StatusOK)
@@ -322,7 +328,7 @@ func TestImageCdn_GetImage2(t *testing.T) {
 	defer s.Close()
 
 	a := ImageCdn{
-		cdnUrl:        s.URL + "/cdn",
+		cdnURL:        s.URL + "/cdn",
 		defaultClient: http.Client{},
 	}
 
@@ -345,12 +351,13 @@ func TestImageCdn_GetImage2(t *testing.T) {
 		URL:    u,
 	}
 	ctx.Params = gin.Params{
-		{"path", "123456"},
+		{Key: "path", Value: "123456"},
 	}
 
 	a.GetImage(ctx)
 
 	resp := recorder.Result()
+	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
 		t.Error("expected", http.StatusOK)
@@ -365,7 +372,7 @@ func TestImageCdn_GetImage3(t *testing.T) {
 	defer s.Close()
 
 	a := ImageCdn{
-		cdnUrl:        s.URL + "/cdn",
+		cdnURL:        s.URL + "/cdn",
 		defaultClient: http.Client{},
 	}
 
@@ -388,12 +395,13 @@ func TestImageCdn_GetImage3(t *testing.T) {
 		URL:    u,
 	}
 	ctx.Params = gin.Params{
-		{"path", "123456"},
+		{Key: "path", Value: "123456"},
 	}
 
 	a.GetImage(ctx)
 
 	resp := recorder.Result()
+	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusInternalServerError {
 		t.Error("expected", http.StatusInternalServerError)
@@ -408,7 +416,7 @@ func TestImageCdn_GetImage4(t *testing.T) {
 	defer s.Close()
 
 	a := ImageCdn{
-		cdnUrl:        s.URL + "/cdn",
+		cdnURL:        s.URL + "/cdn",
 		defaultClient: http.Client{},
 	}
 
@@ -431,7 +439,7 @@ func TestImageCdn_GetImage4(t *testing.T) {
 		URL:    u,
 	}
 	ctx.Params = gin.Params{
-		{"path", "123456"},
+		{Key: "path", Value: "123456"},
 	}
 
 	responseWriter.EXPECT().Header().Return(http.Header{})
@@ -441,7 +449,6 @@ func TestImageCdn_GetImage4(t *testing.T) {
 	responseWriter.EXPECT().Write([]byte{123, 34, 101, 114, 114, 111, 114, 34, 58, 34, 119, 114, 105, 116, 101, 114, 32, 101, 114, 114, 111, 114, 34, 125})
 
 	a.GetImage(ctx)
-
 }
 
 func TestImageCdn_PostImage(t *testing.T) {
@@ -452,7 +459,7 @@ func TestImageCdn_PostImage(t *testing.T) {
 	defer s.Close()
 
 	a := ImageCdn{
-		cdnUrl:        s.URL + "/cdn",
+		cdnURL:        s.URL + "/cdn",
 		defaultClient: http.Client{},
 	}
 
@@ -465,12 +472,13 @@ func TestImageCdn_PostImage(t *testing.T) {
 		URL:    u,
 	}
 	ctx.Params = gin.Params{
-		{"path", "123456"},
+		{Key: "path", Value: "123456"},
 	}
 
 	a.GetImage(ctx)
 
 	resp := recorder.Result()
+	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusMethodNotAllowed {
 		t.Error("expected", http.StatusMethodNotAllowed)
@@ -485,7 +493,7 @@ func TestImageCdn_UserAgent(t *testing.T) {
 	defer s.Close()
 
 	a := NewImageCdn(env.NewEnv())
-	a.cdnUrl = s.URL + "/cdn"
+	a.cdnURL = s.URL + "/cdn"
 	a.defaultClient = http.Client{}
 
 	u, _ := url.Parse(s.URL + "/cdn/123456")
@@ -513,12 +521,13 @@ func TestImageCdn_UserAgent(t *testing.T) {
 		URL:    u,
 	}
 	ctx.Params = gin.Params{
-		{"path", "123456"},
+		{Key: "path", Value: "123456"},
 	}
 
 	a.GetImage(ctx)
 
 	resp := recorder.Result()
+	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
 		t.Error("expected", http.StatusOK)

@@ -1,18 +1,19 @@
 package main
 
 import (
+	"log"
+	"net/http"
+
 	v2 "github.com/NoUmlautsAllowed/gocook/pkg/api/v2"
 	"github.com/NoUmlautsAllowed/gocook/pkg/cdn"
 	"github.com/NoUmlautsAllowed/gocook/pkg/cdn/img"
 	"github.com/NoUmlautsAllowed/gocook/pkg/env"
 	"github.com/NoUmlautsAllowed/gocook/pkg/view/recipe"
+
 	"github.com/gin-gonic/gin"
-	"log"
-	"net/http"
 )
 
 func main() {
-
 	runEnv := env.NewEnv()
 	log.Println("Using given environment configuration", runEnv)
 

@@ -1,10 +1,11 @@
 package cdn
 
 import (
-	"github.com/gin-gonic/gin"
-	"go.uber.org/mock/gomock"
 	"strings"
 	"testing"
+
+	"github.com/gin-gonic/gin"
+	"go.uber.org/mock/gomock"
 )
 
 func TestRegisterRoutes(t *testing.T) {

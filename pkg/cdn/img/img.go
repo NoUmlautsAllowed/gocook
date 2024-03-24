@@ -2,23 +2,25 @@ package img
 
 import (
 	"errors"
-	"github.com/NoUmlautsAllowed/gocook/pkg/env"
-	"github.com/gin-gonic/gin"
 	"io"
 	"net/http"
 	"net/url"
 	"time"
+
+	"github.com/NoUmlautsAllowed/gocook/pkg/env"
+
+	"github.com/gin-gonic/gin"
 )
 
 type ImageCdn struct {
-	cdnUrl        string
+	cdnURL        string
 	defaultClient http.Client
 	userAgent     string
 }
 
 func NewImageCdn(e *env.Env) *ImageCdn {
 	return &ImageCdn{
-		cdnUrl: e.CdnBaseUrl(),
+		cdnURL: e.CdnBaseURL(),
 		defaultClient: http.Client{
 			Timeout: 60 * time.Second,
 		},
@@ -27,8 +29,7 @@ func NewImageCdn(e *env.Env) *ImageCdn {
 }
 
 func (c *ImageCdn) GetRawImage(method, imgPath string) ([]byte, error) {
-
-	urlPath, err := url.JoinPath(c.cdnUrl, imgPath)
+	urlPath, err := url.JoinPath(c.cdnURL, imgPath)
 	if err != nil {
 		return nil, err
 	}
@@ -47,7 +48,6 @@ func (c *ImageCdn) GetRawImage(method, imgPath string) ([]byte, error) {
 
 	req.Header.Set("User-Agent", c.userAgent)
 	resp, err := c.defaultClient.Do(req)
-
 	if err != nil {
 		return nil, err
 	}
@@ -68,7 +68,6 @@ func (c *ImageCdn) GetRawImage(method, imgPath string) ([]byte, error) {
 }
 
 func (c *ImageCdn) GetImage(ctx *gin.Context) {
-
 	if ctx.Request.Method != http.MethodGet && ctx.Request.Method != http.MethodHead {
 		ctx.JSON(http.StatusMethodNotAllowed, gin.H{
 			"error": "only GET allowed",
@@ -93,5 +92,4 @@ func (c *ImageCdn) GetImage(ctx *gin.Context) {
 		})
 		return
 	}
-
 }

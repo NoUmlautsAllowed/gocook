@@ -49,17 +49,17 @@ type Tag struct {
 }
 
 type Ingredient struct {
-	ID           string      `json:"id"`
-	Name         string      `json:"name"`
-	Unit         string      `json:"unit"`
-	UnitID       string      `json:"unitId"`
-	Amount       float64     `json:"amount"`
-	IsBasic      bool        `json:"isBasic"`
-	UsageInfo    string      `json:"usageInfo"`
-	URL          interface{} `json:"url"`
-	FoodID       string      `json:"foodId"`
-	ProductGroup string      `json:"productGroup"`
-	BlsKey       string      `json:"blsKey"`
+	ID           string  `json:"id"`
+	Name         string  `json:"name"`
+	Unit         string  `json:"unit"`
+	UnitID       string  `json:"unitId"`
+	Amount       float64 `json:"amount"`
+	IsBasic      bool    `json:"isBasic"`
+	UsageInfo    string  `json:"usageInfo"`
+	URL          any     `json:"url"`
+	FoodID       string  `json:"foodId"`
+	ProductGroup string  `json:"productGroup"`
+	BlsKey       string  `json:"blsKey"`
 }
 
 type IngredientGroup struct {
@@ -93,7 +93,7 @@ type Recipe struct {
 	IsPlus                  bool              `json:"isPlus"`
 	Servings                int               `json:"servings"`
 	KCalories               int               `json:"kCalories"`
-	Nutrition               interface{}       `json:"nutrition"`
+	Nutrition               any               `json:"nutrition"`
 	Instructions            string            `json:"instructions"`
 	MiscellaneousText       string            `json:"miscellaneousText"`
 	IngredientsText         string            `json:"ingredientsText"`
@@ -104,8 +104,8 @@ type Recipe struct {
 	RestingTime             int               `json:"restingTime"`
 	TotalTime               int               `json:"totalTime"`
 	IngredientGroups        []IngredientGroup `json:"ingredientGroups"`
-	CategoryIds             []string          `json:"categoryIds"`
-	RecipeVideoID           interface{}       `json:"recipeVideoId"`
+	CategoryIDs             []string          `json:"categoryIds"`
+	RecipeVideoID           any               `json:"recipeVideoId"`
 	IsIndexable             bool              `json:"isIndexable"`
 	AffiliateContent        string            `json:"affiliateContent"`
 	SiteURL                 string            `json:"siteUrl"`
@@ -118,7 +118,7 @@ type RecipeSearchResult struct {
 
 type RecipeSearch struct {
 	Count   int                  `json:"count"`
-	QueryId string               `json:"queryId"`
+	QueryID string               `json:"queryId"`
 	Results []RecipeSearchResult `json:"results"`
 }
 
