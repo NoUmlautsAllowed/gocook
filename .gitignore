@@ -4,7 +4,6 @@ server
 
 # generated mock files
 mock_*.go
-coverage.txt
 
 # node modules
 node_modules
