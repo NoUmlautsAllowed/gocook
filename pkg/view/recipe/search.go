@@ -125,11 +125,13 @@ func (t *TemplateViewer) ShowSearchResults(c *gin.Context) {
 			},
 		}
 		c.HTML(http.StatusOK, t.searchResultsTemplate, tmplData)
-	} else {
+	} else if err != nil {
 		c.JSON(http.StatusBadRequest, gin.Error{
 			Err:  err,
-			Type: 0,
+			Type: gin.ErrorTypeBind,
 			Meta: nil,
 		})
+	} else {
+		c.Redirect(http.StatusMovedPermanently, "/")
 	}
 }
