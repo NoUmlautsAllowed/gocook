@@ -1,10 +1,12 @@
 package recipe
 
 import (
-	"github.com/NoUmlautsAllowed/gocook/pkg/api"
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"strings"
+
+	"github.com/NoUmlautsAllowed/gocook/pkg/api"
+
+	"github.com/gin-gonic/gin"
 )
 
 type tmplRecipe struct {
@@ -14,7 +16,6 @@ type tmplRecipe struct {
 }
 
 func (t *TemplateViewer) ShowRecipe(c *gin.Context) {
-
 	recipe, err := t.api.Get(c.Param("recipe"))
 
 	if err != nil {
@@ -24,7 +25,6 @@ func (t *TemplateViewer) ShowRecipe(c *gin.Context) {
 			Meta: nil,
 		})
 	} else {
-
 		tmplData := tmplRecipe{
 			Recipe:       *recipe,
 			Instructions: strings.Split(recipe.Instructions, "\n\n"),

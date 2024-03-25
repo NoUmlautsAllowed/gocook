@@ -1,8 +1,9 @@
 package v2
 
 import (
-	"github.com/NoUmlautsAllowed/gocook/pkg/env"
 	"testing"
+
+	"github.com/NoUmlautsAllowed/gocook/pkg/env"
 )
 
 func TestReplaceImageCdnUrl(t *testing.T) {
@@ -11,7 +12,7 @@ func TestReplaceImageCdnUrl(t *testing.T) {
 	api := NewV2Api(env.NewEnv(), "some raällly weird URL $$§ßßß???? \x01")
 	input := "/cdn/<format>/xyz-img"
 
-	result := api.replaceImageCdnUrl(input)
+	result := api.replaceImageCdnURL(input)
 
 	expected := setPreviewImageFormat(input)
 
@@ -31,7 +32,7 @@ func TestReplaceImageCdnUrl2(t *testing.T) {
 	// a mal crafted input url
 	input := "\x01"
 
-	result := api.replaceImageCdnUrl(input)
+	result := api.replaceImageCdnURL(input)
 
 	if result != input {
 		t.Error("expected", input, "; got", result)

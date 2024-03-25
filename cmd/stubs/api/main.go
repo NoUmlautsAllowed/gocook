@@ -2,22 +2,22 @@ package main
 
 import (
 	"errors"
-	"github.com/NoUmlautsAllowed/gocook/pkg/api"
-	"github.com/gin-gonic/gin"
-	"github.com/go-loremipsum/loremipsum"
-	"github.com/splode/fname"
 	"log"
 	"net/http"
 	"strconv"
 	"time"
+
+	"github.com/NoUmlautsAllowed/gocook/pkg/api"
+
+	"github.com/gin-gonic/gin"
+	"github.com/go-loremipsum/loremipsum"
+	"github.com/splode/fname"
 )
 
 func generateRecipe(id string) (*api.Recipe, error) {
-
 	rng := fname.NewGenerator(fname.WithDelimiter(" "), fname.WithCasing(fname.Title))
 	lig := loremipsum.New()
 	name, err := rng.Generate()
-
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +76,7 @@ func generateRecipe(id string) (*api.Recipe, error) {
 				},
 			},
 		},
-		CategoryIds:      nil,
+		CategoryIDs:      nil,
 		RecipeVideoID:    nil,
 		IsIndexable:      false,
 		AffiliateContent: "",
@@ -93,27 +93,27 @@ func main() {
 
 	v2api := r.Group("/v2")
 
-	recipeDb := []*api.Recipe{}
+	recipeDB := []*api.Recipe{}
 
 	for i := 0; i < 127; i++ {
 		recipe, err := generateRecipe(strconv.Itoa(i))
 		if err != nil {
 			log.Fatal(err)
 		}
-		recipeDb = append(recipeDb, recipe)
+		recipeDB = append(recipeDB, recipe)
 	}
 
 	v2api.GET("/recipes/:recipe", func(c *gin.Context) {
-		rId := c.Param("recipe")
-		for _, r := range recipeDb {
-			if r.ID == rId {
+		rID := c.Param("recipe")
+		for _, r := range recipeDB {
+			if r.ID == rID {
 				c.JSON(http.StatusOK, r)
 				return
 			}
 		}
 
 		// no recipe was found in db with matching id -> generate a new one
-		r, err := generateRecipe(rId)
+		r, err := generateRecipe(rID)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.Error{
 				Err:  err,
@@ -121,7 +121,7 @@ func main() {
 				Meta: nil,
 			})
 		}
-		recipeDb = append(recipeDb, r)
+		recipeDB = append(recipeDB, r)
 		c.JSON(http.StatusOK, r)
 	})
 
@@ -129,8 +129,8 @@ func main() {
 		var search api.Search
 		if err := c.Bind(&search); err == nil && len(search.Query) > 0 {
 			recipeSearch := api.RecipeSearch{
-				Count:   len(recipeDb),
-				QueryId: "",
+				Count:   len(recipeDB),
+				QueryID: "",
 				Results: []api.RecipeSearchResult{},
 			}
 
@@ -148,12 +148,12 @@ func main() {
 				offset = 0
 			}
 
-			for i := range recipeDb {
-				if i >= int(limit) || int64(i)+offset >= int64(len(recipeDb)) {
+			for i := range recipeDB {
+				if i >= int(limit) || int64(i)+offset >= int64(len(recipeDB)) {
 					break
 				}
 				recipeSearch.Results = append(recipeSearch.Results, api.RecipeSearchResult{
-					Recipe: *recipeDb[int64(i)+offset],
+					Recipe: *recipeDB[int64(i)+offset],
 					Score:  0,
 				})
 			}

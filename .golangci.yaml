@@ -1,0 +1,61 @@
+linters-settings:
+  gofmt:
+    simplify: true
+    rewrite-rules:
+      - pattern: interface{}
+        replacement: any
+  misspell:
+    locale: US
+  gofumpt:
+    extra-rules: true
+  errorlint:
+    errorf-multi: true
+  gci:
+    custom-order: true
+    sections:
+      - standard
+      - prefix(github.com/NoUmlautsAllowed/gocook)
+      - default
+
+linters:
+  disable-all: true
+  enable:
+    - bidichk
+    - errcheck
+    - gofmt
+    - gosimple
+    - govet
+    - ineffassign
+    - misspell
+    - revive
+    - staticcheck
+    - typecheck
+    - unused
+    - gofumpt
+    - errorlint
+    - zerologlint
+    - asciicheck
+    - bodyclose
+    - dogsled
+    - durationcheck
+    - errchkjson
+    - gochecknoinits
+    - goheader
+    - gomoddirectives
+    - gomodguard
+    - goprintffuncname
+    - importas
+    - makezero
+    - rowserrcheck
+    - sqlclosecheck
+    - tenv
+    - unconvert
+    - unparam
+    - wastedassign
+    - whitespace
+    - gocritic
+    - nolintlint
+    - stylecheck
+    - contextcheck
+    - forcetypeassert
+    - gci

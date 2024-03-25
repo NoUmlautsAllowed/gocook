@@ -2,19 +2,20 @@ package recipe
 
 import (
 	"errors"
-	"github.com/NoUmlautsAllowed/gocook/pkg/api"
-	"github.com/gin-gonic/gin"
-	"go.uber.org/mock/gomock"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
 	"testing"
+
+	"github.com/NoUmlautsAllowed/gocook/pkg/api"
+
+	"github.com/gin-gonic/gin"
+	"go.uber.org/mock/gomock"
 )
 
 func TestTemplateViewer_ShowRecipe(t *testing.T) {
-
 	ctrl := gomock.NewController(t)
-	m := api.NewMockRecipeApi(ctrl)
+	m := api.NewMockRecipeAPI(ctrl)
 	m.EXPECT().Get("1234567890").Return(&api.Recipe{}, nil)
 
 	v := TemplateViewer{
@@ -40,13 +41,11 @@ func TestTemplateViewer_ShowRecipe(t *testing.T) {
 	if w.Code != http.StatusOK {
 		t.Error("expected status 200")
 	}
-
 }
 
 func TestTemplateViewer_ShowRecipe_InternalError(t *testing.T) {
-
 	ctrl := gomock.NewController(t)
-	m := api.NewMockRecipeApi(ctrl)
+	m := api.NewMockRecipeAPI(ctrl)
 	m.EXPECT().Get("1234567890").Return(nil, errors.New("sample error"))
 
 	v := TemplateViewer{
@@ -72,5 +71,4 @@ func TestTemplateViewer_ShowRecipe_InternalError(t *testing.T) {
 	if w.Code != http.StatusInternalServerError {
 		t.Error("expected status 500")
 	}
-
 }
