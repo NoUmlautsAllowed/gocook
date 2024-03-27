@@ -5,24 +5,26 @@
     {{ template "head.tmpl" }}
 </head>
 <body>
-<section class="section p-0 hero is-chef">
+<header class="section p-0 hero is-chef">
     <div class="hero-head pb-3 pt-5">
         {{ template "header.tmpl" }}
     </div>
     <div class="hero-body pt-3">
         {{ template "search.tmpl" . }}
     </div>
-</section>
-<section class="section">
+</header>
+<main class="section">
     <div class="fixed-grid">
         <div class="grid">
             <div class="cell is-col-span-2-mobile">
                 <div class="box">
                     <div class="content">
                     <h1>{{ .Title }}</h1>
+                    {{ if .HasImage }}
                     <figure class="image is-4by5">
                         <img src="{{ .PreviewImageURLTemplate }}" alt="Preview">
                     </figure>
+                    {{ end }}
                     </div>
                 </div>
             </div>
@@ -52,11 +54,11 @@
             {{ end }}
         </div>
     </div>
-</section>
-<section class="section hero is-chef">
+</main>
+<footer class="section hero is-chef">
     <div class="hero-foot">
         {{ template "footer.tmpl" }}
     </div>
-</section>
+</footer>
 </body>
 </html>
