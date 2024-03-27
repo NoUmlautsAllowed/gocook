@@ -5,48 +5,48 @@
     {{ template "head.tmpl"}}
 </head>
 <body>
-<section class="section p-0 hero is-chef">
+<header class="section p-0 hero is-chef">
     <div class="hero-head pb-3 pt-5">
         {{ template "header.tmpl" }}
     </div>
     <div class="hero-body pt-3">
         {{ template "search.tmpl" . }}
     </div>
-</section>
-<section class="section">
-<!--    <div class="fixed-grid has-auto-count">-->
-        <div class="grid">
-            {{ range .Results }}
-            <div class="cell is-col-span-2">
-                <div class="p-3 m-3">
-                    <a class="box" href="/recipes/{{ .Recipe.ID }}">
-                        <figure class="image" style="width: 100%">
-                            <img src="{{ .Recipe.PreviewImageURLTemplate }}" alt="Preview">
-                        </figure>
-                        <div class="content pt-3">
-                            <h3>
-                                {{ .Recipe.Title }}
-                            </h3>
-                            <p>{{ .Recipe.Subtitle }}</p>
-                            <br>
-                            {{ template "recipeinfo.tmpl" .Recipe }}
-                        </div>
-                    </a>
+</header>
+<main class="section">
+        <div class="fixed-grid has-4-cols-widescreen has-3-cols-tablet has-1-cols-mobile">
+            <div class="grid">
+                {{ range .Results }}
+                <div class="cell">
+                    <div class="p-3 m-3">
+                        <a class="box" href="/recipes/{{ .Recipe.ID }}">
+                            <figure class="image" style="width: 100%">
+                                <img src="{{ .Recipe.PreviewImageURLTemplate }}" alt="Preview">
+                            </figure>
+                            <div class="content pt-3">
+                                <h3>
+                                    {{ .Recipe.Title }}
+                                </h3>
+                                <p>{{ .Recipe.Subtitle }}</p>
+                                <br>
+                                {{ template "recipeinfo.tmpl" .Recipe }}
+                            </div>
+                        </a>
+                    </div>
                 </div>
+                {{ end }}
             </div>
-            {{ end }}
         </div>
-<!--    </div>-->
     <div class="container">
         <div class="p-3">
             {{ template "pagination.tmpl" . }}
         </div>
     </div>
-</section>
-<section class="section hero is-chef">
+</main>
+<footer class="section hero is-chef">
     <div class="hero-foot">
         {{ template "footer.tmpl" }}
     </div>
-</section>
+</footer>
 </body>
 </html>
