@@ -20,9 +20,11 @@
                 <div class="cell">
                     <div class="p-3 m-3">
                         <a class="box" href="/recipes/{{ .Recipe.ID }}">
+                            {{ if .Recipe.HasImage }}
                             <figure class="image" style="width: 100%">
                                 <img src="{{ .Recipe.PreviewImageURLTemplate }}" alt="Preview">
                             </figure>
+                            {{ end }}
                             <div class="content pt-3">
                                 <h3>
                                     {{ .Recipe.Title }}
