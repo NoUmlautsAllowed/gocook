@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>GoCook | Recipe {{ .Title }}</title>
+    <title>GoCook | Rezept {{ .Title }}</title>
     {{ template "head.tmpl" }}
 </head>
 <body>
@@ -20,9 +20,10 @@
                 <div class="box">
                     <div class="content">
                     <h1>{{ .Title }}</h1>
+                    <p>{{ .Recipe.Subtitle }}</p>
                     {{ if .HasImage }}
                     <figure class="image is-4by5">
-                        <img src="{{ .PreviewImageURLTemplate }}" alt="Preview">
+                        <img src="{{ .PreviewImageURLTemplate }}" alt="Vorschau">
                     </figure>
                     {{ end }}
                     </div>
@@ -38,7 +39,7 @@
                         <p>{{ .Header }}</p>
                         <ul>
                             {{ range .Ingredients }}
-                            <li>{{ if .Amount }}{{ .Amount }}{{ .Unit }}{{ end }} {{ .Name }}</li>
+                            <li>{{ if .Amount }}{{ .Amount }} {{ .Unit }} {{ end }}{{ .Name }}</li>
                             {{ end}}
                         </ul>
                     </div>

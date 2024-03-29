@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>GoCook | Search {{ .Query }}</title>
+    <title>GoCook | Suche {{ .Query }}</title>
     {{ template "head.tmpl"}}
 </head>
 <body>
@@ -22,7 +22,7 @@
                         <a class="box" href="/recipes/{{ .Recipe.ID }}">
                             {{ if .Recipe.HasImage }}
                             <figure class="image" style="width: 100%">
-                                <img src="{{ .Recipe.PreviewImageURLTemplate }}" alt="Preview">
+                                <img src="{{ .Recipe.PreviewImageURLTemplate }}" alt="Vorschau">
                             </figure>
                             {{ end }}
                             <div class="content pt-3">
