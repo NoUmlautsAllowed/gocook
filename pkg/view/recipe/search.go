@@ -19,7 +19,6 @@ type tmplSearch struct {
 	api.Search
 	api.RecipeSearch
 	ResultsPerPage int
-	ResultsPerRow  int
 
 	PreviousButOne tmplPageData
 	Previous       tmplPageData
@@ -30,10 +29,7 @@ type tmplSearch struct {
 	Last           tmplPageData
 }
 
-const (
-	defaultResultsPerPage int = 12
-	defaultResultsPerRow  int = 3
-)
+const defaultResultsPerPage int = 15
 
 func (t *TemplateViewer) ShowSearchResults(c *gin.Context) {
 	var search api.Search
@@ -94,7 +90,6 @@ func (t *TemplateViewer) ShowSearchResults(c *gin.Context) {
 			Search:         search,
 			RecipeSearch:   *recipeSearch,
 			ResultsPerPage: defaultResultsPerPage,
-			ResultsPerRow:  defaultResultsPerRow,
 			PreviousButOne: tmplPageData{
 				Offset: previousOffset - defaultResultsPerPage,
 				Page:   (previousOffset-defaultResultsPerPage)/defaultResultsPerPage + 1,
