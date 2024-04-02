@@ -111,11 +111,11 @@ func (t *TemplateViewer) ShowSearchResults(c *gin.Context) {
 				Page:   nextOffset/defaultResultsPerPage + 2,
 			},
 			LastButOne: tmplPageData{
-				Offset: (pageCount - 1) * defaultResultsPerPage,
+				Offset: (pageCount - 2) * defaultResultsPerPage,
 				Page:   pageCount - 1,
 			},
 			Last: tmplPageData{
-				Offset: recipeSearch.Count - recipeSearch.Count%defaultResultsPerPage,
+				Offset: (pageCount - 1) * defaultResultsPerPage,
 				Page:   pageCount,
 			},
 		}
