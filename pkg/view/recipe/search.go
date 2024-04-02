@@ -42,8 +42,8 @@ func (t *TemplateViewer) ShowSearchResults(c *gin.Context) {
 		// this would be a query for pagination
 		// https://api.chefkoch.de/v2/search-frontend/recipes?query=Lasagne+Vegan&limit=41&offset=41&analyticsTags=user,user_logged_out&enableClickAnalytics=true
 
-		// use a multiple of 3 here
-		// this is used to have a reasonable amount of recipes to show per page
+		// use a multiple of 3 and 5 here
+		// this is used to have a reasonable amount of recipes to show per page on tablet and widescreen
 		// the user is not allowed to set another value here
 		// this value is handed over directly to the api
 		search.Limit = strconv.Itoa(defaultResultsPerPage)
