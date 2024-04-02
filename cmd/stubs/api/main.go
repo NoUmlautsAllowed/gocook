@@ -14,25 +14,26 @@ import (
 	"github.com/splode/fname"
 )
 
-func generateRecipe(id string) (*api.Recipe, error) {
+func generateRecipe(id int) (*api.Recipe, error) {
 	rng := fname.NewGenerator(fname.WithDelimiter(" "), fname.WithCasing(fname.Title))
 	lig := loremipsum.New()
 	name, err := rng.Generate()
+	ids := strconv.Itoa(id)
 	if err != nil {
 		return nil, err
 	}
 
 	return &api.Recipe{
-		ID:                      id,
+		ID:                      ids,
 		Type:                    0,
 		Title:                   name,
 		Subtitle:                "",
 		Owner:                   api.Owner{},
 		Rating:                  api.Rating{},
 		Difficulty:              0,
-		HasImage:                false,
+		HasImage:                id%2 == 0,
 		HasVideo:                false,
-		PreviewImageID:          id,
+		PreviewImageID:          ids,
 		PreviewImageOwner:       api.ImageOwner{},
 		PreparationTime:         0,
 		IsSubmitted:             false,
@@ -44,7 +45,7 @@ func generateRecipe(id string) (*api.Recipe, error) {
 		IsPremium:               false,
 		Status:                  0,
 		Slug:                    "",
-		PreviewImageURLTemplate: id,
+		PreviewImageURLTemplate: ids,
 		IsPlus:                  false,
 		Servings:                0,
 		KCalories:               0,
@@ -96,7 +97,7 @@ func main() {
 	recipeDB := []*api.Recipe{}
 
 	for i := 0; i < 127; i++ {
-		recipe, err := generateRecipe(strconv.Itoa(i))
+		recipe, err := generateRecipe(i)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -113,7 +114,15 @@ func main() {
 		}
 
 		// no recipe was found in db with matching id -> generate a new one
-		r, err := generateRecipe(rID)
+		id, err := strconv.Atoi(rID)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.Error{
+				Err:  err,
+				Type: 0,
+				Meta: nil,
+			})
+		}
+		r, err := generateRecipe(id)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.Error{
 				Err:  err,
