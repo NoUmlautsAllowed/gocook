@@ -18,11 +18,11 @@
             <div class="grid">
                 {{ range .Results }}
                 <div class="cell">
-                    <div class="p-3 m-3">
-                        <a class="box" href="/recipes/{{ .Recipe.ID }}">
+                    <div class="p-3 m-3 is-full-height">
+                        <a class="box is-full-height" href="/recipes/{{ .Recipe.ID }}">
                             {{ if .Recipe.HasImage }}
-                            <figure class="image" style="width: 100%">
-                                <img src="{{ .Recipe.PreviewImageURLTemplate }}" alt="Vorschau">
+                            <figure class="image is-full-width">
+                                <img src="{{ .Recipe.PreviewImageURLTemplate }}" alt="Preview">
                             </figure>
                             {{ end }}
                             <div class="content pt-3">

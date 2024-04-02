@@ -15,6 +15,14 @@ $chef-dark: #243b27;
   color: initial-variables.$white;
 }
 
+.is-full-height {
+  height: 100%;
+}
+
+.is-full-width {
+  width: 100%;
+}
+
 @media (prefers-color-scheme: dark) {
   .is-chef {
     background-color: $chef-dark;
