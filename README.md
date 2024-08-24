@@ -19,6 +19,7 @@ with any other hosts than GoCook itself.
 ## Hosted instances
 
 - <https://cook.adminforge.de/>
+- <https://gocook.lunar.icu/>
 
 ## Build and Deployment
 
