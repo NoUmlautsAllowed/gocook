@@ -1,42 +1,42 @@
 when:
-    - event: pull_request
-    - event: push
-      branch: [ renovate/*, main ]
+  - event: pull_request
+  - event: push
+    branch: [renovate/*, main]
 
 variables:
-    - &golang_image 'docker.io/golang:1.22'
-    - &golangci_lint 'golangci/golangci-lint:v1.59-alpine'
+  - &golang_image "docker.io/golang:1.22"
+  - &golangci_lint "golangci/golangci-lint:v1.59-alpine"
 
 steps:
-    - name: dependencies
-      image: *golang_image
-      commands:
-        - go mod vendor
-    - name: generate
-      image: *golang_image
-      depends_on: dependencies
-      commands:
-        - go get go.uber.org/mock/mockgen@v0.4.0
-        - go generate ./...
-    - name: lint
-      depends_on: generate
-      image: *golangci_lint
-      commands:
-        - golangci-lint run
-    - name: build
-      image: *golang_image
-      depends_on: generate
-      commands:
-        - go build -v ./cmd/server
-    - name: test
-      image: *golang_image
-      depends_on: generate
-      commands:
-        - go test -race -cover -covermode=atomic ./...
-    - name: upload
-      uses: curlimages/curl
-      commands:
-        - 'curl --user NoUmlautsAllowed:$CODEBERG_TOKEN --upload-file server "https://codeberg.org/api/packages/NoUmlautsAllowed/generic/gocook/${CI_COMMIT_SHA}/server"'
-      secrets: [ CODEBERG_TOKEN ]
-      when:
-        event: push
+  - name: dependencies
+    image: *golang_image
+    commands:
+      - go mod vendor
+  - name: generate
+    image: *golang_image
+    depends_on: dependencies
+    commands:
+      - go get go.uber.org/mock/mockgen@v0.4.0
+      - go generate ./...
+  - name: lint
+    depends_on: generate
+    image: *golangci_lint
+    commands:
+      - golangci-lint run
+  - name: build
+    image: *golang_image
+    depends_on: generate
+    commands:
+      - go build -v ./cmd/server
+  - name: test
+    image: *golang_image
+    depends_on: generate
+    commands:
+      - go test -race -cover -covermode=atomic ./...
+  - name: upload
+    uses: curlimages/curl
+    commands:
+      - 'curl --user NoUmlautsAllowed:$CODEBERG_TOKEN --upload-file server "https://codeberg.org/api/packages/NoUmlautsAllowed/generic/gocook/${CI_COMMIT_SHA}/server"'
+    secrets: [CODEBERG_TOKEN]
+    when:
+      event: push
