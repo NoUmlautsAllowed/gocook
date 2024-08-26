@@ -1,0 +1,26 @@
+when:
+    - event: pull_request
+    - event: push
+      branch: renovate/*
+
+variables:
+    - &node_image 'docker.io/node:22-alpine'
+
+
+steps:
+    - name: install
+      image: *node_image
+      commands:
+        - npm install
+    - name: build
+      image: *node_image
+      commands:
+        - npm run build
+    - name: upload
+      uses: curlimages/curl
+      commands:
+        - 'tar -zcvf static.tar.gz static/'
+        - 'curl --user NoUmlautsAllowed:$CODEBERG_TOKEN --upload-file static.tar.gz "https://codeberg.org/api/packages/NoUmlautsAllowed/generic/gocook/${CI_COMMIT_SHA}/static.tar.gz"'
+      secrets: [ CODEBERG_TOKEN ]
+      when:
+        event: push
