@@ -1,20 +1,20 @@
 # build standalone docker container
 
 #install certs
-FROM ubuntu:latest as ubuntu
+FROM ubuntu:latest AS ubuntu
 RUN apt-get update
 RUN apt-get install ca-certificates -y
 RUN update-ca-certificates
 
 # Build node modules
-FROM node:18 as nodebuilder
+FROM node:18 AS nodebuilder
 COPY . /home/node/app
 WORKDIR /home/node/app
 RUN npm i
 RUN npm run build
 
 # Start from the latest golang base image
-FROM golang:latest as golangbuilder
+FROM golang:1.22 AS golangbuilder
 
 COPY . /go/src/gocook
 WORKDIR /go/src/gocook

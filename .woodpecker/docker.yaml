@@ -1,0 +1,37 @@
+when:
+  - event: push
+    branch: [main, "renovate/*"]
+  - event: pull_request
+
+variables:
+  - &platforms "linux/amd64,linux/arm64"
+  - &build_plugin "woodpeckerci/plugin-docker-buildx:4.2.0"
+
+steps:
+  - name: publish-dryrun
+    image: *build_plugin
+    pull: true
+    settings:
+      platforms: *platforms
+      repo: noumlautsallowed/gocook
+      dockerfile: Dockerfile
+      dry_run: true
+    when:
+      - event: pull_request
+      - event: push
+        branch:
+          exclude: main
+
+  - name: publish
+    image: *build_plugin
+    settings:
+      platforms: *platforms
+      repo: noumlautsallowed/gocook
+      tag: latest
+      dockerfile: Dockerfile
+      username: noumlautsallowed
+      password:
+        from_secret: docker_password
+    when:
+      event: push
+      branch: main
