@@ -1,7 +1,6 @@
 when:
   - event: pull_request
   - event: push
-    branch: renovate/*
 
 variables:
   - &node_image "docker.io/node:22-alpine"
@@ -15,11 +14,11 @@ steps:
     image: *node_image
     commands:
       - npm run build
+      - tar cvzf assets.tar.gz static/
   - name: upload
-    uses: curlimages/curl
+    image: "curlimages/curl:latest"
     commands:
-      - "tar -zcvf static.tar.gz static/"
-      - 'curl --user NoUmlautsAllowed:$CODEBERG_TOKEN --upload-file static.tar.gz "https://codeberg.org/api/packages/NoUmlautsAllowed/generic/gocook/${CI_COMMIT_SHA}/static.tar.gz"'
-    secrets: [CODEBERG_TOKEN]
+      - 'curl --user NoUmlautsAllowed:$CODEBERG_REGISTRY_TOKEN --upload-file assets.tar.gz "https://codeberg.org/api/packages/NoUmlautsAllowed/generic/gocook/${CI_COMMIT_SHA}/assets.tar.gz"'
+    secrets: [CODEBERG_REGISTRY_TOKEN]
     when:
       event: push

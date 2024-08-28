@@ -1,20 +1,14 @@
 when:
   - event: pull_request
   - event: push
-    branch: [renovate/*, main]
 
 variables:
-  - &golang_image "docker.io/golang:1.22"
-  - &golangci_lint "golangci/golangci-lint:v1.59-alpine"
+  - &golang_image "golang:latest"
+  - &golangci_lint "golangci/golangci-lint:latest-alpine"
 
 steps:
-  - name: dependencies
-    image: *golang_image
-    commands:
-      - go mod vendor
   - name: generate
     image: *golang_image
-    depends_on: dependencies
     commands:
       - go get go.uber.org/mock/mockgen@v0.4.0
       - go generate ./...
@@ -34,9 +28,13 @@ steps:
     commands:
       - go test -race -cover -covermode=atomic ./...
   - name: upload
-    uses: curlimages/curl
+    depends_on: build
+    image: curlimages/curl
     commands:
-      - 'curl --user NoUmlautsAllowed:$CODEBERG_TOKEN --upload-file server "https://codeberg.org/api/packages/NoUmlautsAllowed/generic/gocook/${CI_COMMIT_SHA}/server"'
-    secrets: [CODEBERG_TOKEN]
+      - 'curl --user NoUmlautsAllowed:$CODEBERG_REGISTRY_TOKEN --upload-file server "https://codeberg.org/api/packages/NoUmlautsAllowed/generic/gocook/${CI_COMMIT_SHA}/server"'
+    secrets: [CODEBERG_REGISTRY_TOKEN]
+    when:
+      event: push
+    secrets: [CODEBERG_REGISTRY_TOKEN]
     when:
       event: push
