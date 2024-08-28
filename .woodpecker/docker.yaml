@@ -8,6 +8,11 @@ variables:
   - &build_plugin "woodpeckerci/plugin-docker-buildx:4.2.0"
 
 steps:
+  - name: dependencies
+    image: *golang_image
+    commands:
+      - go mod vendor
+
   - name: publish-dryrun
     image: *build_plugin
     pull: true
