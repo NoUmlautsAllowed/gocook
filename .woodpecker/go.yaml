@@ -12,29 +12,30 @@ steps:
     commands:
       - go get go.uber.org/mock/mockgen@v0.4.0
       - go generate ./...
+
   - name: lint
     depends_on: generate
     image: *golangci_lint
     commands:
       - golangci-lint run
+
   - name: build
     image: *golang_image
     depends_on: generate
     commands:
       - go build -v ./cmd/server
+
   - name: test
     image: *golang_image
     depends_on: generate
     commands:
       - go test -race -cover -covermode=atomic ./...
+
   - name: upload
     depends_on: build
     image: curlimages/curl
     commands:
       - 'curl --user NoUmlautsAllowed:$CODEBERG_REGISTRY_TOKEN --upload-file server "https://codeberg.org/api/packages/NoUmlautsAllowed/generic/gocook/${CI_COMMIT_SHA}/server"'
-    secrets: [CODEBERG_REGISTRY_TOKEN]
-    when:
-      event: push
     secrets: [CODEBERG_REGISTRY_TOKEN]
     when:
       event: push

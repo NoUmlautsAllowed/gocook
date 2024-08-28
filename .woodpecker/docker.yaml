@@ -1,6 +1,6 @@
 when:
   - event: push
-    branch: [main, renovate/*]
+    branch: [main, "renovate/*"]
   - event: pull_request
 
 variables:
@@ -19,7 +19,8 @@ steps:
     when:
       - event: pull_request
       - event: push
-        branch: "renovate/*"
+        branch:
+          exclude: main
 
   - name: publish
     image: *build_plugin
@@ -32,5 +33,5 @@ steps:
       password:
         from_secret: docker_password
     when:
-      event: [push]
+      event: push
       branch: main
