@@ -7,7 +7,7 @@ RUN apt-get install ca-certificates -y
 RUN update-ca-certificates
 
 # Build node modules
-FROM node:18 AS nodebuilder
+FROM node:22 AS nodebuilder
 COPY . /home/node/app
 WORKDIR /home/node/app
 RUN npm i

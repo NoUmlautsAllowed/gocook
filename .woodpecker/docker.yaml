@@ -5,7 +5,7 @@ when:
 
 variables:
   - &platforms "linux/amd64,linux/arm64"
-  - &build_plugin "woodpeckerci/plugin-docker-buildx:4.2.0"
+  - &build_plugin "woodpeckerci/plugin-docker-buildx:latest"
 
 steps:
   - name: publish-dryrun
@@ -22,16 +22,16 @@ steps:
         branch:
           exclude: main
 
-  - name: publish
-    image: *build_plugin
-    settings:
-      platforms: *platforms
-      repo: noumlautsallowed/gocook
-      tag: latest
-      dockerfile: Dockerfile
-      username: noumlautsallowed
-      password:
-        from_secret: docker_password
-    when:
-      event: push
-      branch: main
+#  - name: publish
+#    image: *build_plugin
+#    settings:
+#      platforms: *platforms
+#      repo: noumlautsallowed/gocook
+#      tag: latest
+#      dockerfile: Dockerfile
+#      username: noumlautsallowed
+#      password:
+#        from_secret: docker_password
+#    when:
+#      event: push
+#      branch: main
