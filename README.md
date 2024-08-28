@@ -16,6 +16,11 @@ i.e. containing no JavaScript that runs on the client side.
 All API and CDN traffic is proxied through GoCook, there is no communication
 with any other hosts than GoCook itself.
 
+## Hosted instances
+
+- <https://cook.adminforge.de/>
+- <https://gocook.lunar.icu/>
+
 ## Build and Deployment
 
 The easiest way to deploy this service is the standalone docker image. 
