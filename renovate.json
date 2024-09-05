@@ -6,7 +6,7 @@
   ],
   "labels": ["dependencies"],
   "dependencyDashboard": true,
-  "gitAuthor": "Renovate Bot <renovatebot+noumlautsallowed@noreply.codeberg.org>",
+  "gitAuthor": "Renovate Bot <umlautsbot@noreply.codeberg.org>",
   "automerge": false,
   "semanticCommits": "enabled",
   "postUpdateOptions": ["gomodTidy", "gomodUpdateImportPaths"]
