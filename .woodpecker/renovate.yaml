@@ -1,0 +1,53 @@
+when:
+  event:
+    - cron
+    - push
+    - pull_request
+    - manual
+  cron: renovate
+
+steps:
+  lint:
+    image: renovate/renovate:latest
+    pull: true
+    commands:
+      - renovate-config-validator
+    environment:
+      LOG_LEVEL: debug
+    when:
+      event: [push, pull_request]
+
+  renovate-dry:
+    image: renovate/renovate:latest
+    pull: true
+    commands:
+      - renovate $${CI_REPO}
+    environment:
+      RENOVATE_PLATFORM: gitea
+      RENOVATE_ENDPOINT: https://codeberg.org
+      RENOVATE_DRY_RUN: full
+      RENOVATE_CONFIG_FILE: renovate.json
+      GITHUB_COM_TOKEN:
+        from_secret: github_com_token
+      RENOVATE_TOKEN:
+        from_secret: renovate_token
+    when:
+      - event: push
+
+  renovate:
+    image: renovate/renovate:latest
+    pull: true
+    commands:
+      - renovate $${CI_REPO}
+    environment:
+      RENOVATE_PLATFORM: gitea
+      RENOVATE_ENDPOINT: https://codeberg.org
+      RENOVATE_CONFIG_FILE: renovate.json
+      LOG_LEVEL: debug
+      GITHUB_COM_TOKEN:
+        from_secret: github_com_token
+      RENOVATE_TOKEN:
+        from_secret: renovate_token
+    when:
+      - event: [cron, manual]
+        cron: renovate

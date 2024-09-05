@@ -1,0 +1,13 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":maintainLockFilesWeekly"
+  ],
+  "labels": ["dependencies"],
+  "dependencyDashboard": true,
+  "gitAuthor": "…",
+  "automerge": false,
+  "semanticCommits": "enabled",
+  "postUpdateOptions": ["gomodTidy", "gomodUpdateImportPaths"]
+}
