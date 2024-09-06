@@ -14,6 +14,8 @@
     </div>
 </header>
 <main class="section">
+        <p class="mx-5"><strong>{{ len .Results }} von {{ .Count }} Rezepten</strong></p>
+
         <div class="fixed-grid has-5-cols-widescreen has-3-cols-tablet has-1-cols-mobile">
             <div class="grid">
                 {{ range .Results }}
