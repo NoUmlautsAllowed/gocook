@@ -18,20 +18,17 @@ steps:
       dry_run: true
     when:
       - event: pull_request
-      - event: push
-        branch:
-          exclude: main
 
-#  - name: publish
-#    image: *build_plugin
-#    settings:
-#      platforms: *platforms
-#      repo: noumlautsallowed/gocook
-#      tag: latest
-#      dockerfile: Dockerfile
-#      username: noumlautsallowed
-#      password:
-#        from_secret: docker_password
-#    when:
-#      event: push
-#      branch: main
+  - name: publish
+    image: *build_plugin
+    settings:
+      platforms: *platforms
+      repo: noumlautsallowed/gocook
+      tag: latest
+      dockerfile: Dockerfile
+      username: noumlautsallowed
+      password:
+        from_secret: docker_password
+    when:
+      event: push
+      branch: main
