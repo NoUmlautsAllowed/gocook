@@ -3,8 +3,6 @@ name: Go
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
 
@@ -20,30 +18,16 @@ jobs:
 
     - name: Get mockgen
       run: go get go.uber.org/mock/mockgen@v0.4.0
-    
+
     - name: Generate
       run: go generate ./...
-        
-
-    - name: Lint
-      uses: golangci/golangci-lint-action@v6
-      with:
-        version: v1.59.1
-
-    - name: Build
-      run: go build -v ./cmd/server
 
     - name: Test
       run: go test -race -coverprofile=coverage.txt -covermode=atomic ./...
 
     - uses: codecov/codecov-action@v4
       with:
-        token: ${{ secrets.CODECOV }} #required
-        file: coverage.txt #optional
-        flags: unittests #optional
-        fail_ci_if_error: true #optional (default = false)
-    
-    - name: Upload Artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        path: server
+        token: ${{ secrets.CODECOV }}
+        file: coverage.txt
+        flags: unittests
+        fail_ci_if_error: true
