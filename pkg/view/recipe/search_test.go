@@ -103,6 +103,35 @@ func TestTemplateViewer_ShowSearchResults_EmptyQuery(t *testing.T) {
 	}
 }
 
+func TestTemplateViewer_ShowSearchResults_URLQuery(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	m := api.NewMockRecipeAPI(ctrl)
+
+	v := TemplateViewer{
+		searchResultsTemplate: "search.tmpl",
+		recipeTemplate:        "recipe.tmpl",
+		api:                   m,
+	}
+
+	r := gin.Default()
+	r.LoadHTMLGlob("../../../templates/*")
+	RegisterViewerRoutes(&v, r)
+
+	u, _ := url.Parse("http://127.0.0.1:8080/recipe?query=https://www.chefkoch.de/rezepte/1983941321710773/Franzoesische-Apfeltarte.html")
+
+	w := httptest.ResponseRecorder{}
+	req := http.Request{
+		Method: http.MethodGet,
+		URL:    u,
+	}
+
+	r.ServeHTTP(&w, &req)
+
+	if w.Code != http.StatusMovedPermanently {
+		t.Error("expected status 301")
+	}
+}
+
 func TestTemplateViewer_ShowSearchResults_Offset(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	m := api.NewMockRecipeAPI(ctrl)

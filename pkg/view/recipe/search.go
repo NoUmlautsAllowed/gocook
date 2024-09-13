@@ -1,8 +1,10 @@
 package recipe
 
 import (
+	"fmt"
 	"math"
 	"net/http"
+	"regexp"
 	"strconv"
 
 	"github.com/NoUmlautsAllowed/gocook/pkg/api"
@@ -29,11 +31,21 @@ type tmplSearch struct {
 	Last           tmplPageData
 }
 
+var recipeURLRegex = regexp.MustCompile(`^(?:https:\/\/|)(?:www\.|)chefkoch\.de\/rezepte\/(\d+)\/[a-zA-Z-]+\.html[a-zA-Z0-9-_=&?#]*$`)
+
 const defaultResultsPerPage int = 15
 
 func (t *TemplateViewer) ShowSearchResults(c *gin.Context) {
 	var search api.Search
 	if err := c.Bind(&search); err == nil && len(search.Query) > 0 {
+		// first of all, we check whether this is a direct url
+		urlMatch := recipeURLRegex.FindStringSubmatch(search.Query)
+		if len(urlMatch) > 0 {
+			// redirect to direct recipe view
+			c.Redirect(http.StatusMovedPermanently, fmt.Sprintf("/recipes/%s", urlMatch[1]))
+			return
+		}
+
 		// this is how the api call looks like
 		// https://api.chefkoch.de/v2/search/recipe?query=lasagne%20vegan
 		// this is how the format should look like crop-480x600
