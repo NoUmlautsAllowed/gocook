@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/url"
 	"path"
+	"strconv"
 
 	"github.com/NoUmlautsAllowed/gocook/pkg/api"
 )
@@ -83,4 +84,43 @@ func (a *API) Search(s api.Search) (*api.RecipeSearch, error) {
 	}
 
 	return &recipeSearch, nil
+}
+
+func (a *API) Comments(c api.CommentQuery) (*api.Comments, error) {
+	// An example request URL looks like https://api.chefkoch.de/v2/recipes/876401193058553/comments?offset=20&limit=20&order=1&orderBy=1
+	// whereas the number after /recipes/ represents the recipe id
+	u, _ := url.Parse(a.baseRecipeURL)
+	u.Path = path.Join(path.Join(u.Path, c.RecipeID), "comments")
+	query := make(url.Values)
+	query.Set("limit", strconv.Itoa(c.Limit))
+	query.Set("offset", strconv.Itoa(c.Offset))
+	query.Set("order", "0") // sort by date descending (newest first)
+	u.RawQuery = query.Encode()
+
+	req, err := http.NewRequest(http.MethodGet, u.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Set("User-Agent", a.userAgent)
+
+	resp, err := a.defaultClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+
+	log.Println(resp.StatusCode, u)
+	defer resp.Body.Close()
+	data, _ := io.ReadAll(resp.Body)
+
+	var comments api.Comments
+	if err = json.Unmarshal(data, &comments); err != nil {
+		return nil, err
+	}
+
+	for i := range comments.Results {
+		comment := &comments.Results[i]
+		comment.Owner.AvatarImageURLTemplate = a.replaceImageCdnURL(comment.Owner.AvatarImageURLTemplate)
+	}
+	return &comments, nil
 }

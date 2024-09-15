@@ -9,38 +9,19 @@ import "time"
 // For easy type definitions, the JSON given by the API may be pasted into https://transform.tools/json-to-go
 
 type Owner struct {
-	ID        string `json:"id"`
-	Username  string `json:"username"`
-	Rank      int    `json:"rank"`
-	Role      string `json:"role"`
-	HasAvatar bool   `json:"hasAvatar"`
-	HasPaid   bool   `json:"hasPaid"`
-	Deleted   bool   `json:"deleted"`
+	ID                     string `json:"id"`
+	Username               string `json:"username"`
+	Rank                   int    `json:"rank"`
+	Role                   string `json:"role"`
+	HasAvatar              bool   `json:"hasAvatar"`
+	AvatarImageURLTemplate string `json:"avatarImageUrlTemplate"`
+	HasPaid                bool   `json:"hasPaid"`
+	Deleted                bool   `json:"deleted"`
 }
 
 type Rating struct {
 	Rating   float64 `json:"rating"`
 	NumVotes int     `json:"numVotes"`
-}
-
-type ImageOwner struct {
-	ID        string `json:"id"`
-	Username  string `json:"username"`
-	Rank      int    `json:"rank"`
-	Role      string `json:"role"`
-	HasAvatar bool   `json:"hasAvatar"`
-	HasPaid   bool   `json:"hasPaid"`
-	Deleted   bool   `json:"deleted"`
-}
-
-type Editor struct {
-	ID        string `json:"id"`
-	Username  string `json:"username"`
-	Rank      int    `json:"rank"`
-	Role      string `json:"role"`
-	HasAvatar bool   `json:"hasAvatar"`
-	HasPaid   bool   `json:"hasPaid"`
-	Deleted   bool   `json:"deleted"`
 }
 
 type Tag struct {
@@ -78,13 +59,13 @@ type Recipe struct {
 	HasImage                bool              `json:"hasImage"`
 	HasVideo                bool              `json:"hasVideo"`
 	PreviewImageID          string            `json:"previewImageId"`
-	PreviewImageOwner       ImageOwner        `json:"previewImageOwner"`
+	PreviewImageOwner       Owner             `json:"previewImageOwner"`
 	PreparationTime         int               `json:"preparationTime"`
 	IsSubmitted             bool              `json:"isSubmitted"`
 	IsRejected              bool              `json:"isRejected"`
 	CreatedAt               time.Time         `json:"createdAt"`
 	ImageCount              int               `json:"imageCount"`
-	Editor                  Editor            `json:"editor"`
+	Editor                  Owner             `json:"editor"`
 	SubmissionDate          time.Time         `json:"submissionDate"`
 	IsPremium               bool              `json:"isPremium"`
 	Status                  int               `json:"status"`
@@ -126,4 +107,30 @@ type Search struct {
 	Query  string `form:"query"`
 	Limit  string `form:"limit"`
 	Offset string `form:"offset"`
+}
+
+type CommentResult struct {
+	ID           string    `json:"id"`
+	Owner        Owner     `json:"owner"`
+	CreatedAt    time.Time `json:"createdAt"`
+	Text         string    `json:"text"`
+	Helpful      bool      `json:"helpful"`
+	HelpfulCount int       `json:"helpfulCount"`
+	ParentID     string    `json:"parentId"`
+	Children     any       `json:"children"`
+}
+
+type Comments struct {
+	Count         int             `json:"count"`
+	Results       []CommentResult `json:"results"`
+	MaxAge        int             `json:"maxAge"`
+	SharedMaxAge  int             `json:"sharedMaxAge"`
+	SurrogateKeys []string        `json:"surrogateKeys"`
+}
+
+type CommentQuery struct {
+	RecipeID   string `form:"recipeId"`
+	RecipeName string `form:"recipeName"`
+	Limit      int    `form:"limit"`
+	Offset     int    `form:"offset"`
 }

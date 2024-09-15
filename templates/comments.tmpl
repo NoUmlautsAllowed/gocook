@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>GoCook | Kommentare</title>
+    {{ template "head.tmpl"}}
+</head>
+<body>
+<header class="section p-0 hero is-chef">
+    <div class="hero-head pb-3 pt-5">
+        {{ template "header.tmpl" }}
+    </div>
+    <div class="hero-body pt-3">
+        {{ template "search.tmpl" . }}
+    </div>
+</header>
+<main class="section">
+    <p class="mb-4 has-text-weight-semibold">{{ .Count }} Kommentare</p>
+    <div>
+        {{ range .Comments.Results }}
+            <div class="card">
+                <div class="card-content">
+                    <div class="media-content">
+                        <h3 class="title is-6">{{ .Owner.Username }}</h3>
+                    </div>
+                    <br />
+                    <div class="content">
+                        <p>{{ .Text }}</p>
+                    </div>
+                </div>
+            </div>
+        {{ end }}
+    </div>
+    <div class="container">
+        <div class="p-3">
+            <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+                <a class="pagination-previous {{ if not .Previous.Exists }}is-disabled{{ end }}" {{ if .Previous.Exists }} href="/recipes/{{ .RecipeId }}/comments?offset={{ .Previous.Offset }}" {{ end }}>Vorherige</a>
+                <a class="pagination-previous {{ if not .Next.Exists }}is-disabled{{ end }}" {{ if .Next.Exists }} href="/recipes/{{ .RecipeId }}/comments?offset={{ .Next.Offset }}" {{ end }}>Nächste Seite</a>
+            </nav>
+        </div>
+    </div>
+</main>
+<footer class="section hero is-chef">
+    <div class="hero-foot">
+        {{ template "footer.tmpl" }}
+    </div>
+</footer>
+</body>
+</html>
+
