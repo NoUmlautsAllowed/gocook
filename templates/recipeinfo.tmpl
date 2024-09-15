@@ -3,9 +3,36 @@
         <i class="mdi mdi-star"></i>
     </span>
     {{ .Rating.Rating }} ({{ .Rating.NumVotes }} Bewertungen)
-    <br>
-    <span class="icon">
+
+    {{ if gt .TotalTime 0 }}
+        <br>
+        <span class="icon">
         <i class="mdi mdi-clock"></i>
     </span>
-    {{ .PreparationTime }} Min.
+        <span>{{ .TotalTime }} Min. Gesamtzeit</span>
+    {{ end }}
+
+    {{ if gt .PreparationTime 0 }}
+        <br>
+        <span class="icon">
+        <i class="mdi mdi-knife"></i>
+    </span>
+        <span>{{ .PreparationTime }} Min. Arbeitszeit</span>
+    {{ end }}
+
+    {{ if gt .CookingTime 0 }}
+        <br>
+        <span class="icon">
+        <i class="mdi mdi-pot-steam-outline"></i>
+    </span>
+        <span>{{ .CookingTime }} Min. Koch-/Backzeit</span>
+    {{ end }}
+
+    {{ if gt .Servings 0 }}
+        <br>
+        <span class="icon">
+        <i class="mdi mdi-bowl-outline"></i>
+    </span>
+        <span>{{ .Servings }} Portionen</span>
+    {{ end }}
 </p>
