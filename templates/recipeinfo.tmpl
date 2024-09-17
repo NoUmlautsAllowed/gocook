@@ -9,7 +9,7 @@
         <span class="icon">
         <i class="mdi mdi-clock"></i>
     </span>
-        <span>{{ .TotalTime }} Min. Gesamtzeit</span>
+        <span itemprop="totalTime" content="PT{{ .TotalTime }}M">{{ .TotalTime }} Min. Gesamtzeit</span>
     {{ end }}
 
     {{ if gt .PreparationTime 0 }}
@@ -17,7 +17,7 @@
         <span class="icon">
         <i class="mdi mdi-knife"></i>
     </span>
-        <span>{{ .PreparationTime }} Min. Arbeitszeit</span>
+        <span itemprop="prepTime" content="PT{{ .PreparationTime }}M">{{ .PreparationTime }} Min. Arbeitszeit</span>
     {{ end }}
 
     {{ if gt .CookingTime 0 }}
@@ -25,7 +25,7 @@
         <span class="icon">
         <i class="mdi mdi-pot-steam-outline"></i>
     </span>
-        <span>{{ .CookingTime }} Min. Koch-/Backzeit</span>
+        <span itemprop="cookTime" content="PT{{ .CookingTime }}M">{{ .CookingTime }} Min. Koch-/Backzeit</span>
     {{ end }}
 
     {{ if gt .Servings 0 }}
@@ -33,6 +33,6 @@
         <span class="icon">
         <i class="mdi mdi-bowl-outline"></i>
     </span>
-        <span>{{ .Servings }} Portionen</span>
+        <span itemprop="recipeYield">{{ .Servings }} Portionen</span>
     {{ end }}
 </p>

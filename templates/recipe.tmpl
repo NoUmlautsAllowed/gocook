@@ -15,15 +15,15 @@
 </header>
 <main class="section">
     <div class="fixed-grid">
-        <div class="grid">
+        <div class="grid" itemscope itemtype="https://schema.org/Recipe">
             <div class="cell is-col-span-2-mobile">
                 <div class="box is-full-height">
                     <div class="content">
-                    <h1>{{ .Title }}</h1>
-                    <p>{{ .Recipe.Subtitle }}</p>
+                    <h1 itemprop="name">{{ .Title }}</h1>
+                    <p itemprop="description">{{ .Recipe.Subtitle }}</p>
                     {{ if .HasImage }}
                     <figure class="image is-4by5">
-                        <img src="{{ .PreviewImageURLTemplate }}" alt="Vorschau">
+                        <img itemprop="image" src="{{ .PreviewImageURLTemplate }}" alt="Vorschau">
                     </figure>
                     {{ end }}
                     </div>
@@ -39,20 +39,22 @@
                         <p>{{ .Header }}</p>
                         <ul>
                             {{ range .Ingredients }}
-                            <li>{{ if .Amount }}{{ .Amount }} {{ .Unit }} {{ end }}{{ .Name }}</li>
+                            <li itemprop="recipeIngredient">{{ if .Amount }}{{ .Amount }} {{ .Unit }} {{ end }}{{ .Name }}</li>
                             {{ end}}
                         </ul>
                     </div>
                     {{ end }}
                 </div>
             </div>
-            {{ range .Instructions }}
-            <div class="cell is-col-span-2">
-                <div class="box">
-                    <p>{{ . }}</p>
+            <div itemprop="recipeInstructions">
+                {{ range .Instructions }}
+                <div class="cell is-col-span-2">
+                    <div class="box">
+                        <p>{{ . }}</p>
+                    </div>
                 </div>
-            </div>
             {{ end }}
+            </div>
         </div>
     </div>
 
