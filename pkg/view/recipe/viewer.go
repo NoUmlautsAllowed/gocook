@@ -1,6 +1,9 @@
 package recipe
 
 import (
+	"fmt"
+	"net/http"
+
 	"github.com/NoUmlautsAllowed/gocook/pkg/api"
 
 	"github.com/gin-gonic/gin"
@@ -20,9 +23,10 @@ type TemplateViewer struct {
 }
 
 const (
-	searchResultsPath = "/recipe"
-	recipePath        = "recipes/:recipe"
-	commentsPath      = "recipes/:recipe/comments"
+	searchResultsPath  = "/recipe"
+	recipePath         = "recipes/:recipe"
+	redirectRecipePath = "rezepte/:recipe/*recipename"
+	commentsPath       = "recipes/:recipe/comments"
 )
 
 func NewTemplateViewer(api api.RecipeAPI) *TemplateViewer {
@@ -38,4 +42,10 @@ func RegisterViewerRoutes(v Viewer, r gin.IRouter) {
 	r.GET(searchResultsPath, v.ShowSearchResults)
 	r.GET(recipePath, v.ShowRecipe)
 	r.GET(commentsPath, v.ShowComments)
+
+	// this path is used by chefkoch for displaying recipes and therefore this redirect makes URL rewrites simpler
+	r.GET(redirectRecipePath, func(c *gin.Context) {
+		recipe := c.Param("recipe")
+		c.Redirect(http.StatusMovedPermanently, fmt.Sprintf("/recipes/%s", recipe))
+	})
 }
