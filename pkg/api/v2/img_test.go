@@ -3,7 +3,7 @@ package v2
 import (
 	"testing"
 
-	"github.com/NoUmlautsAllowed/gocook/pkg/env"
+	"codeberg.org/NoUmlautsAllowed/gocook/pkg/env"
 )
 
 func TestReplaceImageCdnUrl(t *testing.T) {

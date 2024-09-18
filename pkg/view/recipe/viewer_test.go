@@ -3,7 +3,7 @@ package recipe
 import (
 	"testing"
 
-	"github.com/NoUmlautsAllowed/gocook/pkg/api"
+	"codeberg.org/NoUmlautsAllowed/gocook/pkg/api"
 
 	"go.uber.org/mock/gomock"
 )

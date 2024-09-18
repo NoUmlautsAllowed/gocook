@@ -7,9 +7,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/NoUmlautsAllowed/gocook/pkg/api"
-	"github.com/NoUmlautsAllowed/gocook/pkg/env"
-	"github.com/NoUmlautsAllowed/gocook/pkg/utils"
+	"codeberg.org/NoUmlautsAllowed/gocook/pkg/api"
+	"codeberg.org/NoUmlautsAllowed/gocook/pkg/env"
+	"codeberg.org/NoUmlautsAllowed/gocook/pkg/utils"
 
 	"go.uber.org/mock/gomock"
 )

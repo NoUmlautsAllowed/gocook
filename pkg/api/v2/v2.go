@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/NoUmlautsAllowed/gocook/pkg/env"
+	"codeberg.org/NoUmlautsAllowed/gocook/pkg/env"
 )
 
 const (

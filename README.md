@@ -1,6 +1,6 @@
 [![status-badge](https://ci.codeberg.org/api/badges/13698/status.svg)](https://ci.codeberg.org/repos/13698)
 [![Go](https://github.com/NoUmlautsAllowed/gocook/actions/workflows/go.yml/badge.svg)](https://github.com/NoUmlautsAllowed/gocook/actions/workflows/go.yml)
-[![Go Report Card](https://goreportcard.com/badge/github.com/NoUmlautsAllowed/gocook)](https://goreportcard.com/report/github.com/NoUmlautsAllowed/gocook)
+[![Go Report Card](https://goreportcard.com/badge/codeberg.org/NoUmlautsAllowed/gocook)](https://goreportcard.com/report/codeberg.org/NoUmlautsAllowed/gocook)
 [![codecov](https://codecov.io/gh/NoUmlautsAllowed/gocook/branch/main/graph/badge.svg?token=OO2AKXBRKU)](https://codecov.io/gh/NoUmlautsAllowed/gocook)
 
 # :cook: GoCook
@@ -50,10 +50,10 @@ docker run -d --name gocook -p 127.0.0.1:8080:8080 noumlautsallowed/gocook:lates
 If you want to build this project from source, checkout the repository 
 locally and run the server.
 
-Currently, only Go needs to be installed.
+Currently, only Go and NPM needs to be installed.
 
 ```shell
-git clone git@github.com:NoUmlautsAllowed/gocook.git && cd gocook
+git clone https://codeberg.org/NoUmlautsAllowed/gocook.git && cd gocook
 npm i
 npm run build
 go build ./cmd/server

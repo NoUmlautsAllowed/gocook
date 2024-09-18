@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/NoUmlautsAllowed/gocook/pkg/api"
+	"codeberg.org/NoUmlautsAllowed/gocook/pkg/api"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-loremipsum/loremipsum"

@@ -4,11 +4,11 @@ import (
 	"log"
 	"net/http"
 
-	v2 "github.com/NoUmlautsAllowed/gocook/pkg/api/v2"
-	"github.com/NoUmlautsAllowed/gocook/pkg/cdn"
-	"github.com/NoUmlautsAllowed/gocook/pkg/cdn/img"
-	"github.com/NoUmlautsAllowed/gocook/pkg/env"
-	"github.com/NoUmlautsAllowed/gocook/pkg/view/recipe"
+	v2 "codeberg.org/NoUmlautsAllowed/gocook/pkg/api/v2"
+	"codeberg.org/NoUmlautsAllowed/gocook/pkg/cdn"
+	"codeberg.org/NoUmlautsAllowed/gocook/pkg/cdn/img"
+	"codeberg.org/NoUmlautsAllowed/gocook/pkg/env"
+	"codeberg.org/NoUmlautsAllowed/gocook/pkg/view/recipe"
 
 	"github.com/gin-gonic/gin"
 )

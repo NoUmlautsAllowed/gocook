@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/NoUmlautsAllowed/gocook/pkg/api"
+	"codeberg.org/NoUmlautsAllowed/gocook/pkg/api"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/mock/gomock"

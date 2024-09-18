@@ -7,7 +7,7 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/NoUmlautsAllowed/gocook/pkg/env"
+	"codeberg.org/NoUmlautsAllowed/gocook/pkg/env"
 
 	"github.com/gin-gonic/gin"
 )

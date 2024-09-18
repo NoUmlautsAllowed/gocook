@@ -3,8 +3,8 @@ package v2
 import (
 	"testing"
 
-	"github.com/NoUmlautsAllowed/gocook/pkg/cdn"
-	"github.com/NoUmlautsAllowed/gocook/pkg/env"
+	"codeberg.org/NoUmlautsAllowed/gocook/pkg/cdn"
+	"codeberg.org/NoUmlautsAllowed/gocook/pkg/env"
 )
 
 func TestNewV2Api(t *testing.T) {

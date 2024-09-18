@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NoUmlautsAllowed/gocook.git"
+    "url": "git+https://codeberg.org/NoUmlautsAllowed/gocook.git"
   },
   "author": "NoUmlautsAllowed",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/NoUmlautsAllowed/gocook/issues"
+    "url": "https://codeberg.org/NoUmlautsAllowed/gocook/issues"
   },
-  "homepage": "https://github.com/NoUmlautsAllowed/gocook#readme",
+  "homepage": "https://codeberg.org/NoUmlautsAllowed/gocook#readme",
   "devDependencies": {
     "@mdi/font": "^7.4.47",
     "bulma": "^1.0.2",

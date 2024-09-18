@@ -17,7 +17,7 @@ linters-settings:
     custom-order: true
     sections:
       - standard
-      - prefix(github.com/NoUmlautsAllowed/gocook)
+      - prefix(codeberg.org/NoUmlautsAllowed/gocook)
       - default
 
 linters:

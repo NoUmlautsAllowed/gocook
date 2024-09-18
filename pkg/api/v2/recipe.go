@@ -9,7 +9,7 @@ import (
 	"path"
 	"strconv"
 
-	"github.com/NoUmlautsAllowed/gocook/pkg/api"
+	"codeberg.org/NoUmlautsAllowed/gocook/pkg/api"
 )
 
 func (a *API) Get(id string) (*api.Recipe, error) {

@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/NoUmlautsAllowed/gocook/pkg/api"
+	"codeberg.org/NoUmlautsAllowed/gocook/pkg/api"
 
 	"github.com/gin-gonic/gin"
 )

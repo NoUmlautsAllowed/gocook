@@ -1,4 +1,4 @@
-module github.com/NoUmlautsAllowed/gocook
+module codeberg.org/NoUmlautsAllowed/gocook
 
 go 1.22
 
