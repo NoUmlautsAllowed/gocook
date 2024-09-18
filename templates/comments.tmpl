@@ -14,7 +14,7 @@
     </div>
 </header>
 <main class="section">
-    <p class="mb-4 has-text-weight-semibold">{{ .Count }} Kommentare</p>
+    <h6 class="title is-6">{{ len .Comments.Results }} von {{ .Count }} Kommentaren</h6>
     <div>
         {{ range .Comments.Results }}
             <div class="card">
@@ -32,10 +32,7 @@
     </div>
     <div class="container">
         <div class="p-3">
-            <nav class="pagination is-centered" role="navigation" aria-label="pagination">
-                <a class="pagination-previous {{ if not .Previous.Exists }}is-disabled{{ end }}" {{ if .Previous.Exists }} href="/recipes/{{ .RecipeId }}/comments?offset={{ .Previous.Offset }}" {{ end }}>Vorherige</a>
-                <a class="pagination-previous {{ if not .Next.Exists }}is-disabled{{ end }}" {{ if .Next.Exists }} href="/recipes/{{ .RecipeId }}/comments?offset={{ .Next.Offset }}" {{ end }}>Nächste Seite</a>
-            </nav>
+            {{ template "pagination.tmpl" .Pagination }}
         </div>
     </div>
 </main>

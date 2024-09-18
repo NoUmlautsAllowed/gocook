@@ -14,7 +14,7 @@
     </div>
 </header>
 <main class="section">
-        <p class="mx-5"><strong>{{ len .Results }} von {{ .Count }} Rezepten</strong></p>
+        <h6 class="title is-6 mx-5">{{ len .Results }} von {{ .Count }} Rezepten</h6>
 
         <div class="fixed-grid has-5-cols-widescreen has-3-cols-tablet has-1-cols-mobile">
             <div class="grid">
@@ -43,7 +43,7 @@
         </div>
     <div class="container">
         <div class="p-3">
-            {{ template "pagination.tmpl" . }}
+            {{ template "pagination.tmpl" .Pagination }}
         </div>
     </div>
 </main>

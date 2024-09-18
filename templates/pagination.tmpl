@@ -12,36 +12,36 @@ X … X (X) X … X
 
 */}}
 <nav class="pagination is-centered" role="navigation" aria-label="pagination">
-    <a class="pagination-previous {{ if eq .Current.Page 1 }}is-disabled{{ end }}" {{ if ne .Current.Page 1}}href="/recipe?query={{ .Query }}&offset={{ .Previous.Offset }}"{{ end }}>Vorherige</a>
-    <a class="pagination-next {{ if eq .Current.Page .Last.Page}}is-disabled{{ end }}" {{if ne .Current.Page .Last.Page}}href="/recipe?query={{ .Query }}&offset={{ .Next.Offset }}"{{ end }}>Nächste Seite</a>
+    <a class="pagination-previous {{ if eq .Current.Page 1 }}is-disabled{{ end }}" {{ if ne .Current.Page 1}}href="{{ .BaseURL }}{{ .Separator }}offset={{ .Previous.Offset }}"{{ end }}>Vorherige</a>
+    <a class="pagination-next {{ if eq .Current.Page .Last.Page}}is-disabled{{ end }}" {{if ne .Current.Page .Last.Page}}href="{{ .BaseURL }}{{ .Separator }}offset={{ .Next.Offset }}"{{ end }}>Nächste Seite</a>
     <ul class="pagination-list">
         {{/* first page link and … */}}
         {{if and (gt .Current.Page 2) (gt .Last.Page 3)}}
-            <li><a class="pagination-link" aria-label="Gehe zu Seite 1" href="/recipe?query={{ .Query }}">1</a></li>
+            <li><a class="pagination-link" aria-label="Gehe zu Seite 1" href="{{ .BaseURL }}">1</a></li>
         {{ end }}
         {{ if gt .Current.Page 3 }}
             <li><span class="pagination-ellipsis">&hellip;</span></li>
         {{ end }}
         {{/* current pages */}}
         {{ if and (eq .Current.Page .Last.Page) (ge .Current.Page 3)}}
-            <li><a class="pagination-link" aria-label="Gehe zu Seite {{ .PreviousButOne.Page }}" href="/recipe?query={{ .Query }}&offset={{ .PreviousButOne.Offset }}">{{.PreviousButOne.Page }}</a></li>
+            <li><a class="pagination-link" aria-label="Gehe zu Seite {{ .PreviousButOne.Page }}" href="{{ .BaseURL }}{{ .Separator }}offset={{ .PreviousButOne.Offset }}">{{.PreviousButOne.Page }}</a></li>
         {{ end }}
         {{ if gt .Current.Page 1 }}
-            <li><a class="pagination-link" aria-label="Gehe zu Seite {{ .Previous.Page }}" href="/recipe?query={{ .Query }}&offset={{ .Previous.Offset }}">{{ .Previous.Page }}</a></li>
+            <li><a class="pagination-link" aria-label="Gehe zu Seite {{ .Previous.Page }}" href="{{ .BaseURL }}{{ .Separator }}offset={{ .Previous.Offset }}">{{ .Previous.Page }}</a></li>
         {{ end }}
         <li><a class="pagination-link is-chef" aria-label="Seite {{ .Current.Page }}" aria-current="page"><span class="is-chef">{{ .Current.Page }}</span></a></li>
         {{if lt .Current.Page .Last.Page}}
-            <li><a class="pagination-link" aria-label="Gehe zu Seite {{ .Next.Page }}" href="/recipe?query={{ .Query }}&offset={{ .Next.Offset }}">{{.Next.Page }}</a></li>
+            <li><a class="pagination-link" aria-label="Gehe zu Seite {{ .Next.Page }}" href="{{ .BaseURL }}{{ .Separator }}offset={{ .Next.Offset }}">{{.Next.Page }}</a></li>
         {{ end }}
         {{ if and (eq .Current.Page 1) (ge .Last.Page 3)}}
-            <li><a class="pagination-link" aria-label="Gehe zu Seite {{ .NextButOne.Page }}" href="/recipe?query={{ .Query }}&offset={{ .NextButOne.Offset }}">{{.NextButOne.Page }}</a></li>
+            <li><a class="pagination-link" aria-label="Gehe zu Seite {{ .NextButOne.Page }}" href="{{ .BaseURL }}{{ .Separator }}offset={{ .NextButOne.Offset }}">{{.NextButOne.Page }}</a></li>
         {{ end }}
         {{/* … last page link */}}
         {{if and (lt .Next.Page .LastButOne.Page) (gt .Last.Page 3)}}
             <li><span class="pagination-ellipsis">&hellip;</span></li>
         {{ end }}
         {{if and (lt .Current.Page .LastButOne.Page) (gt .Last.Page 3)}}
-            <li><a class="pagination-link" aria-label="Gehe zu Seite {{ .Last.Page }}" href="/recipe?query={{ .Query }}&offset={{ .Last.Offset }}">{{ .Last.Page }}</a></li>
+            <li><a class="pagination-link" aria-label="Gehe zu Seite {{ .Last.Page }}" href="{{ .BaseURL }}{{ .Separator }}offset={{ .Last.Offset }}">{{ .Last.Page }}</a></li>
         {{ end }}
     </ul>
 </nav>

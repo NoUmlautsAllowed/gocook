@@ -1,7 +1,7 @@
 package recipe
 
 import (
-	"math"
+	"fmt"
 	"net/http"
 
 	"github.com/NoUmlautsAllowed/gocook/pkg/api"
@@ -9,19 +9,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type tmplCommentData struct {
-	Offset int
-	Exists bool
-}
-
 type tmplComments struct {
 	api.Comments
 	api.CommentQuery
 	Query          string
 	ResultsPerPage int
 
-	Previous tmplCommentData
-	Next     tmplCommentData
+	Pagination tmplPagination
 }
 
 const defaultCommentsPerPage int = 20
@@ -55,14 +49,7 @@ func (t *TemplateViewer) ShowComments(c *gin.Context) {
 			Comments:     *comments,
 			CommentQuery: queryData,
 			Query:        "",
-			Previous: tmplCommentData{
-				Offset: int(math.Max(0, float64(queryData.Offset-defaultCommentsPerPage))),
-				Exists: queryData.Offset > 0,
-			},
-			Next: tmplCommentData{
-				Offset: queryData.Offset + defaultCommentsPerPage,
-				Exists: queryData.Offset+defaultCommentsPerPage < comments.Count,
-			},
+			Pagination:   pagination(defaultCommentsPerPage, queryData.Offset, comments.Count, fmt.Sprintf("/recipes/%s/comments", queryData.RecipeID), false),
 		}
 
 		c.HTML(http.StatusOK, t.commentsTemplate, tmplData)

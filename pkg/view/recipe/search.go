@@ -2,7 +2,6 @@ package recipe
 
 import (
 	"fmt"
-	"math"
 	"net/http"
 	"regexp"
 	"strconv"
@@ -12,23 +11,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type tmplPageData struct {
-	Offset int
-	Page   int
-}
-
 type tmplSearch struct {
 	api.Search
 	api.RecipeSearch
 	ResultsPerPage int
 
-	PreviousButOne tmplPageData
-	Previous       tmplPageData
-	Current        tmplPageData
-	Next           tmplPageData
-	NextButOne     tmplPageData
-	LastButOne     tmplPageData
-	Last           tmplPageData
+	Pagination tmplPagination
 }
 
 var recipeURLRegex = regexp.MustCompile(`^(?:https:\/\/|)(?:www\.|)chefkoch\.de\/rezepte\/(\d+)\/[a-zA-Z-]+\.html[a-zA-Z0-9-_=&?#]*$`)
@@ -84,52 +72,11 @@ func (t *TemplateViewer) ShowSearchResults(c *gin.Context) {
 			}
 		}
 
-		var previousOffset int
-		if offset == 0 {
-			previousOffset = 0
-		} else {
-			previousOffset = offset - defaultResultsPerPage
-		}
-
-		nextOffset := offset + defaultResultsPerPage
-		pageCount := int(math.Ceil(float64(recipeSearch.Count) / float64(defaultResultsPerPage)))
-		if recipeSearch.Count < defaultResultsPerPage {
-			nextOffset = 0
-			pageCount = 1
-		}
-
 		tmplData := tmplSearch{
 			Search:         search,
 			RecipeSearch:   *recipeSearch,
 			ResultsPerPage: defaultResultsPerPage,
-			PreviousButOne: tmplPageData{
-				Offset: previousOffset - defaultResultsPerPage,
-				Page:   (previousOffset-defaultResultsPerPage)/defaultResultsPerPage + 1,
-			},
-			Previous: tmplPageData{
-				Offset: previousOffset,
-				Page:   previousOffset/defaultResultsPerPage + 1,
-			},
-			Current: tmplPageData{
-				Offset: offset,
-				Page:   offset/defaultResultsPerPage + 1,
-			},
-			Next: tmplPageData{
-				Offset: nextOffset,
-				Page:   nextOffset/defaultResultsPerPage + 1,
-			},
-			NextButOne: tmplPageData{
-				Offset: nextOffset + defaultResultsPerPage,
-				Page:   nextOffset/defaultResultsPerPage + 2,
-			},
-			LastButOne: tmplPageData{
-				Offset: (pageCount - 2) * defaultResultsPerPage,
-				Page:   pageCount - 1,
-			},
-			Last: tmplPageData{
-				Offset: (pageCount - 1) * defaultResultsPerPage,
-				Page:   pageCount,
-			},
+			Pagination:     pagination(defaultResultsPerPage, offset, recipeSearch.Count, "/recipe?query="+search.Query, true),
 		}
 		c.HTML(http.StatusOK, t.searchResultsTemplate, tmplData)
 	} else if err != nil {
