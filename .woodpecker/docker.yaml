@@ -18,6 +18,8 @@ steps:
       dry_run: true
     when:
       - event: pull_request
+      - event: push
+        branch: "renovate/*"
 
   - name: publish
     image: *build_plugin

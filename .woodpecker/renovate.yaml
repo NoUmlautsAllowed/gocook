@@ -17,23 +17,6 @@ steps:
     when:
       event: [push, pull_request]
 
-  renovate-dry:
-    image: renovate/renovate:latest
-    pull: true
-    commands:
-      - renovate $${CI_REPO}
-    environment:
-      RENOVATE_PLATFORM: gitea
-      RENOVATE_ENDPOINT: https://codeberg.org
-      RENOVATE_DRY_RUN: full
-      RENOVATE_CONFIG_FILE: renovate.json
-      GITHUB_COM_TOKEN:
-        from_secret: github_com_token
-      RENOVATE_TOKEN:
-        from_secret: renovate_token
-    when:
-      - event: push
-
   renovate:
     image: renovate/renovate:latest
     pull: true
@@ -49,5 +32,6 @@ steps:
       RENOVATE_TOKEN:
         from_secret: renovate_token
     when:
-      - event: [cron, manual]
+      - event: [cron, manual, push]
         cron: renovate
+        branch: main
