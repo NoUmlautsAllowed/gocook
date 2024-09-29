@@ -1,5 +1,4 @@
 [![status-badge](https://ci.codeberg.org/api/badges/13698/status.svg)](https://ci.codeberg.org/repos/13698)
-[![Go](https://github.com/NoUmlautsAllowed/gocook/actions/workflows/go.yml/badge.svg)](https://github.com/NoUmlautsAllowed/gocook/actions/workflows/go.yml)
 [![Go Report Card](https://goreportcard.com/badge/codeberg.org/NoUmlautsAllowed/gocook)](https://goreportcard.com/report/codeberg.org/NoUmlautsAllowed/gocook)
 [![codecov](https://codecov.io/gh/NoUmlautsAllowed/gocook/branch/main/graph/badge.svg?token=OO2AKXBRKU)](https://codecov.io/gh/NoUmlautsAllowed/gocook)
 

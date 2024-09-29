@@ -29,7 +29,7 @@ steps:
     image: *golang_image
     depends_on: generate
     commands:
-      - go test -race -cover -covermode=atomic ./...
+      - go test -race -cover -coverprofile=coverage.txt -covermode=atomic ./...
 
   - name: upload
     depends_on: build
@@ -37,5 +37,15 @@ steps:
     commands:
       - 'curl --user NoUmlautsAllowed:$CODEBERG_REGISTRY_TOKEN --upload-file server "https://codeberg.org/api/packages/NoUmlautsAllowed/generic/gocook/${CI_COMMIT_SHA}/server"'
     secrets: [CODEBERG_REGISTRY_TOKEN]
+    when:
+      event: push
+
+  - name: codecov
+    image: woodpeckerci/plugin-codecov
+    depends_on: test
+    settings:
+      files: coverage.txt
+      token:
+        from_secret: codecov_token
     when:
       event: push
