@@ -46,14 +46,14 @@
                     {{ end }}
                 </div>
             </div>
-            <div itemprop="recipeInstructions">
+            <div itemprop="recipeInstructions" class="cell is-col-span-2">
                 {{ range .Instructions }}
-                <div class="cell is-col-span-2">
+                <div class="pb-3">
                     <div class="box">
                         <p>{{ . }}</p>
                     </div>
                 </div>
-            {{ end }}
+                {{ end }}
             </div>
         </div>
     </div>
