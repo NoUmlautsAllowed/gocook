@@ -25,8 +25,11 @@ type Rating struct {
 }
 
 type Tag struct {
-	ID   int    `json:"id"`
-	Name string `json:"name"`
+	ID         int    `json:"id"`
+	Name       string `json:"name"`
+	Count      int    `json:"count"`
+	IsActive   bool   `json:"isActive"`
+	IsDisabled bool   `json:"isDisabled"`
 }
 
 type Ingredient struct {
@@ -98,15 +101,26 @@ type RecipeSearchResult struct {
 }
 
 type RecipeSearch struct {
-	Count   int                  `json:"count"`
-	QueryID string               `json:"queryId"`
-	Results []RecipeSearchResult `json:"results"`
+	Count     int                  `json:"count"`
+	QueryID   string               `json:"queryId"`
+	Results   []RecipeSearchResult `json:"results"`
+	TagGroups []TagGroup           `json:"tagGroups"`
+}
+
+type TagGroup struct {
+	Key        string `json:"key"`
+	Name       string `json:"name"`
+	Icon       string `json:"icon"`
+	IsActive   bool   `json:"isActive"`
+	IsDisabled bool   `json:"isDisabled"`
+	Tags       []Tag  `json:"tags"`
 }
 
 type Search struct {
 	Query  string `form:"query"`
 	Limit  string `form:"limit"`
 	Offset string `form:"offset"`
+	Tags   string `form:"tags"`
 }
 
 type CommentResult struct {

@@ -23,6 +23,10 @@ $chef-dark: #243b27;
   width: 100%;
 }
 
+.dropdown-item.is-active {
+  background-color: $chef-dark;
+}
+
 @media (prefers-color-scheme: dark) {
   .is-chef {
     background-color: $chef-dark;
@@ -31,5 +35,9 @@ $chef-dark: #243b27;
 
   .is-chef-text {
     color: initial-variables.$black;
+  }
+
+  .dropdown-item.is-active {
+    background-color: $chef-light;
   }
 }

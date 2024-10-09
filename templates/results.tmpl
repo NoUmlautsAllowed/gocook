@@ -12,6 +12,9 @@
     <div class="hero-body pt-3">
         {{ template "search.tmpl" . }}
     </div>
+    <div class="hero-body pt-3">
+        {{ template "tags.tmpl" . }}
+    </div>
 </header>
 <main class="section">
         <h6 class="title is-6 mx-5">{{ len .Results }} von {{ .Count }} Rezepten</h6>

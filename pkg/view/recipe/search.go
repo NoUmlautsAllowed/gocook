@@ -2,11 +2,13 @@ package recipe
 
 import (
 	"fmt"
+	"maps"
 	"net/http"
 	"regexp"
 	"strconv"
 
 	"codeberg.org/NoUmlautsAllowed/gocook/pkg/api"
+	"codeberg.org/NoUmlautsAllowed/gocook/pkg/form"
 
 	"github.com/gin-gonic/gin"
 )
@@ -16,7 +18,8 @@ type tmplSearch struct {
 	api.RecipeSearch
 	ResultsPerPage int
 
-	Pagination tmplPagination
+	Pagination        tmplPagination
+	TagGroupTemplates []tmplTagGroup
 }
 
 var recipeURLRegex = regexp.MustCompile(`^(?:https:\/\/|)(?:www\.|)chefkoch\.de\/rezepte\/(\d+)\/[a-zA-Z-]+\.html[a-zA-Z0-9-_=&?#]*$`)
@@ -33,14 +36,6 @@ func (t *TemplateViewer) ShowSearchResults(c *gin.Context) {
 			c.Redirect(http.StatusMovedPermanently, fmt.Sprintf("/recipes/%s", urlMatch[1]))
 			return
 		}
-
-		// this is how the api call looks like
-		// https://api.chefkoch.de/v2/search/recipe?query=lasagne%20vegan
-		// this is how the format should look like crop-480x600
-		// https://img.chefkoch-cdn.de/rezepte/2812481433250378/bilder/1185849/<format>/die-ultimative-vegane-lasagne.jpg
-		// https://img.chefkoch-cdn.de/rezepte/2812481433250378/bilder/1185849/crop-480x600/die-ultimative-vegane-lasagne.jpg
-		// this would be a query for pagination
-		// https://api.chefkoch.de/v2/search-frontend/recipes?query=Lasagne+Vegan&limit=41&offset=41&analyticsTags=user,user_logged_out&enableClickAnalytics=true
 
 		// use a multiple of 3 and 5 here
 		// this is used to have a reasonable amount of recipes to show per page on tablet and widescreen
@@ -72,11 +67,21 @@ func (t *TemplateViewer) ShowSearchResults(c *gin.Context) {
 			}
 		}
 
+		values, err := form.Values(search)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.Error{
+				Err:  err,
+				Type: 0,
+				Meta: nil,
+			})
+		}
+
 		tmplData := tmplSearch{
-			Search:         search,
-			RecipeSearch:   *recipeSearch,
-			ResultsPerPage: defaultResultsPerPage,
-			Pagination:     pagination(defaultResultsPerPage, offset, recipeSearch.Count, "/recipe?query="+search.Query, true),
+			Search:            search,
+			RecipeSearch:      *recipeSearch,
+			ResultsPerPage:    defaultResultsPerPage,
+			Pagination:        pagination(defaultResultsPerPage, offset, recipeSearch.Count, "/recipe", maps.Clone(values)),
+			TagGroupTemplates: tagGroupTemplates("/recipe", *recipeSearch, maps.Clone(values)),
 		}
 		c.HTML(http.StatusOK, t.searchResultsTemplate, tmplData)
 	} else if err != nil {

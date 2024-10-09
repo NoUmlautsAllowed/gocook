@@ -3,6 +3,7 @@ package recipe
 import (
 	"fmt"
 	"net/http"
+	"net/url"
 
 	"codeberg.org/NoUmlautsAllowed/gocook/pkg/api"
 
@@ -49,7 +50,7 @@ func (t *TemplateViewer) ShowComments(c *gin.Context) {
 			Comments:     *comments,
 			CommentQuery: queryData,
 			Query:        "",
-			Pagination:   pagination(defaultCommentsPerPage, queryData.Offset, comments.Count, fmt.Sprintf("/recipes/%s/comments", queryData.RecipeID), false),
+			Pagination:   pagination(defaultCommentsPerPage, queryData.Offset, comments.Count, fmt.Sprintf("/recipes/%s/comments", queryData.RecipeID), make(url.Values)),
 		}
 
 		c.HTML(http.StatusOK, t.commentsTemplate, tmplData)

@@ -9,7 +9,7 @@ import (
 
 const (
 	apiBaseRecipePath = "/v2/recipes"
-	apiBaseSearchPath = "/v2/search"
+	apiBaseSearchPath = "/v2/search-gateway"
 )
 
 const previewImageFormat = "crop-480x600"

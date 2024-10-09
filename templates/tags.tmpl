@@ -1,0 +1,19 @@
+{{ range .TagGroupTemplates }}
+    <div class="dropdown is-hoverable py-1">
+        <div class="dropdown-trigger">
+            <button class="button{{ if .IsActive }} is-active{{ end }}" aria-haspopup="true" aria-controls="dropdown-menu">
+                <span>{{ .Name }}</span>
+                <span class="icon is-small">
+                    <i class="mdi mdi-chevron-down" aria-hidden="true"></i>
+                </span>
+            </button>
+        </div>
+        <div class="dropdown-menu" id="dropdown-menu" role="menu">
+            <div class="dropdown-content">
+                {{ range .TagTemplates }}
+                    <a href="{{ .URL }}" class="dropdown-item{{ if .IsActive }} is-active{{ end }}">{{ .Name }}</a>
+                {{ end }}
+            </div>
+        </div>
+    </div>
+{{ end }}
