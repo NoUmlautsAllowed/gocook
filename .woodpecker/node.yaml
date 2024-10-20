@@ -3,7 +3,7 @@ when:
   - event: push
 
 variables:
-  - &node_image "docker.io/node:22-alpine"
+  - &node_image "docker.io/node:23-alpine"
 
 steps:
   - name: install
