@@ -41,3 +41,28 @@ $chef-dark: #243b27;
     background-color: $chef-light;
   }
 }
+
+@page {
+  size: A4;
+  margin: 0;
+}
+
+@media print {
+  header,
+  footer {
+    display: none !important;
+  }
+
+  div {
+    padding-block: 5px !important;
+  }
+
+  .box {
+    box-shadow: none !important;
+    padding-block: 0px !important;
+  }
+
+  #recipe-links-container {
+    display: none !important;
+  }
+}
