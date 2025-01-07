@@ -36,7 +36,9 @@ steps:
     image: curlimages/curl
     commands:
       - 'curl --user NoUmlautsAllowed:$CODEBERG_REGISTRY_TOKEN --upload-file server "https://codeberg.org/api/packages/NoUmlautsAllowed/generic/gocook/${CI_COMMIT_SHA}/server"'
-    secrets: [CODEBERG_REGISTRY_TOKEN]
+    environment:
+      CODEBERG_REGISTRY_TOKEN:
+        from_secret: codeberg_registry_token
     when:
       event: push
 

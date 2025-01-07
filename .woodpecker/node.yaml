@@ -21,6 +21,8 @@ steps:
     image: "curlimages/curl:latest"
     commands:
       - 'curl --user NoUmlautsAllowed:$CODEBERG_REGISTRY_TOKEN --upload-file assets.tar.gz "https://codeberg.org/api/packages/NoUmlautsAllowed/generic/gocook/${CI_COMMIT_SHA}/assets.tar.gz"'
-    secrets: [CODEBERG_REGISTRY_TOKEN]
+    environment:
+      CODEBERG_REGISTRY_TOKEN:
+        from_secret: codeberg_registry_token
     when:
       event: push
