@@ -160,6 +160,15 @@ func TestTemplateViewer_ShowSearchResults(t *testing.T) {
 			mockErr:    nil,
 			statusCode: http.StatusOK,
 		},
+		{
+			name:       "Chefkoch search link redirect",
+			url:        "http://127.0.0.1:8080/rs/s0/dampfnudeln/Rezepte.html",
+			method:     http.MethodGet,
+			search:     nil,
+			mockResult: nil,
+			mockErr:    nil,
+			statusCode: http.StatusMovedPermanently,
+		},
 	}
 
 	for _, tt := range tests {

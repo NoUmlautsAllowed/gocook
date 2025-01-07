@@ -3,6 +3,7 @@ package recipe
 import (
 	"fmt"
 	"net/http"
+	"net/url"
 
 	"codeberg.org/NoUmlautsAllowed/gocook/pkg/api"
 
@@ -23,7 +24,8 @@ type TemplateViewer struct {
 }
 
 const (
-	searchResultsPath  = "/recipe"
+	searchResultsPath  = "recipe"
+	redirectSearchPath = "rs/s:page/:query/Rezepte.html"
 	recipePath         = "recipes/:recipe"
 	redirectRecipePath = "rezepte/:recipe/*recipename"
 	commentsPath       = "recipes/:recipe/comments"
@@ -47,5 +49,12 @@ func RegisterViewerRoutes(v Viewer, r gin.IRouter) {
 	r.GET(redirectRecipePath, func(c *gin.Context) {
 		recipe := c.Param("recipe")
 		c.Redirect(http.StatusMovedPermanently, fmt.Sprintf("/recipes/%s", recipe))
+	})
+
+	// this path is used for search results at Chefkoch (and thus frequently returned by web search engines),
+	// therefore this simplifies URL rewriting and improves compatibility with Chefkoch
+	r.GET(redirectSearchPath, func(c *gin.Context) {
+		query := url.QueryEscape(c.Param("query"))
+		c.Redirect(http.StatusMovedPermanently, fmt.Sprintf("/recipe?query=%s", query))
 	})
 }
