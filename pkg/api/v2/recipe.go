@@ -8,6 +8,7 @@ import (
 	"net/url"
 	"path"
 	"strconv"
+	"sync"
 
 	"codeberg.org/NoUmlautsAllowed/gocook/pkg/api"
 )
@@ -132,4 +133,67 @@ func (a *API) Comments(c api.CommentQuery) (*api.Comments, error) {
 		comment.Owner.AvatarImageURLTemplate = a.replaceImageCdnURL(comment.Owner.AvatarImageURLTemplate)
 	}
 	return &comments, nil
+}
+
+func (a *API) getInspirationsByType(inspirationsPath string) (*api.RecipeInspirations, error) {
+	u, _ := url.Parse(a.baseInspirationsURL)
+	u.Path = path.Join(u.Path, inspirationsPath)
+
+	req, err := http.NewRequest(http.MethodGet, u.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Set("User-Agent", a.userAgent)
+
+	resp, err := a.defaultClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+
+	log.Println(resp.StatusCode, u)
+	defer resp.Body.Close()
+	data, _ := io.ReadAll(resp.Body)
+
+	var recipeInspirations api.RecipeInspirations
+	if err = json.Unmarshal(data, &recipeInspirations); err != nil {
+		return nil, err
+	}
+
+	for idx := range recipeInspirations.Recipes {
+		recipeInspirations.Recipes[idx].PreviewImageURLTemplate = a.replaceImageCdnURL(recipeInspirations.Recipes[idx].PreviewImageURLTemplate)
+	}
+
+	return &recipeInspirations, nil
+}
+
+func (a *API) Inspirations() (*api.RecipeInspirationsMixed, error) {
+	var wg sync.WaitGroup
+	wg.Add(2)
+
+	var cookInspirations *api.RecipeInspirations
+	var bakeInspirations *api.RecipeInspirations
+	var cookInspirationsErr error
+	var bakeInspirationsErr error
+
+	go func() {
+		cookInspirations, cookInspirationsErr = a.getInspirationsByType("what-to-cook-today")
+		wg.Done()
+	}()
+
+	go func() {
+		bakeInspirations, bakeInspirationsErr = a.getInspirationsByType("what-to-bake-today")
+		wg.Done()
+	}()
+
+	wg.Wait()
+
+	if cookInspirationsErr != nil {
+		return nil, cookInspirationsErr
+	}
+	if bakeInspirationsErr != nil {
+		return nil, bakeInspirationsErr
+	}
+
+	return &api.RecipeInspirationsMixed{CookingRecipes: cookInspirations.Recipes, BakingRecipes: bakeInspirations.Recipes}, nil
 }

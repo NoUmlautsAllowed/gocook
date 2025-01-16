@@ -17,6 +17,10 @@ type tmplSearch struct {
 	api.Search
 	api.RecipeSearch
 	ResultsPerPage int
+	// this recipe array allows using the recipe grid template
+	// because the results array has a different format than
+	// being a simple array of recipes
+	Recipes []api.Recipe
 
 	Pagination        tmplPagination
 	TagGroupTemplates []tmplTagGroup
@@ -76,9 +80,15 @@ func (t *TemplateViewer) ShowSearchResults(c *gin.Context) {
 			})
 		}
 
+		var recipes []api.Recipe
+		for _, result := range recipeSearch.Results {
+			recipes = append(recipes, result.Recipe)
+		}
+
 		tmplData := tmplSearch{
 			Search:            search,
 			RecipeSearch:      *recipeSearch,
+			Recipes:           recipes,
 			ResultsPerPage:    defaultResultsPerPage,
 			Pagination:        pagination(defaultResultsPerPage, offset, recipeSearch.Count, "/recipe", maps.Clone(values)),
 			TagGroupTemplates: tagGroupTemplates("/recipe", *recipeSearch, maps.Clone(values)),

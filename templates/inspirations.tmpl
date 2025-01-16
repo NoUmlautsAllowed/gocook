@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>GoCook | Entdecken</title>
+    {{ template "head.tmpl" }}
+</head>
+<body>
+
+<header class="section p-0 hero is-chef">
+    <div class="hero-head pb-3 pt-5">
+        {{ template "header.tmpl" }}
+    </div>
+    <div class="hero-body pt-3">
+        {{ template "search.tmpl" . }}
+    </div>
+</header>
+
+<main class="section">
+    <h3 class="title is-3">Kochrezepte</h3>
+    {{ template "recipegrid.tmpl" .CookingRecipes }}
+
+    <h3 class="title is-3 pt-5">Backrezepte</h3>
+    {{ template "recipegrid.tmpl" .BakingRecipes }}
+</main>
+
+<footer class="section hero is-chef">
+    <div class="hero-foot">
+        {{ template "footer.tmpl" }}
+    </div>
+</footer>
+
+</body>
+</html>

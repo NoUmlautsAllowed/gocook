@@ -148,3 +148,12 @@ type CommentQuery struct {
 	Limit      int    `form:"limit"`
 	Offset     int    `form:"offset"`
 }
+
+type RecipeInspirations struct {
+	Recipes []Recipe `json:"recipes"`
+}
+
+type RecipeInspirationsMixed struct {
+	CookingRecipes []Recipe
+	BakingRecipes  []Recipe
+}

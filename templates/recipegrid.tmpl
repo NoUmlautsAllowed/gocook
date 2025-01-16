@@ -1,0 +1,25 @@
+<div class="fixed-grid has-5-cols-widescreen has-3-cols-tablet has-1-cols-mobile">
+    <div class="grid">
+        {{ range . }}
+        <div class="cell">
+            <div class="p-3 m-3 is-full-height">
+                <a class="box is-full-height" href="/recipes/{{ .ID }}">
+                    {{ if .HasImage }}
+                    <figure class="image is-full-width">
+                        <img src="{{ .PreviewImageURLTemplate }}" alt="Vorschau">
+                    </figure>
+                    {{ end }}
+                    <div class="content pt-3">
+                        <h3>
+                            {{ .Title }}
+                        </h3>
+                        <p>{{ .Subtitle }}</p>
+                        <br>
+                        {{ template "recipeinfo.tmpl" . }}
+                    </div>
+                </a>
+            </div>
+        </div>
+        {{ end }}
+    </div>
+</div>

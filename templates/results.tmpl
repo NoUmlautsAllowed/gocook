@@ -17,33 +17,10 @@
     </div>
 </header>
 <main class="section">
-        <h6 class="title is-6 mx-5">{{ len .Results }} von {{ .Count }} Rezepten</h6>
+    <h6 class="title is-6 mx-5">{{ len .Results }} von {{ .Count }} Rezepten</h6>
 
-        <div class="fixed-grid has-5-cols-widescreen has-3-cols-tablet has-1-cols-mobile">
-            <div class="grid">
-                {{ range .Results }}
-                <div class="cell">
-                    <div class="p-3 m-3 is-full-height">
-                        <a class="box is-full-height" href="/recipes/{{ .Recipe.ID }}">
-                            {{ if .Recipe.HasImage }}
-                            <figure class="image is-full-width">
-                                <img src="{{ .Recipe.PreviewImageURLTemplate }}" alt="Vorschau">
-                            </figure>
-                            {{ end }}
-                            <div class="content pt-3">
-                                <h3>
-                                    {{ .Recipe.Title }}
-                                </h3>
-                                <p>{{ .Recipe.Subtitle }}</p>
-                                <br>
-                                {{ template "recipeinfo.tmpl" .Recipe }}
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                {{ end }}
-            </div>
-        </div>
+    {{ template "recipegrid.tmpl" .Recipes }}
+
     <div class="container">
         <div class="p-3">
             {{ template "pagination.tmpl" .Pagination }}
