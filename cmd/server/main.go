@@ -31,5 +31,5 @@ func main() {
 	imgCdn := img.NewImageCdn(runEnv)
 	cdn.RegisterRoutes(imgCdn, r)
 
-	log.Fatal(r.Run()) // listen and serve on 0.0.0.0:8080
+	log.Fatal(r.Run(runEnv.BindAddress())) // listen and serve
 }
