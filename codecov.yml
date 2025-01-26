@@ -3,3 +3,4 @@ coverage:
   round: down
 ignore:
   - "cmd/stubs/"
+  - "mock_*.go"
