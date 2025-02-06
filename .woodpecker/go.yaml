@@ -10,7 +10,6 @@ steps:
   - name: generate
     image: *golang_image
     commands:
-      - go get go.uber.org/mock/mockgen@v0.4.0
       - go generate ./...
 
   - name: lint
