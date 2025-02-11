@@ -13,8 +13,8 @@ node_modules/
 vendor/
 
 # generated static files
-static/css
-static/fonts
+web/static/css
+web/static/fonts
 
 # JetBrains IDE configuration
 # special configuration files may be added if needed or reasonable

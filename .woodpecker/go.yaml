@@ -5,6 +5,7 @@ when:
 variables:
   - &golang_image "golang:latest"
   - &golangci_lint "golangci/golangci-lint:latest-alpine"
+  - &node_image "docker.io/node:23-alpine"
 
 steps:
   - name: generate
@@ -17,6 +18,12 @@ steps:
     image: *golangci_lint
     commands:
       - golangci-lint run
+
+  - name: static
+    image: *node_image
+    commands:
+      - npm install
+      - npm run build
 
   - name: build
     image: *golang_image

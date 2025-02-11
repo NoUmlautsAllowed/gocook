@@ -18,6 +18,12 @@ FROM golang:1.23 AS golangbuilder
 
 COPY . /go/src/gocook
 WORKDIR /go/src/gocook
+
+
+# copy static files
+COPY --from=nodebuilder /home/node/app/web/static/css/ web/static/css/
+COPY --from=nodebuilder /home/node/app/web/static/fonts/ web/static/fonts/
+
 RUN go mod download
 RUN go build  -a -tags netgo -v  -ldflags '-w -extldflags "-static"' -o /go/bin ./cmd/server
 
@@ -30,12 +36,8 @@ COPY --from=ubuntu /etc/ssl/certs .
 # target gocook directory in image
 WORKDIR /gocook
 
-# copy static files
-COPY --from=nodebuilder /home/node/app/static static/
-
 # copy go binary and templates
 COPY --from=golangbuilder /go/bin .
-COPY --from=golangbuilder /go/src/gocook/templates templates/
 
 ENV GIN_MODE=release
 EXPOSE 8080

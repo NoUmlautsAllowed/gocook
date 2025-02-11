@@ -23,7 +23,7 @@ func TestTemplateViewer_ShowInspirations(t *testing.T) {
 	}
 
 	r := gin.Default()
-	r.LoadHTMLGlob("../../../templates/*")
+	r.LoadHTMLGlob("../../../web/templates/*")
 	RegisterViewerRoutes(&v, r)
 
 	u, _ := url.Parse("http://127.0.0.1:8080/explore")

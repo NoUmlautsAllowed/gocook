@@ -83,7 +83,7 @@ func TestTemplateViewer_ShowSearchResults(t *testing.T) {
 	}
 
 	r := gin.Default()
-	r.LoadHTMLGlob("../../../templates/*")
+	r.LoadHTMLGlob("../../../web/templates/*")
 	RegisterViewerRoutes(&v, r)
 
 	tests := []struct {

@@ -24,7 +24,7 @@ func TestTemplateViewer_ShowComments(t *testing.T) {
 	}
 
 	r := gin.Default()
-	r.LoadHTMLGlob("../../../templates/*")
+	r.LoadHTMLGlob("../../../web/templates/*")
 	RegisterViewerRoutes(&v, r)
 
 	u, _ := url.Parse("http://127.0.0.1:8080/recipes/1983941321710773/comments")
@@ -53,7 +53,7 @@ func TestTemplateViewer_ShowComments_InternalError(t *testing.T) {
 	}
 
 	r := gin.Default()
-	r.LoadHTMLGlob("../../../templates/*")
+	r.LoadHTMLGlob("../../../web/templates/*")
 	RegisterViewerRoutes(&v, r)
 
 	u, _ := url.Parse("http://127.0.0.1:8080/recipes/1234567890/comments")

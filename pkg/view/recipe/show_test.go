@@ -25,7 +25,7 @@ func TestTemplateViewer_ShowRecipe(t *testing.T) {
 	}
 
 	r := gin.Default()
-	r.LoadHTMLGlob("../../../templates/*")
+	r.LoadHTMLGlob("../../../web/templates/*")
 	RegisterViewerRoutes(&v, r)
 
 	u, _ := url.Parse("http://127.0.0.1:8080/recipes/1234567890")
@@ -55,7 +55,7 @@ func TestTemplateViewer_ShowRecipe_InternalError(t *testing.T) {
 	}
 
 	r := gin.Default()
-	r.LoadHTMLGlob("../../../templates/*")
+	r.LoadHTMLGlob("../../../web/templates/*")
 	RegisterViewerRoutes(&v, r)
 
 	u, _ := url.Parse("http://127.0.0.1:8080/recipes/1234567890")
@@ -84,7 +84,7 @@ func TestTemplateViewer_RedirectRecipe_FromRezepteURL(t *testing.T) {
 	}
 
 	r := gin.Default()
-	r.LoadHTMLGlob("../../../templates/*")
+	r.LoadHTMLGlob("../../../web/templates/*")
 	RegisterViewerRoutes(&v, r)
 
 	u, _ := url.Parse("http://127.0.0.1:8080/rezepte/1983941321710773/Franzoesische-Apfeltarte.html")
