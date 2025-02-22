@@ -14,7 +14,7 @@ RUN npm i
 RUN npm run build
 
 # Start from the latest golang base image
-FROM golang:1.23 AS golangbuilder
+FROM golang:1.24 AS golangbuilder
 
 COPY . /go/src/gocook
 WORKDIR /go/src/gocook
