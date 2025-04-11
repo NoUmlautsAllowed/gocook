@@ -1,64 +1,77 @@
-run:
-  timeout: 5m
-
-linters-settings:
-  gofmt:
-    simplify: true
-    rewrite-rules:
-      - pattern: interface{}
-        replacement: any
-  misspell:
-    locale: US
-  gofumpt:
-    extra-rules: true
-  errorlint:
-    errorf-multi: true
-  gci:
-    custom-order: true
-    sections:
-      - standard
-      - prefix(codeberg.org/NoUmlautsAllowed/gocook)
-      - default
-
+version: "2"
 linters:
-  disable-all: true
+  default: none
   enable:
-    - bidichk
-    - errcheck
-    - gofmt
-    - gosimple
-    - govet
-    - ineffassign
-    - misspell
-    - revive
-    - staticcheck
-    - typecheck
-    - unused
-    - gofumpt
-    - errorlint
-    - zerologlint
     - asciicheck
+    - bidichk
     - bodyclose
+    - contextcheck
     - dogsled
     - durationcheck
+    - errcheck
     - errchkjson
+    - errorlint
+    - forcetypeassert
     - gochecknoinits
+    - gocritic
     - goheader
     - gomoddirectives
     - gomodguard
     - goprintffuncname
+    - govet
     - importas
+    - ineffassign
     - makezero
+    - misspell
+    - nolintlint
+    - revive
     - rowserrcheck
     - sqlclosecheck
-    - tenv
+    - staticcheck
     - unconvert
     - unparam
+    - unused
     - wastedassign
     - whitespace
-    - gocritic
-    - nolintlint
-    - stylecheck
-    - contextcheck
-    - forcetypeassert
+    - zerologlint
+  settings:
+    errorlint:
+      errorf-multi: true
+    misspell:
+      locale: US
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  enable:
     - gci
+    - gofmt
+    - gofumpt
+  settings:
+    gci:
+      sections:
+        - standard
+        - prefix(codeberg.org/NoUmlautsAllowed/gocook)
+        - default
+      custom-order: true
+    gofmt:
+      simplify: true
+      rewrite-rules:
+        - pattern: interface{}
+          replacement: any
+    gofumpt:
+      extra-rules: true
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
