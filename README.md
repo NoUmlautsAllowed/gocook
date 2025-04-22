@@ -24,6 +24,7 @@ Please open any new issues or pull requests on Codeberg :pray:
 
 - <https://cook.adminforge.de/>
 - <https://gocook.lunar.icu/>
+- <https://gocook.franklyflawless.org/>
 
 ## Build and Deployment
 
