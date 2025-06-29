@@ -134,7 +134,7 @@ func main() {
 		c.JSON(http.StatusOK, r)
 	})
 
-	v2api.GET("/search/recipe", func(c *gin.Context) {
+	v2api.GET("/search-gateway/recipes", func(c *gin.Context) {
 		var search api.Search
 		if err := c.Bind(&search); err == nil && len(search.Query) > 0 {
 			recipeSearch := api.RecipeSearch{

@@ -68,8 +68,8 @@ func TestTemplateViewer_ShowRecipe_InternalError(t *testing.T) {
 
 	r.ServeHTTP(&w, &req)
 
-	if w.Code != http.StatusInternalServerError {
-		t.Error("expected status 500")
+	if w.Code != http.StatusBadRequest {
+		t.Error("expected status 400")
 	}
 }
 

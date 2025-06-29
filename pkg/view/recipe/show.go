@@ -19,10 +19,9 @@ func (t *TemplateViewer) ShowRecipe(c *gin.Context) {
 	recipe, err := t.api.Get(c.Param("recipe"))
 
 	if err != nil {
-		c.JSON(500, gin.Error{
-			Err:  err,
-			Type: 0,
-			Meta: nil,
+		t.ShowErrorPage(c, errorContext{
+			StatusCode: http.StatusBadRequest,
+			Error:      err,
 		})
 	} else {
 		tmplData := tmplRecipe{

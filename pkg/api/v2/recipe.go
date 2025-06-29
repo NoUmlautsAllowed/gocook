@@ -2,6 +2,7 @@ package v2
 
 import (
 	"encoding/json"
+	"errors"
 	"io"
 	"log"
 	"net/http"
@@ -30,6 +31,13 @@ func (a *API) Get(id string) (*api.Recipe, error) {
 	}
 
 	log.Println(resp.StatusCode, u)
+	if resp.StatusCode == http.StatusForbidden {
+		return nil, ErrRequestForbidden
+	}
+	if resp.StatusCode != http.StatusOK {
+		return nil, errors.Join(ErrRequestFailed, errors.New(resp.Status))
+	}
+
 	defer resp.Body.Close()
 	data, _ := io.ReadAll(resp.Body)
 
@@ -80,6 +88,13 @@ func (a *API) Search(s api.Search) (*api.RecipeSearch, error) {
 	}
 
 	log.Println(resp.StatusCode, u)
+	if resp.StatusCode == http.StatusForbidden {
+		return nil, ErrRequestForbidden
+	}
+	if resp.StatusCode != http.StatusOK {
+		return nil, errors.Join(ErrRequestFailed, errors.New(resp.Status))
+	}
+
 	defer resp.Body.Close()
 	data, _ := io.ReadAll(resp.Body)
 	var recipeSearch api.RecipeSearch

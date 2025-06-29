@@ -24,10 +24,9 @@ const defaultCommentsPerPage int = 20
 func (t *TemplateViewer) ShowComments(c *gin.Context) {
 	var queryData api.CommentQuery
 	if err := c.Bind(&queryData); err != nil {
-		c.JSON(http.StatusBadRequest, gin.Error{
-			Err:  err,
-			Type: gin.ErrorTypeBind,
-			Meta: nil,
+		t.ShowErrorPage(c, errorContext{
+			StatusCode: http.StatusBadRequest,
+			Error:      err,
 		})
 		return
 	}
@@ -36,7 +35,7 @@ func (t *TemplateViewer) ShowComments(c *gin.Context) {
 	queryData.Limit = defaultCommentsPerPage
 	if comments, err := t.api.Comments(queryData); err == nil {
 		// remove all items that are replies to other comments
-		commentsWithoutReplies := []api.CommentResult{}
+		var commentsWithoutReplies []api.CommentResult
 
 		for _, c := range comments.Results {
 			if c.ParentID == "" {
@@ -55,10 +54,9 @@ func (t *TemplateViewer) ShowComments(c *gin.Context) {
 
 		c.HTML(http.StatusOK, t.commentsTemplate, tmplData)
 	} else {
-		c.JSON(http.StatusBadRequest, gin.Error{
-			Err:  err,
-			Type: gin.ErrorTypeBind,
-			Meta: nil,
+		t.ShowErrorPage(c, errorContext{
+			StatusCode: http.StatusBadRequest,
+			Error:      err,
 		})
 	}
 }

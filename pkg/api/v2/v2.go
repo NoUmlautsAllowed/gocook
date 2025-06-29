@@ -1,6 +1,7 @@
 package v2
 
 import (
+	"errors"
 	"net/http"
 	"time"
 
@@ -14,6 +15,11 @@ const (
 )
 
 const previewImageFormat = "crop-480x600"
+
+var (
+	ErrRequestForbidden = errors.New("request forbidden by upstream server")
+	ErrRequestFailed    = errors.New("request failed")
+)
 
 type API struct {
 	baseRecipeURL       string

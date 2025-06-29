@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <title>GoCook | {{ .ErrorCode }} – {{ .ErrorMessage }}</title>
+    {{ template "head.tmpl" }}
+</head>
+<body>
+<main class="hero is-chef is-fullheight">
+    <div class="hero-head">
+        <div class="mt-6">
+            {{ template "header.tmpl" }}
+        </div>
+    </div>
+
+    <div class="hero-body is-chef">
+        <div class="container has-text-centered mb-6">
+            <h1 class="is-size-1 has-text-weight-bold">
+                Oh nein – diese Anfrage ist gerade übergekocht
+            </h1>
+            <div class="py-6"></div>
+            <h3 class="has-text-weight-semibold is-size-3">{{ .ErrorCode }}</h3>
+            <h4 class="has-text-weight-medium is-size-4">{{ .ErrorMessage }}</h4>
+            <div class="py-3"></div>
+            <a href="/" class="button mt-4">
+                Zurück zur Startseite
+            </a>
+        </div>
+    </div>
+
+    <div class="hero-foot">
+        <div class="container is-fluid mb-6">
+            {{ template "footer.tmpl" }}
+        </div>
+    </div>
+</main>
+</body>
+</html>

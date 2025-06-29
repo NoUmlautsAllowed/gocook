@@ -16,10 +16,9 @@ type tmplInspirations struct {
 func (t *TemplateViewer) ShowInspirations(c *gin.Context) {
 	inspirationsMixed, err := t.api.Inspirations()
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.Error{
-			Err:  err,
-			Type: gin.ErrorTypeNu,
-			Meta: nil,
+		t.ShowErrorPage(c, errorContext{
+			StatusCode: http.StatusBadRequest,
+			Error:      err,
 		})
 		return
 	}

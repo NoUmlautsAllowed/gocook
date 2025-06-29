@@ -22,6 +22,7 @@ type TemplateViewer struct {
 	recipeTemplate        string
 	commentsTemplate      string
 	inspirationsTemplate  string
+	errorTemplate         string
 	api                   api.RecipeAPI
 }
 
@@ -40,6 +41,7 @@ func NewTemplateViewer(api api.RecipeAPI) *TemplateViewer {
 		recipeTemplate:        "recipe.tmpl",
 		commentsTemplate:      "comments.tmpl",
 		inspirationsTemplate:  "inspirations.tmpl",
+		errorTemplate:         "error.tmpl",
 		api:                   api,
 	}
 }

@@ -49,10 +49,9 @@ func (t *TemplateViewer) ShowSearchResults(c *gin.Context) {
 
 		recipeSearch, err := t.api.Search(search)
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.Error{
-				Err:  err,
-				Type: 0,
-				Meta: nil,
+			t.ShowErrorPage(c, errorContext{
+				StatusCode: http.StatusBadRequest,
+				Error:      err,
 			})
 			return
 		}
@@ -62,10 +61,9 @@ func (t *TemplateViewer) ShowSearchResults(c *gin.Context) {
 			var err error
 			offset, err = strconv.Atoi(search.Offset)
 			if err != nil {
-				c.JSON(http.StatusInternalServerError, gin.Error{
-					Err:  err,
-					Type: 0,
-					Meta: nil,
+				t.ShowErrorPage(c, errorContext{
+					StatusCode: http.StatusBadRequest,
+					Error:      err,
 				})
 				return
 			}
@@ -73,11 +71,11 @@ func (t *TemplateViewer) ShowSearchResults(c *gin.Context) {
 
 		values, err := form.Values(search)
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.Error{
-				Err:  err,
-				Type: 0,
-				Meta: nil,
+			t.ShowErrorPage(c, errorContext{
+				StatusCode: http.StatusBadRequest,
+				Error:      err,
 			})
+			return
 		}
 
 		var recipes []api.Recipe
@@ -95,10 +93,9 @@ func (t *TemplateViewer) ShowSearchResults(c *gin.Context) {
 		}
 		c.HTML(http.StatusOK, t.searchResultsTemplate, tmplData)
 	} else if err != nil {
-		c.JSON(http.StatusBadRequest, gin.Error{
-			Err:  err,
-			Type: gin.ErrorTypeBind,
-			Meta: nil,
+		t.ShowErrorPage(c, errorContext{
+			StatusCode: http.StatusBadRequest,
+			Error:      err,
 		})
 	} else {
 		c.Redirect(http.StatusMovedPermanently, "/")

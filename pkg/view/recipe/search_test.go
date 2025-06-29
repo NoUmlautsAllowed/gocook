@@ -111,7 +111,7 @@ func TestTemplateViewer_ShowSearchResults(t *testing.T) {
 			search:     &api.Search{Query: "pizza", Limit: strconv.Itoa(defaultResultsPerPage)},
 			mockResult: nil,
 			mockErr:    errors.New("sample error"),
-			statusCode: http.StatusInternalServerError,
+			statusCode: http.StatusBadRequest,
 		},
 		{
 			name:       "empty query",
@@ -147,7 +147,7 @@ func TestTemplateViewer_ShowSearchResults(t *testing.T) {
 			method:     http.MethodGet,
 			mockResult: &api.RecipeSearch{},
 			mockErr:    nil,
-			statusCode: http.StatusInternalServerError,
+			statusCode: http.StatusBadRequest,
 		},
 		{
 			name:   "tags",
