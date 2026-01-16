@@ -16,16 +16,6 @@ i.e. containing no JavaScript that runs on the client side.
 All API and CDN traffic is proxied through GoCook, there is no communication
 with any other hosts than GoCook itself.
 
-The repository is hosted on [Codeberg](https://codeberg.org/NoUmlautsAllowed/gocook), 
-a mirror is maintained on [GitHub](https://github.com/NoUmlautsAllowed/gocook).
-Please open any new issues or pull requests on Codeberg :pray:
-
-## Hosted instances
-
-- <https://cook.adminforge.de/>
-- <https://gocook.lunar.icu/>
-- <https://gocook.franklyflawless.org/>
-
 ## Build and Deployment
 
 The easiest way to deploy this service is the standalone docker image. 
